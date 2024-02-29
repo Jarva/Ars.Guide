@@ -1,7 +1,7 @@
 ---
 title : "Guide Nouveau"
 description: ""
-lead: "Your written guide for all things Ars Nouveau"
+lead: "Your written guide for the technical side of Ars Nouveau"
 date: 2023-09-07T16:33:54+02:00
 lastmod: 2023-09-07T16:33:54+02:00
 draft: false
