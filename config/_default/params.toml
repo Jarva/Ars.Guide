@@ -1,6 +1,6 @@
 # Hugo
 title = "Guide Nouveau"
-description = "Congrats on setting up a new Doks project!"
+description = "Your written guide for all things Ars Nouveau"
 images = ["cover.png"]
 
 # mainSections
