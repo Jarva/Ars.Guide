@@ -20,7 +20,7 @@ seo:
 
 ## Prevent Spellbooks From Entering Jars
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
 ServerEvents.tags('item', (event) => {

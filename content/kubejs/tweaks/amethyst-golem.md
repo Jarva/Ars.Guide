@@ -24,7 +24,7 @@ Even with these tweaks Amethyst Golems are unable to convert non-amethyst blocks
 
 ## GeOre Compatibility
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 This tweak allows Amethyst Golems to accelerate the growth of budding geore blocks as well as harvest the fully grown clusters and collect the broken shards from them.
 
@@ -56,7 +56,7 @@ ServerEvents.tags("item", event => {
 
 ### Certus Quartz Crystal
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
 ServerEvents.tags("block", event => {
@@ -82,7 +82,7 @@ ServerEvents.tags("item", event => {
 
 ### Therium Crystal
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
 ServerEvents.tags("block", event => {
@@ -103,7 +103,7 @@ ServerEvents.tags("item", event => {
 
 ### Subzero Crystal
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
 ServerEvents.tags("block", event => {
@@ -124,7 +124,7 @@ ServerEvents.tags("item", event => {
 
 ## Remove Amethyst To Budding Conversion
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 This script removes the Amethyst Golem's ability to convert amethyst blocks to their budding version. It does this by editing the Amethyst Golem AI.
 

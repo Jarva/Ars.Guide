@@ -20,7 +20,7 @@ seo:
 
 ## Remove a Caster Tome
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 The `id` of a Caster Tome can be found using the `/ars-tome` command and copying the auto-completed name.
 
@@ -36,7 +36,7 @@ ServerEvents.recipes(event => {
 
 ## Add a new Caster Tome
 
-<span class="badge text-bg-dark" style="color:var(--col-server) !important">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 The spell is not affected by glyph limits. The `.id` provided at the end controls the name of the tome in the `/ars-tome` command.
 

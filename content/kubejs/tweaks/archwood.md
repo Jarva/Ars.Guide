@@ -20,7 +20,7 @@ seo:
 
 ## Remove Wild Archwood Trees
 
-<span class="badge text-bg-dark" style="color:var(--col-startup) !important">startup_scripts</span>
+<span class="badge text-bg-dark startup-scripts">startup_scripts</span>
 
 This prevents Archwood Trees from spawning anywhere outside of Archwood Forests.
 
