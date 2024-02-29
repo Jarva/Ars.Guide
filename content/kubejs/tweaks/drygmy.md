@@ -166,7 +166,7 @@ ServerEvents.tags("entity_type", event => {
 
 ### Treasure Goblins
 
-<span class="badge text-bg-dark server-scripts">server_scripts</span>
+<span class="badge text-bg-dark server-scripts">server_scripts</span><span class="badge text-bg-primary">LootJS</span>
 
 This tweak prevents treasure goblins from being farmable in a Drygmy Henge.
 ```js
