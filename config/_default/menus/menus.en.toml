@@ -22,6 +22,7 @@
   weight = 30
 
 # [[footer]]
-#   name = "Privacy Policy"
-#   url = "/privacy/"
+#   name = "Powered by"
+#   pre = ''
+#   # url = "/privacy/"
 #   weight = 10
