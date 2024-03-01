@@ -66,8 +66,11 @@ ServerEvents.recipes(event => {
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-The highlighted line shows how to retrieve a tome from the id provided by /ars-tome. This can be used in any recipe that supports NBT output. The example below is a shapeless recipe for the Vault tome.
+The highlighted line shows how to retrieve a tome from the id provided by `/ars-tome`.
 
+This can be used in any recipe that supports NBT output.
+
+The example below is a shapeless recipe for the Vault tome.
 ```js {hl_lines=2}
 ServerEvents.recipes(event => {
   const [tome] = event.findRecipes({ id: "ars_nouveau:tomes/vault_tome" })
