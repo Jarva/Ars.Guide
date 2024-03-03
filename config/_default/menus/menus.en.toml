@@ -1,7 +1,7 @@
-# [[main]]
-#   name = "Docs"
-#   url = "/docs/guides/example-guide/"
-#   weight = 10
+[[main]]
+  name = "Docs"
+  url = "/docs/introduction/who-is-this-for/"
+  weight = 10
 
 [[main]]
   name = "KubeJS"
