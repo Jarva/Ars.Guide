@@ -23,7 +23,7 @@ seo:
 ## Novice
 
 | Given              | Received            |
-|--------------------|---------------------|
+| ------------------ | ------------------- |
 | 16x Sourceberries  | 1x Emerald          |
 | 16x Mage Fiber     | 1x Emerald          |
 | 6x Bombegranate    | 1x Emerald          |
@@ -35,7 +35,7 @@ seo:
 ## Apprentice
 
 | Given               | Received        |
-|---------------------|-----------------|
+| ------------------- | --------------- |
 | 4x Wilden Horn[^1]  | 1x Emerald      |
 | 4x Wilden Spike[^1] | 1x Emerald      |
 | 4x Wilden Wing[^1]  | 1x Emerald      |
@@ -49,19 +49,19 @@ seo:
 ## Journeyman
 
 | Given      | Received             |
-|------------|----------------------|
+| ---------- | -------------------- |
 | 4x Emerald | 1x Any Ritual Tablet |
 
 ## Expert
 
 | Given       | Received               |
-|-------------|------------------------|
+| ----------- | ---------------------- |
 | 20x Emerald | 1x Any Summoning Shard |
 
 ## Master
 
 | Given       | Received                         |
-|-------------|----------------------------------|
+| ----------- | -------------------------------- |
 | 4x Emerald  | 1x Sourceberry Pie               |
 | 48x Emerald | 1x Any Rare Ars Dungeon Loot[^2] |
 

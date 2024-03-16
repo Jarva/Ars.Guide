@@ -19,7 +19,7 @@ seo:
 ---
 
 | Tag                                                                        | Description                                                                                                                 |
-|----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | <span class="badge text-bg-dark">forge:gems/source</span>                  | Items that can be used in place of a Source Gem                                                                             |
 | <span class="badge text-bg-dark">forge:storage_blocks/source</span>        | Items that can be used in place of a Source Gem Block                                                                       |
 | <span class="badge text-bg-dark">forge:logs/archwood</span>                | All archwood logs and wood, as well as stripped variants                                                                    |

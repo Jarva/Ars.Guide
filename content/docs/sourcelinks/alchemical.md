@@ -21,7 +21,7 @@ seo:
 The Alchemical Sourcelink generates source from consuming nearby potion jars.
 
 | Max Source | Transfer Rate | Event Range (Blocks) |
-|------------|---------------|----------------------|
+| ---------- | ------------- | -------------------- |
 | 20000      | 10000         | 1                    |
 
 ## Source Per Potion

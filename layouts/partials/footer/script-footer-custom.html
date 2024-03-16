@@ -1,3 +1,2 @@
-{{ if eq (hugo.Environment) "production" -}}
-  {{ partial "footer/esbuild" (dict "src" "js/instantpage.js" "load" "async" "transpile" false) -}}
-{{ end -}}
+{{ if eq (hugo.Environment) "production" -}} {{ partial "footer/esbuild" (dict
+"src" "js/instantpage.js" "load" "async" "transpile" false) -}} {{ end -}}

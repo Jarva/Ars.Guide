@@ -18,7 +18,7 @@ seo:
   noindex: false # false (default) or true
 ---
 
-This documentation section is for those who need to know the specifics about certain blocks and their implementations. 
+This documentation section is for those who need to know the specifics about certain blocks and their implementations.
 
 This can range from the radius of various Sourcelinks to the exact dimensions an Amethyst Golem checks to convert Amethyst blocks to Budding Amethyst.
 

@@ -6,7 +6,7 @@ date: 2023-09-07T16:04:48+02:00
 lastmod: 2023-09-07T16:04:48+02:00
 draft: false
 menu:
-  docs:
+  kubejs:
     parent: ""
     identifier: ""
 weight: 810
@@ -25,7 +25,10 @@ seo:
 This prevents Archwood Trees from spawning anywhere outside of Archwood Forests.
 
 ```js
-WorldgenEvents.remove(event => {
-    event.removeFeatureById(/ars_nouveau:archwood_forest/, 'vegetal_decoration', ['ars_nouveau:placed_mixed_archwoods', 'ars_elemental:flashing_archwood'], );
+WorldgenEvents.remove((event) => {
+  event.removeFeatureById(/ars_nouveau:archwood_forest/, "vegetal_decoration", [
+    "ars_nouveau:placed_mixed_archwoods",
+    "ars_elemental:flashing_archwood",
+  ]);
 });
 ```

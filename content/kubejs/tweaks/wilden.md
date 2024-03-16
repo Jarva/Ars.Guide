@@ -6,7 +6,7 @@ date: 2023-09-07T16:04:48+02:00
 lastmod: 2023-09-07T16:04:48+02:00
 draft: false
 menu:
-  docs:
+  kubejs:
     parent: ""
     identifier: ""
 weight: 810
@@ -31,7 +31,7 @@ const spawns = [
   ["#forge:is_cold/overworld", "wilden_guardian"],
 ];
 
-ServerEvents.highPriorityData(event => {
+ServerEvents.highPriorityData((event) => {
   spawns.forEach(([biomes, wilden]) => {
     event.addJson(`ars_nouveau:forge/biome_modifier/${wilden}_spawn`, {
       type: "forge:add_spawns",
@@ -41,7 +41,7 @@ ServerEvents.highPriorityData(event => {
         maxCount: 1,
         minCount: 1,
         weight: 50,
-      }
+      },
     });
   });
 });

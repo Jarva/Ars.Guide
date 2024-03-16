@@ -21,16 +21,16 @@ seo:
 The Vitalic Sourcelink generates source from creatures dying and baby animals spawning and growing up.
 
 | Max Source | Transfer Rate | Event Range (Blocks) |
-|------------|---------------|----------------------|
+| ---------- | ------------- | -------------------- |
 | 2500       | 1000          | 15                   |
 
 ## Source Per Event
 
-| Event Type                      | Source Generated                     |
-|---------------------------------|--------------------------------------|
-| Entity Died[^1]                 | 200                                  |
-| Baby Entity Spawned             | 600                                  |
-| Baby Animal within 6 blocks[^2] | 10 source per 60 ticks                 |
+| Event Type                      | Source Generated       |
+| ------------------------------- | ---------------------- |
+| Entity Died[^1]                 | 200                    |
+| Baby Entity Spawned             | 600                    |
+| Baby Animal within 6 blocks[^2] | 10 source per 60 ticks |
 
 [^1]: Entity must not be summoned (`ISummon`) or dispellable (`IDispellable`)
 [^2]: Baby animals with growth disabled from Quark are ignored

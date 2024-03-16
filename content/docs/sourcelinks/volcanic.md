@@ -21,13 +21,13 @@ seo:
 The Volcanic Sourcelink generates source from burning fuel items.
 
 | Max Source | Transfer Rate | Event Range (Blocks) |
-|------------|---------------|----------------------|
+| ---------- | ------------- | -------------------- |
 | 5000       | 1000          | 1                    |
 
 ## Source Per Item
 
 | Item Type            | Source Generated |
-|----------------------|------------------|
+| -------------------- | ---------------- |
 | Fire Essence         | 2000             |
 | Blazing Archwood Log | 125              |
 | Archwood Log[^1]     | 75               |

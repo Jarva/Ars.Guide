@@ -6,7 +6,7 @@ date: 2023-09-07T16:04:48+02:00
 lastmod: 2023-09-07T16:04:48+02:00
 draft: false
 menu:
-  docs:
+  kubejs:
     parent: ""
     identifier: ""
 weight: 810
@@ -31,24 +31,32 @@ This tweak allows Amethyst Golems to accelerate the growth of budding geore bloc
 To convert the non-amethyst blocks to their budding variants as well as additional golems for each ore type, I recommend checking out [GeOre Nouveau](https://www.curseforge.com/minecraft/mc-mods/geore-nouveau).
 
 ```js
-const geore_types = ["coal", "copper", "diamond", "emerald", "gold", "iron", "lapis", "quartz", "redstone", "ruby", "sapphire", "topaz", "zinc"];
-ServerEvents.tags("block", event => {
-    geore_types.forEach(geore => {
-        event.add("ars_nouveau:golem/budding", [
-            `geore:budding_${geore}`,
-        ]);
-        event.add("ars_nouveau:golem/cluster", [
-            `geore:${geore}_cluster`,
-        ]);
-    })
+const geore_types = [
+  "coal",
+  "copper",
+  "diamond",
+  "emerald",
+  "gold",
+  "iron",
+  "lapis",
+  "quartz",
+  "redstone",
+  "ruby",
+  "sapphire",
+  "topaz",
+  "zinc",
+];
+ServerEvents.tags("block", (event) => {
+  geore_types.forEach((geore) => {
+    event.add("ars_nouveau:golem/budding", [`geore:budding_${geore}`]);
+    event.add("ars_nouveau:golem/cluster", [`geore:${geore}_cluster`]);
+  });
 });
 
-ServerEvents.tags("item", event => {
-    geore_types.forEach(geore => {
-        event.add("ars_nouveau:golem/shard", [
-            `geore:${geore}_shard`,
-        ]);
-    })
+ServerEvents.tags("item", (event) => {
+  geore_types.forEach((geore) => {
+    event.add("ars_nouveau:golem/shard", [`geore:${geore}_shard`]);
+  });
 });
 ```
 
@@ -59,22 +67,18 @@ ServerEvents.tags("item", event => {
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
-ServerEvents.tags("block", event => {
-    event.add("ars_nouveau:golem/budding", [
-        "ae2:damaged_budding_quartz",
-        "ae2:chipped_budding_quartz",
-        "ae2:flawed_budding_quartz",
-        "ae2:flawless_budding_quartz",
-    ]);
-    event.add("ars_nouveau:golem/cluster", [
-        "ae2:quartz_cluster",
-    ]);
+ServerEvents.tags("block", (event) => {
+  event.add("ars_nouveau:golem/budding", [
+    "ae2:damaged_budding_quartz",
+    "ae2:chipped_budding_quartz",
+    "ae2:flawed_budding_quartz",
+    "ae2:flawless_budding_quartz",
+  ]);
+  event.add("ars_nouveau:golem/cluster", ["ae2:quartz_cluster"]);
 });
 
-ServerEvents.tags("item", event => {
-    event.add("ars_nouveau:golem/shard", [
-        "ae2:certus_quartz_crystal",
-    ]);
+ServerEvents.tags("item", (event) => {
+  event.add("ars_nouveau:golem/shard", ["ae2:certus_quartz_crystal"]);
 });
 ```
 
@@ -85,19 +89,13 @@ ServerEvents.tags("item", event => {
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
-ServerEvents.tags("block", event => {
-    event.add("ars_nouveau:golem/budding", [
-        "byg:budding_therium_crystal",
-    ]);
-    event.add("ars_nouveau:golem/cluster", [
-        "byg:therium_crystal_cluster",
-    ]);
+ServerEvents.tags("block", (event) => {
+  event.add("ars_nouveau:golem/budding", ["byg:budding_therium_crystal"]);
+  event.add("ars_nouveau:golem/cluster", ["byg:therium_crystal_cluster"]);
 });
 
-ServerEvents.tags("item", event => {
-    event.add("ars_nouveau:golem/shard", [
-        "byg:therium_crystal_shard",
-    ]);
+ServerEvents.tags("item", (event) => {
+  event.add("ars_nouveau:golem/shard", ["byg:therium_crystal_shard"]);
 });
 ```
 
@@ -106,19 +104,13 @@ ServerEvents.tags("item", event => {
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
-ServerEvents.tags("block", event => {
-    event.add("ars_nouveau:golem/budding", [
-        "byg:budding_subzero_crystal",
-    ]);
-    event.add("ars_nouveau:golem/cluster", [
-        "byg:subzero_crystal_cluster",
-    ]);
+ServerEvents.tags("block", (event) => {
+  event.add("ars_nouveau:golem/budding", ["byg:budding_subzero_crystal"]);
+  event.add("ars_nouveau:golem/cluster", ["byg:subzero_crystal_cluster"]);
 });
 
-ServerEvents.tags("item", event => {
-    event.add("ars_nouveau:golem/shard", [
-        "byg:subzero_crystal_shard",
-    ]);
+ServerEvents.tags("item", (event) => {
+  event.add("ars_nouveau:golem/shard", ["byg:subzero_crystal_shard"]);
 });
 ```
 
@@ -130,12 +122,12 @@ This script removes the Amethyst Golem's ability to convert amethyst blocks to t
 
 ```js
 const ConvertBuddingGoal = Java.loadClass(
-  "com.hollingsworth.arsnouveau.common.entity.goal.amethyst_golem.ConvertBuddingGoal"
+  "com.hollingsworth.arsnouveau.common.entity.goal.amethyst_golem.ConvertBuddingGoal",
 );
 
-EntityEvents.spawned("ars_nouveau:amethyst_golem", event => {
+EntityEvents.spawned("ars_nouveau:amethyst_golem", (event) => {
   event.entity.goalSelector.removeAllGoals(
-    goal => goal instanceof ConvertBuddingGoal
+    (goal) => goal instanceof ConvertBuddingGoal,
   );
 });
 ```

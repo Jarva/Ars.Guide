@@ -6,7 +6,7 @@ date: 2023-09-07T16:04:48+02:00
 lastmod: 2023-09-07T16:04:48+02:00
 draft: false
 menu:
-  docs:
+  kubejs:
     parent: ""
     identifier: ""
 weight: 810
@@ -23,7 +23,9 @@ seo:
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
-ServerEvents.tags('item', (event) => {
-    event.get('ars_nouveau:interact_jar_blacklist').add([/ars_nouveau:.*_spell_book/]);
+ServerEvents.tags("item", (event) => {
+  event
+    .get("ars_nouveau:interact_jar_blacklist")
+    .add([/ars_nouveau:.*_spell_book/]);
 });
 ```
