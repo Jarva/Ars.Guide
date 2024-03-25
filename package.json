@@ -28,6 +28,8 @@
     "typescript": "^5.4.3"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0"
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@types/core-js": "^2.5.8",
+    "core-js": "^3.36.1"
   }
 }
