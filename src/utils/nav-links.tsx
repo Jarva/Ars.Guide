@@ -3,12 +3,12 @@ import { IconBrandDiscord, IconBrandGithub } from "@tabler/icons-react"
 export const NavItems = [
     {
         label: "Docs",
-        link: "/docs/",
+        link: "/docs/introduction/who-is-this-for/",
         collection: "docs"
     },
     {
         label: "KubeJS",
-        link: "/kubejs/",
+        link: "/kubejs/getting-started/introduction/",
         collection: "kubejs"
     }
 ]
