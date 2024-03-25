@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+import Entry from "./Entry.astro";
+
+const { entry } = Astro.props;
+
+const subEntries = await getCollection(entry.collection, (sub: any) => sub.slug !== entry.slug && sub.slug.includes(entry.slug));
+
+const sorted = subEntries.toSorted((a: any, b: any) => a.data.weight - b.data.weight);
+
+const { title } = entry.data;
+---
+
+<li class="mb-1">
+    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target={`#${entry.slug}`} aria-expanded="false">
+        {title}
+    </button>
+    <div id={entry.slug} class="collapse">
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            {sorted.map(ent => <Entry entry={ent} />)}
+        </ul>
+    </div>
+</li>

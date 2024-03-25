@@ -1,0 +1,36 @@
+---
+// import "bootstrap/dist/css/bootstrap.min.css";
+
+import Navbar from '../components/Navbar.astro'
+import Footer from '../components/Footer.astro';
+
+const { title, layout, collection } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={Astro.currentLocale} data-bs-theme="auto">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class={`single ${layout}`}>
+    <Navbar active={collection} />
+    <slot />
+    <Footer />
+  </body>
+</html>
+
+<script>
+  import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+</script>
+
+<style is:global lang="scss">
+  @import "../styles//main.scss";
+</style>
+
+<script src="../scripts/color-mode.js"></script>

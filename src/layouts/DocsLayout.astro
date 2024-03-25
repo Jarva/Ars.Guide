@@ -1,0 +1,37 @@
+---
+import { IconPencil } from "@tabler/icons-react"
+import BaseLayout from "./BaseLayout.astro"
+import { editLink } from "../utils/constants"
+import Sidebar from "../components/Sidebar.astro";
+
+const { entry } = Astro.props;
+---
+
+<BaseLayout title={`${entry.data.title} | Ars.Guide`} layout="section docs" collection={entry.collection}>
+    <div class="wrap container-lg" role="document">
+        <div class="content">
+            <div class="row flex-xl-nowrap">
+                <div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
+                    <nav class="docs-links" aria-label="Main navigation">
+                        <Sidebar entry={entry}>
+                    </nav>
+                </div>
+                <nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+
+                </nav>
+                <main class="docs-content col-lg-11 col-xl-9">
+                    <h1>{entry.data.title}</h1>
+                    <slot />
+                    <div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+                        <div class="edit-page">
+                            <a href={`${editLink}/${entry.collection}/${entry.id}`}>
+                                <IconPencil width={16} height={16} />
+                                Edit this page on GitHub
+                            </a>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+</BaseLayout>

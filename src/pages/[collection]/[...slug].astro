@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import { collections } from '../../content/config';
+import { getPath } from '../../utils/path';
+import DocsLayout from '../../layouts/DocsLayout.astro';
+
+export async function getStaticPaths() {
+    const paths = [];
+    for (const collection of Object.keys(collections)) {
+        const entries = await getCollection(collection as keyof typeof collections);
+        for (const entry of entries) {
+            const slug = entry.slug;
+            if (slug == "index") {
+                paths.push(getPath({ collection, entry }));
+            }
+            paths.push(getPath({ collection, entry, slug }));
+        }
+    }
+    return paths;
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<DocsLayout entry={entry}>
+    <Content />
+</DocsLayout>

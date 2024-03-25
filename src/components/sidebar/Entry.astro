@@ -1,0 +1,9 @@
+---
+const { entry } = Astro.props;
+
+const { title } = entry.data;
+---
+
+<li>
+    <a href={`/${entry.collection}/${entry.slug}`} class="docs-link rounded">{entry.data.title}</a>
+</li>

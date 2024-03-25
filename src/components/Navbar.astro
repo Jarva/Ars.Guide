@@ -1,0 +1,51 @@
+---
+import { siteName } from "../utils/constants"
+import { IconX, IconSearch, IconMoon, IconSun, IconMenu } from "@tabler/icons-react"
+import { NavItems, SocialItems } from '../utils/nav-links'
+
+const { active } = Astro.props;
+---
+
+<!-- <div class="header-bar sticky-top"></div> -->
+<header class="navbar sticky-top navbar-expand-lg">
+    <div class="container-lg">
+        <a class="navbar-brand me-auto me-lg-3" href="/">{siteName}</a>
+        <button id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" type="button" aria-label="Search website">
+            <IconSearch width={24} height={24} />
+        </button>
+        <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain">
+            <IconMenu width={24} height={24} />
+        </button>
+        <div id="offcanvasNavMain" class="offcanvas offcanvas-end h-auto" tabindex="-1" aria-labelledby="offcanvasNavMainLabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasNavMainLabel" class="offcanvas-title">{siteName}</h5>
+                <button class="btn btn-link nav-link p-0" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <IconX width={24} height={24} />
+                </button>
+            </div>
+            <div class="offcanvas-body d-flex flex-column flex-lg-row justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    {NavItems.map(item =>
+                        <li class="nav-item">
+                            <a href={item.link} class={`nav-link${item.collection == active ? ' active' : ''}`}>{item.label}</a>   
+                        </li>
+                    )}
+                </ul>
+                <button id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" type="button" aria-label="Search website">
+                    <IconSearch width={24} height={24} />
+                </button>
+                <button id="buttonColorMode" class="btn btn-link mx-auto nav-link p-0 ms-lg-2 me-lg-1" type="button" aria-label="Toggle theme">
+                    <IconMoon width={24} height={24} data-bs-theme-value="dark" />
+                    <IconSun width={24} height={24} data-bs-theme-value="light" />
+                </button>
+                <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
+                    {SocialItems.map(item =>
+                        <li class="nav-item">
+                            <a href={item.link} class="nav-link social-link"><item.label width={24} height={24} /></a>
+                        </li>
+                    )}
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

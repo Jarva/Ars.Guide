@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Section from './sidebar/Section.astro';
+
+const { entry } = Astro.props;
+
+const entries = await getCollection(entry.collection, (entry: any) => !entry.slug.includes("/"));
+
+const sorted = entries.toSorted((a: any, b: any) => a.data.weight - b.data.weight);
+---
+
+<ul class="list-unstyled collapsible-sidebar">
+    {sorted.map(ent => <Section entry={ent} />)}
+</ul>
