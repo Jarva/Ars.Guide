@@ -1,0 +1,15 @@
+---
+import { type ParentHeading } from "../utils/sidebar";
+
+interface Props {
+    heading: ParentHeading
+}
+
+const { heading } = Astro.props
+---
+<li>
+    <a href=`#${heading.entry.slug}`>{heading.entry.text}</a>
+    {heading.children.length > 0 && <ul>
+        {heading.children.map(head => <Astro.self heading={head} />)}
+    </ul>}
+</li>

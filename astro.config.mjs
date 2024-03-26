@@ -4,7 +4,8 @@ import react from "@astrojs/react";
 import purgecss from "astro-purgecss";
 
 import expressiveCode from "astro-expressive-code";
-import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
+// import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 // https://astro.build/config
 export default defineConfig({
@@ -18,4 +19,7 @@ export default defineConfig({
       return `[data-bs-theme="${theme.type}"]`
     },
   }), mdx(), react(), purgecss()],
+  markdown: {
+    remarkPlugins: [rehypeAutolinkHeadings]
+  }
 });

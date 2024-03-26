@@ -3,8 +3,9 @@ import { IconPencil } from "@tabler/icons-react"
 import BaseLayout from "./BaseLayout.astro"
 import { editLink } from "../utils/constants"
 import Sidebar from "../components/Sidebar.astro";
-import { getSidebar, type GenericCollectionEntry } from "../utils/sidebar";
+import { getSidebar, getHeadings, type GenericCollectionEntry } from "../utils/sidebar";
 import type { MarkdownHeading } from "astro";
+import Heading from "../components/Heading.astro";
 
 interface Props {
   entry: GenericCollectionEntry;
@@ -13,6 +14,7 @@ interface Props {
 
 const { entry, headings = [] } = Astro.props;
 const sidebar = await getSidebar(entry);
+const formattedHeadings = getHeadings(headings);
 ---
 
 <BaseLayout title={`${entry.data.title} | Ars.Guide`} layout="section docs" collection={entry.collection}>
@@ -30,9 +32,7 @@ const sidebar = await getSidebar(entry);
                       <h3>On this page</h3>
                       <nav id="toc">
                         <ul>
-                          {headings.filter(heading => heading.text != "Footnotes").map(heading => <li>
-                            <a href={`#${heading.slug}`}>{heading.text}</a>
-                          </li>)}
+                          {formattedHeadings.map(heading => <Heading heading={heading} />)}
                         </ul>
                       </nav>
                     </>}
