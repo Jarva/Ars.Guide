@@ -4,6 +4,7 @@ import react from "@astrojs/react";
 import purgecss from "astro-purgecss";
 
 import expressiveCode from "astro-expressive-code";
+import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,9 +13,9 @@ export default defineConfig({
   site: 'https://ars.guide',
   integrations: [expressiveCode({
     themes: ['poimandres', 'material-theme-lighter'],
+    // plugins: [pluginLineNumbers()],
     themeCssSelector(theme) {
       return `[data-bs-theme="${theme.type}"]`
     },
-    // themeCssRoot: 'html'
   }), mdx(), react(), purgecss()],
 });

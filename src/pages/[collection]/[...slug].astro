@@ -16,9 +16,9 @@ export async function getStaticPaths() {
         const entries = await getCollection(collection as CollectionKey);
         for (const entry of entries) {
             const slug = entry.slug;
-            if (slug == "index") {
-                paths.push(getPath({ collection, entry }));
-            }
+            // if (slug == "index") {
+            //     paths.push(getPath({ collection, entry }));
+            // }
             paths.push(getPath({ collection, entry, slug }));
         }
     }
