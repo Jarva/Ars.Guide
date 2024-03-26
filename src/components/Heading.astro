@@ -8,7 +8,7 @@ interface Props {
 const { heading } = Astro.props
 ---
 <li>
-    <a href=`#${heading.entry.slug}`>{heading.entry.text}</a>
+    <a href=`#${heading.entry.slug}`>{heading.entry.text.replace("#", "")}</a>
     {heading.children.length > 0 && <ul>
         {heading.children.map(head => <Astro.self heading={head} />)}
     </ul>}
