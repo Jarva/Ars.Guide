@@ -3,8 +3,16 @@ import { IconPencil } from "@tabler/icons-react"
 import BaseLayout from "./BaseLayout.astro"
 import { editLink } from "../utils/constants"
 import Sidebar from "../components/Sidebar.astro";
+import { getSidebar, type GenericCollectionEntry } from "../utils/sidebar";
+import type { MarkdownHeading } from "astro";
 
-const { entry } = Astro.props;
+interface Props {
+  entry: GenericCollectionEntry;
+  headings?: MarkdownHeading[]
+}
+
+const { entry, headings = [] } = Astro.props;
+const sidebar = await getSidebar(entry);
 ---
 
 <BaseLayout title={`${entry.data.title} | Ars.Guide`} layout="section docs" collection={entry.collection}>
@@ -13,11 +21,22 @@ const { entry } = Astro.props;
             <div class="row flex-xl-nowrap">
                 <div class="col-lg-5 col-xl-4 docs-sidebar d-none d-lg-block">
                     <nav class="docs-links" aria-label="Main navigation">
-                        <Sidebar entry={entry}>
+                        <Sidebar sidebar={sidebar}>
                     </nav>
                 </div>
                 <nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
-
+                  <div class="page-links">
+                    {headings.length > 0 && <>
+                      <h3>On this page</h3>
+                      <nav id="toc">
+                        <ul>
+                          {headings.filter(heading => heading.text != "Footnotes").map(heading => <li>
+                            <a href={`#${heading.slug}`}>{heading.text}</a>
+                          </li>)}
+                        </ul>
+                      </nav>
+                    </>}
+                  </div>
                 </nav>
                 <main class="docs-content col-lg-11 col-xl-9">
                     <h1>{entry.data.title}</h1>
@@ -35,3 +54,25 @@ const { entry } = Astro.props;
         </div>
     </div>
 </BaseLayout>
+
+<style is:global>
+  .startup-scripts {
+    color: #26b36c !important;
+  }
+
+  .client-scripts {
+    color: #e67e23 !important;
+  }
+
+  .server-scripts {
+    color: #b96ad9 !important;
+  }
+
+  table {
+    margin: 1.5rem 0;
+  }
+
+  .footnotes hr {
+    display: none;
+  }
+</style>

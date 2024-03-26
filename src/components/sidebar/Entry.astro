@@ -1,9 +1,16 @@
 ---
-const { entry } = Astro.props;
+import type { GenericCollectionEntry } from '../../utils/sidebar';
+
+interface Props {
+    active: boolean,
+    entry: GenericCollectionEntry
+}
+
+const { entry, active } = Astro.props;
 
 const { title } = entry.data;
 ---
 
 <li>
-    <a href={`/${entry.collection}/${entry.slug}`} class="docs-link rounded">{entry.data.title}</a>
+    <a href={`/${entry.collection}/${entry.slug}`} class={`docs-link rounded${active ? ' active' : ''}`}>{title}</a>
 </li>

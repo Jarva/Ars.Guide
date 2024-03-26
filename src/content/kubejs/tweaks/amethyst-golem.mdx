@@ -30,7 +30,7 @@ This tweak allows Amethyst Golems to accelerate the growth of budding geore bloc
 
 To convert the non-amethyst blocks to their budding variants as well as additional golems for each ore type, I recommend checking out [GeOre Nouveau](https://www.curseforge.com/minecraft/mc-mods/geore-nouveau).
 
-```kjs
+```js
 const geore_types = [
   "coal",
   "copper",
@@ -66,7 +66,7 @@ ServerEvents.tags("item", (event) => {
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-```kjs
+```js
 ServerEvents.tags("block", (event) => {
   event.add("ars_nouveau:golem/budding", [
     "ae2:damaged_budding_quartz",
@@ -88,7 +88,7 @@ ServerEvents.tags("item", (event) => {
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-```kjs
+```js
 ServerEvents.tags("block", (event) => {
   event.add("ars_nouveau:golem/budding", ["byg:budding_therium_crystal"]);
   event.add("ars_nouveau:golem/cluster", ["byg:therium_crystal_cluster"]);
@@ -103,7 +103,7 @@ ServerEvents.tags("item", (event) => {
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-```kjs
+```js
 ServerEvents.tags("block", (event) => {
   event.add("ars_nouveau:golem/budding", ["byg:budding_subzero_crystal"]);
   event.add("ars_nouveau:golem/cluster", ["byg:subzero_crystal_cluster"]);
@@ -120,7 +120,7 @@ ServerEvents.tags("item", (event) => {
 
 This script removes the Amethyst Golem's ability to convert amethyst blocks to their budding version. It does this by editing the Amethyst Golem AI.
 
-```kjs
+```js
 const ConvertBuddingGoal = Java.loadClass(
   "com.hollingsworth.arsnouveau.common.entity.goal.amethyst_golem.ConvertBuddingGoal",
 );

@@ -1,24 +1,23 @@
 ---
-import { getCollection } from "astro:content";
 import Entry from "./Entry.astro";
-import "core-js/es/array/to-sorted";
+import type { GenericCollectionEntry, ParentSection } from "../../utils/sidebar";
 
-const { entry } = Astro.props;
+interface Props {
+    parent: ParentSection
+}
 
-const subEntries = await getCollection(entry.collection, (sub: any) => sub.slug !== entry.slug && sub.slug.includes(entry.slug));
+const { parent } = Astro.props;
 
-const sorted = subEntries.toSorted((a: any, b: any) => a.data.weight - b.data.weight);
-
-const { title } = entry.data;
+const { title } = parent.entry.data;
 ---
 
 <li class="mb-1">
-    <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target={`#${entry.slug}`} aria-expanded="false">
+    <button class=`btn btn-toggle align-items-center rounded ${!parent.active ? ' collapsed' : ''}` data-bs-toggle="collapse" data-bs-target={`#${parent.entry.slug}`} aria-expanded={parent.active}>
         {title}
     </button>
-    <div id={entry.slug} class="collapse">
+    <div id={parent.entry.slug} class=`collapse${parent.active ? ' show' : ''}`>
         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            {sorted.map(ent => <Entry entry={ent} />)}
+            {parent.children.map(ent => <Entry entry={ent.entry} active={ent.active} />)}
         </ul>
     </div>
 </li>

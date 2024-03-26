@@ -24,7 +24,7 @@ seo:
 
 The `id` of a Caster Tome can be found using the `/ars-tome` command and copying the auto-completed name.
 
-```kjs
+```js
 ServerEvents.recipes((event) => {
   event.remove({
     mod: "ars_nouveau",
@@ -40,7 +40,7 @@ ServerEvents.recipes((event) => {
 
 The spell is not affected by glyph limits. The `.id` provided at the end controls the name of the tome in the `/ars-tome` command.
 
-```kjs
+```js
 ServerEvents.recipes((event) => {
   event
     .custom({
@@ -74,7 +74,7 @@ This can be used in any recipe that supports NBT output.
 
 The example below is a shapeless recipe for the Vault tome.
 
-```kjs {hl_lines=2}
+```js {hl_lines=2}
 ServerEvents.recipes((event) => {
   const [tome] = event.findRecipes({ id: "ars_nouveau:tomes/vault_tome" });
 

@@ -17,6 +17,7 @@
     "@types/react": "^18.2.70",
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.9",
+    "astro-expressive-code": "^0.33.5",
     "astro-purgecss": "^4.1.0",
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",

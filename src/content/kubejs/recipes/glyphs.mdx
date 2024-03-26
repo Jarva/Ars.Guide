@@ -22,7 +22,7 @@ seo:
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-```kjs
+```js
 ServerEvents.recipes((event) => {
   event.remove({ id: "ars_nouveau:glyph_blink", type: "ars_nouveau:glyph" });
 });
@@ -32,7 +32,7 @@ ServerEvents.recipes((event) => {
 
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
-```kjs
+```js
 const getItem = (item) => ({
   item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
 });

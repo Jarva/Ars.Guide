@@ -50,7 +50,20 @@
 @import "common/dark";
 
 @import "components/buttons";
+@import "components/alerts";
+@import "components/callouts";
+@import "components/code";
+@import "components/comments";
+@import "components/details";
+@import "components/forms";
+@import "components/images";
+@import "components/modals";
+@import "components/search";
+@import "components/tables";
+@import "components/tabs";
 
 @import "layouts/header";
 @import "layouts/footer";
 @import "layouts/pages";
+@import "layouts/posts";
+@import "layouts/sidebar";

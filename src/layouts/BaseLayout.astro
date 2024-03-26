@@ -1,6 +1,4 @@
 ---
-// import "bootstrap/dist/css/bootstrap.min.css";
-
 import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro';
 
@@ -18,7 +16,7 @@ const { title, layout, collection } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
   </head>
-  <body class={`single ${layout}`}>
+  <body class={`single ${layout}`} data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true" tabindex="0">
     <Navbar active={collection} />
     <slot />
     <Footer />
