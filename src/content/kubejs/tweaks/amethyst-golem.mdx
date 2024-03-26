@@ -18,9 +18,12 @@ seo:
   noindex: false # false (default) or true
 ---
 
-{{< callout context="caution" title="Warning" icon="alert-triangle" >}}
+import Callout from '../../../components/Callout.astro'
+import { IconAlertTriangle } from "@tabler/icons-react"
+
+<Callout title="Warning" type="caution" icon={IconAlertTriangle}>
 Even with these tweaks Amethyst Golems are unable to convert non-amethyst blocks to their budding variants.
-{{< /callout >}}
+</Callout>
 
 ## GeOre Compatibility
 
