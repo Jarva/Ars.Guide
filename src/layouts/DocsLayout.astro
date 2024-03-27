@@ -41,8 +41,8 @@ const next = getNextEntry(entry, sidebar);
                     </>}
                   </div>
                 </nav>
-                <main class="docs-content col-lg-11 col-xl-9">
-                    <h1>{entry.data.title}</h1>
+                <main class="docs-content col-lg-11 col-xl-9" data-pagefind-body>
+                    <h1 data-pagefind-meta="title">{entry.data.title}</h1>
                     <nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
                       <details>
                         <summary>
@@ -58,7 +58,7 @@ const next = getNextEntry(entry, sidebar);
                       </details>
                     </nav>
                     <slot />
-                    <div class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
+                    <div data-pagefind-ignore="all" class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
                         <div class="edit-page">
                             <a href={`${editLink}/${entry.collection}/${entry.id}`}>
                                 <IconPencil size={16} />
@@ -66,7 +66,7 @@ const next = getNextEntry(entry, sidebar);
                             </a>
                         </div>
                     </div>
-                    <div class="page-nav d-flex flex-column flex-sm-row">
+                    <div data-pagefind-ignore="all" class="page-nav d-flex flex-column flex-sm-row">
                       {prev != null && <div class="card w-100">
                         <div class="card-body d-flex">
                           <div class="d-flex flex-column justify-content-center">
