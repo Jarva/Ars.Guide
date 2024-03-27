@@ -208,9 +208,9 @@ import SearchResults from "./SearchResults.astro";
             const a = result.querySelector('a');
             const content = result.querySelector('.content');
             console.log("Got Data", data);
-            a.innerHtml = data.meta.title;
+            a.innerHTML = data.meta.title;
             a.href = data.url;
-            content.innerHtml = data.excerpt;
+            content.innerHTML = data.excerpt;
 
             fragment.appendChild(result);
         }
