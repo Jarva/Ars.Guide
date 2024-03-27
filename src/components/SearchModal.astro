@@ -207,6 +207,7 @@ import SearchResults from "./SearchResults.astro";
             const result = template.cloneNode(true);
             const a = result.querySelector('a');
             const content = result.querySelector('.content');
+            console.log("Got Data", data);
             a.innerHtml = data.meta.title;
             a.href = data.url;
             content.innerHtml = data.excerpt;
