@@ -19,7 +19,8 @@ const addHeaderLinks = () => {
           properties: {
             class: 'anchor',
             'aria-hidden': true,
-            href: '#' + node.properties.id
+            href: '#' + node.properties.id,
+            'data-pagefind-ignore': 'all'
           },
           children: [
             { type: 'text', value: '#' }
