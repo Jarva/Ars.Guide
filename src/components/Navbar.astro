@@ -1,9 +1,16 @@
 ---
 import { siteName } from "../utils/constants"
-import { IconX, IconSearch, IconMoon, IconSun, IconMenu } from "@tabler/icons-react"
+import { IconX, IconSearch, IconMoon, IconSun, IconMenu, IconDotsVertical } from "@tabler/icons-react"
 import { NavItems, SocialItems } from '../utils/nav-links'
+import type { Sidebar as SidebarType } from "../utils/sidebar";
+import Sidebar from "../components/Sidebar.astro";
 
-const { active } = Astro.props;
+interface Props {
+    active: string;
+    sidebar: SidebarType;
+}
+
+const { active, sidebar } = Astro.props;
 ---
 
 <!-- <div class="header-bar sticky-top"></div> -->
@@ -13,6 +20,24 @@ const { active } = Astro.props;
         <button id="searchToggleMobile" class="btn btn-link nav-link mx-2 d-lg-none" type="button" aria-label="Search website">
             <IconSearch size={24} />
         </button>
+        {sidebar && <button class="btn btn-link d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavSection" aria-controls="offcanvasNavSection" aria-label="Open section navigation menu">
+            <IconDotsVertical size={24} />
+        </button>}
+        {sidebar && <div class="offcanvas offcanvas-start d-lg-none" id="offcanvasNavSection" tabindex="-1" aria-labelledby="offcanvasNavSectionlabel">
+            <div class="offcanvas-header">
+                <h5 id="offcanvasNavSectionLabel" class="offcanvas-title">{NavItems.find(item => item.collection == active)?.label}</h5>
+                <button class="btn btn-link nav-link p-0" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <IconX size={24} />
+                </button>
+            </div>
+            <div class="offcanvas-body">
+                <aside class="doks-sidebar mt-n3">
+                    <nav id="doks-docs-nav" aria-label="Tertiary navigation">
+                        <Sidebar sidebar={sidebar} />
+                    </nav>
+                </aside>
+            </div>
+        </div>}
         <button class="btn btn-link nav-link mx-2 order-3 d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavMain" aria-controls="offcanvasNavMain">
             <IconMenu size={24} />
         </button>

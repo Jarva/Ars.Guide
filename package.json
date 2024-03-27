@@ -19,6 +19,7 @@
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.9",
     "astro-expressive-code": "^0.33.5",
+    "astro-pagefind": "^1.5.0",
     "astro-purgecss": "^4.1.0",
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@types/bootstrap": "^5.2.10",
     "@types/core-js": "^2.5.8",
     "core-js": "^3.36.1"
   }

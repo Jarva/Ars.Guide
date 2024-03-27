@@ -20,7 +20,7 @@ const prev = getPreviousEntry(entry, sidebar);
 const next = getNextEntry(entry, sidebar);
 ---
 
-<BaseLayout title={`${entry.data.title} | Ars.Guide`} layout="section docs" collection={entry.collection}>
+<BaseLayout title={`${entry.data.title} | Ars.Guide`} layout="section docs" sidebar={sidebar} collection={entry.collection}>
     <div class="wrap container-lg" role="document">
         <div class="content">
             <div class="row flex-xl-nowrap">

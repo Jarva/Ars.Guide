@@ -1,0 +1,19 @@
+---
+interface Props {
+    title: string;
+    date: string;
+    summary: string;
+}
+
+const { title, summary } = Astro.props;
+---
+<article class="search-result list-view">
+    <div class="card my-3">
+        <div class="card-body">
+            <header>
+                <h2 class="h5 title-submitted mb-0"><a href="#" class="stretched-link text-decoration-none text-reset">{title}</a></h2>
+            </header>
+            <div class="content">{summary}</div>
+        </div>
+    </div>
+</article>

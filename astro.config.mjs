@@ -6,6 +6,7 @@ import {visit} from 'unist-util-visit'
 
 import expressiveCode from "astro-expressive-code";
 import rehypeSlug from 'rehype-slug'
+import pagefind from "astro-pagefind";
 // import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
 
 const addHeaderLinks = () => {
@@ -36,11 +37,10 @@ export default defineConfig({
   site: 'https://ars.guide',
   integrations: [expressiveCode({
     themes: ['poimandres', 'material-theme-lighter'],
-    // plugins: [pluginLineNumbers()],
     themeCssSelector(theme) {
       return `[data-bs-theme="${theme.type}"]`
     },
-  }), mdx(), react(), purgecss()],
+  }), mdx(), react(), purgecss(), pagefind()],
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
   }
