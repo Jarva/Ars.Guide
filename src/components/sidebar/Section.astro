@@ -1,13 +1,12 @@
 ---
 import Entry from "./Entry.astro";
-import type { GenericCollectionEntry, ParentSection } from "../../utils/sidebar";
+import type { ParentSection } from "../../utils/sidebar";
 
 interface Props {
     parent: ParentSection
 }
 
 const { parent } = Astro.props;
-
 const { title } = parent.entry.data;
 ---
 
