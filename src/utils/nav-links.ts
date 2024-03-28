@@ -15,11 +15,13 @@ export const NavItems = [
 
 export const SocialItems = [
     {
-        label: IconBrandDiscord,
+        label: "Discord",
+        icon: IconBrandDiscord,
         link: "https://discord.gg/y7TMXZu"
     },
     {
-        label: IconBrandGithub,
+        label: "GitHub",
+        icon: IconBrandGithub,
         link: "https://github.com/baileyholl/Ars-Nouveau"
     }
 ]

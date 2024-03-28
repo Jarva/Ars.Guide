@@ -2,16 +2,20 @@ import { defineConfig } from 'astro/config';
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import purgecss from "astro-purgecss";
-import {visit} from 'unist-util-visit'
-
+import { visit } from 'unist-util-visit';
 import expressiveCode from "astro-expressive-code";
-import rehypeSlug from 'rehype-slug'
+import rehypeSlug from 'rehype-slug';
 import pagefind from "astro-pagefind";
-// import { pluginLineNumbers } from '@expressive-code/plugin-line-numbers'
+import sitemap from "@astrojs/sitemap";
+import robotsTxt from "astro-robots-txt";
+import compress from "astro-compress";
+import metaTags from "astro-meta-tags";
+import cloudflare from "@astrojs/cloudflare";
+import lighthouse from "astro-lighthouse";
 
 const addHeaderLinks = () => {
-  return (tree) => {
-    visit(tree, 'element', (node) => {
+  return tree => {
+    visit(tree, 'element', node => {
       if (['h2', 'h3', 'h4', 'h5'].includes(node.tagName) && node.properties.id) {
         node.children.push({
           type: 'element',
@@ -20,16 +24,19 @@ const addHeaderLinks = () => {
             class: 'anchor',
             'aria-hidden': true,
             href: '#' + node.properties.id,
-            'data-pagefind-ignore': 'all'
+            'data-pagefind-ignore': 'all',
+            'aria-label': `${node.properties.id} permalink`
           },
-          children: [
-            { type: 'text', value: '#' }
-          ]
-        })
+          children: [{
+            type: 'text',
+            value: '#'
+          }]
+        });
       }
-    })
-  }
-}
+    });
+  };
+};
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -39,10 +46,12 @@ export default defineConfig({
   integrations: [expressiveCode({
     themes: ['poimandres', 'material-theme-lighter'],
     themeCssSelector(theme) {
-      return `[data-bs-theme="${theme.type}"]`
-    },
-  }), mdx(), react(), purgecss(), pagefind()],
+      return `[data-bs-theme="${theme.type}"]`;
+    }
+  }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), compress(), metaTags(), lighthouse()],
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
-  }
+  },
+  output: "hybrid",
+  adapter: cloudflare()
 });

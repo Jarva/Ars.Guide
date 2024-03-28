@@ -66,7 +66,7 @@ const { active, sidebar } = Astro.props;
                 <ul id="socialMenu" class="nav mx-auto flex-row order-lg-4">
                     {SocialItems.map(item =>
                         <li class="nav-item">
-                            <a href={item.link} class="nav-link social-link"><item.label size={24} /></a>
+                            <a href={item.link} class="nav-link social-link" aria-label={item.label}><item.icon size={24} /></a>
                         </li>
                     )}
                 </ul>
