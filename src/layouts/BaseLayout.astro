@@ -2,6 +2,7 @@
 import Navbar from '../components/Navbar.astro'
 import Footer from '../components/Footer.astro';
 import SearchModal from '../components/search/Modal.astro';
+import { GoogleFontsOptimizer } from "astro-google-fonts-optimizer";
 
 const { layout, collection, sidebar } = Astro.props;
 ---
@@ -12,6 +13,7 @@ const { layout, collection, sidebar } = Astro.props;
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta charset="utf-8" />
     <slot name="head" />
+    <GoogleFontsOptimizer url="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" />
   </head>
   <body class={`single ${layout}`} data-bs-spy="scroll" data-bs-target="#toc" data-bs-root-margin="0px 0px -60%" data-bs-smooth-scroll="true">
     <Navbar active={collection} sidebar={sidebar} />
