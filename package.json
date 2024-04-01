@@ -34,6 +34,7 @@
     "astro-purgecss": "^4.1.0",
     "astro-robots-txt": "^1.0.0",
     "astro-seo": "^0.8.3",
+    "astro-tunnel": "^0.1.6",
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
     "cssnano": "^6.1.1",
