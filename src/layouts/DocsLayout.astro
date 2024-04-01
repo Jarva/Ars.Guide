@@ -47,7 +47,7 @@ const next = getNextEntry(entry, sidebar);
                 </nav>
                 <main class="docs-content col-lg-11 col-xl-9" data-pagefind-body>
                     <h1 data-pagefind-meta="title">{entry.data.title}</h1>
-                    <nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+                    {headings.length > 0 && <nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
                       <details>
                         <summary>
                           On this page
@@ -60,7 +60,7 @@ const next = getNextEntry(entry, sidebar);
                           </nav>
                         </div>
                       </details>
-                    </nav>
+                    </nav>}
                     <slot />
                     <div data-pagefind-ignore="all" class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
                         <div class="edit-page">

@@ -22,6 +22,6 @@ export const SocialItems = [
     {
         label: "GitHub",
         icon: IconBrandGithub,
-        link: "https://github.com/baileyholl/Ars-Nouveau"
+        link: "https://github.com/Jarva/Ars.Guide"
     }
 ]

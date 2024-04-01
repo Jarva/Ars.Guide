@@ -4,15 +4,17 @@ description: "A list of custom behaviours implemented by the Containment Jars"
 weight: 810
 ---
 
+import { IconCheckbox } from "@tabler/icons-react"
+
 | Entity          | Behaviour                                                             | Requires Redstone? |
 | --------------- | --------------------------------------------------------------------- | ------------------ |
 | Allays          | Vacuum Hopper                                                         |                    |
 | Blazes          | Emit Light                                                            |                    |
 | Chickens        | Lay Eggs                                                              |                    |
-| Creepers        | Play creeper fuse sound                                               | x                  |
-| Decoys          | Pull all nearby entities towards the jar                              | x                  |
+| Creepers        | Play creeper fuse sound                                               | <IconCheckbox />   |
+| Decoys          | Pull all nearby entities towards the jar                              | <IconCheckbox />   |
 | Enderdragon     | Using a bottle on the jar produces Dragon's Breath                    |                    |
-| Elder Guardians | Provide mining fatigue gong effect                                    | x                  |
+| Elder Guardians | Provide mining fatigue gong effect                                    | <IconCheckbox />   |
 | Frogs           | Eat nearby magma cubes to produce Froglights                          |                    |
 | Glow Squids     | Emit Light                                                            |                    |
 | Mooshrooms      | Can be milked and bowled for soup, shearing them turns them into Cows |                    |
@@ -21,4 +23,4 @@ weight: 810
 | Pufferfish      | Produce a redstone signal when a player is nearby                     |                    |
 | Sheep           | Can be sheared and will periodically eat grass to regrow their wool   |                    |
 | Villagers       | Can be traded with and will restock as usual                          |                    |
-| Default         | Play the mobs idle sound                                              | x                  |
+| Default         | Play the mobs idle sound                                              | <IconCheckbox />   |
