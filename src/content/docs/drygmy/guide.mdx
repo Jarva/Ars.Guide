@@ -1,0 +1,64 @@
+---
+title: "Drygmy's and You!"
+description: "A guide to the mechanics of the Drygmy"
+weight: 810
+---
+
+import Callout from '../../../components/Callout.astro'
+import { IconInfoCircle } from "@tabler/icons-react"
+
+By Orcao
+
+<Callout title="Note" type="note" icon={IconInfoCircle}>
+- <sup>C</sup> is being used to denote a configurable value. The numbers provided are the default values.
+- "Henge" is referring to the Drygmy's Henge, and the area it encompasses (10 blocks in any direction for jars; 10 blocks in any horizontal direction and 6 blocks above/below for actual entities)
+- While "Entity" is generally a broader term than is being used here, I am using it to refer to any Living Entity not on the Drygmy blacklist that also isn't a Drygmy or a Player.
+</Callout>
+
+**Drop Count**
+- Your first entitiy added to a henge provides 1<sup>C</sup> additional drop
+- Your first 5<sup>C</sup> entities added to a henge provide 1 additional drop 
+- Every unique entity added to a henge adds 2<sup>C</sup> additional drops
+- A single entity can contribute to multiple of these bonuses 
+
+Your first entity in a single entity henge will provide 4 drops  
+`(1 base + 1 for every entity < 5 + 2 for a unique entity)`
+
+**Loot Table**
+- Potentially generated items are pooled into one massive list based on the entities in your henge
+- Entities with no loot table do not negatively impact the henge's loot table
+- Entities with {"<"}100% chance to drop items from their loot table can generate "no loot" pulls into the Loot Table, determined each time the Drygmy's finish a cycle.
+- Specially spawned drops (like Nether Stars) are not added to the loot table
+- Putting multiple of one entity can help bias loot generation towards that drop table if you have a large amount of item yielding entities in your henge
+
+**Item Generation**
+- A random item is generated from the full loot table per "additional drop" added in the **Drop Count** section.
+
+**Experience**
+- The sum of all vanilla experience values of all entities in the henge is taken and multiplied by 0.25, as an Integer (25 entities / 0.25 = 6.25 = 6)
+- If that reduced sum is not greater than 3, then the henge will skip exp generation
+- For every 12 exp in that reduced value, a henge will generate 1 Greater Experience Gem
+- For every 3 exp in that reduced sum, after subtracting 12 for every generated Greater Experience Gem, a henge will generate 1 Experience Gem
+- If there is a positive leftover value, the henge will generate an additional Experience Gem
+- There is no penalty for duplicate entities, nor bonuses for uniques when it comes to exp
+- Specially spawned experience (like from the Dragon) is not factored into the experience value
+- These in no way take away, or add to, the loot pool of the henge for the purpose of generating items
+- The base experience of all entities in a henge must exceed 16 (before the 0.25 multiplication) before you see any experience gems
+
+**Henge Progress and Drygmy Quirks**
+- A Henge will check to see if its progress maxed out every 100 ticks, any progress generated beyond 20<sup>C</sup> in this time is wasted
+- A Drygmy will provide progress to a Henge once it finished "Channeling" (dancing) next to an entity
+- If a Drygmy recognizes that it has no path to its chosen jar, it will skip the movement part and start dancing immediately
+- Drygmy pathing is quite fragile, and they're not particularly good at realizing that they can't reach their destination if non-solid blocks (like containment jars) or other entities (like Drygmys) are in the way. 
+- Drygmys are very good at recognizing that their path is blocked by solid blocks
+- A Drygmy takes 100 ticks to dance, then waits 100 ticks before it can dance again
+- A Henge needs 20<sup>C</sup> "progress" to generate items
+- A Henge consumes 10%<sup>C</sup> of a source jar every time it generates items
+- You need 20<sup>C</sup> Drygmy's to max out a henge's production speed. In theory twice that many, with half of them desynced by 100 ticks would be better, but you'd need to create and maintain that desynch at all times. 
+- To further optimize production, make sure your drygmys have no path to their containment jars. Do **not** trap your drygmys in a 1x1x1 box space. Instead **do** box in your containment jars, or keep them in a separate room (still in range of the henge) that your drygmys can't path to. 
+- The 1x1 stacked ball of 20 drygmys is terrible for tps. Really bad. The test world had a MSPT of 15.1 with a single stacked ball, vs 13.4 with them free ranging. Always free range your drygmys.
+
+**Dropless Entities**
+- These can be used to generate 2 additional drops from your Henge's loot table, without diluting the pool
+- Axlotl, Wandering Trader, Villagers, The Wither, The Ender Dragon, The Wilden Chimera, Bees, Allays, Bats, and probably many more
+- Some mods modify the drop tables of vanilla entities

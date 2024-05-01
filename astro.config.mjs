@@ -13,6 +13,7 @@ import metaTags from "astro-meta-tags";
 import cloudflare from "@astrojs/cloudflare";
 import lighthouse from "astro-lighthouse";
 import tunnel from "astro-tunnel";
+
 const addHeaderLinks = () => {
   return tree => {
     visit(tree, 'element', node => {
@@ -36,7 +37,6 @@ const addHeaderLinks = () => {
     });
   };
 };
-
 
 // https://astro.build/config
 export default defineConfig({
