@@ -8,5 +8,5 @@ export async function POST({ request }: APIContext) {
     const obj = Object.fromEntries(body);
     console.log("OBJ", JSON.stringify(obj));
 
-    return new Response("OK", { status: 200 });
+    return Response.redirect("/", 200);
 }
