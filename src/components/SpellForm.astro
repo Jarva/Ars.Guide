@@ -39,7 +39,7 @@
 
 <script>
     import TomSelect from 'tom-select';
-    const category = new TomSelect("#category", {
+    new TomSelect("#category", {
         optgroups: [
             { value: 'combat', label: 'Combat' },
             { value: 'other', label: 'Other' },
@@ -58,7 +58,7 @@
         ],
         maxItems: 1,
     });
-    const addons = new TomSelect("#addons", {
+    new TomSelect("#addons", {
         labelField: 'text',
 	    searchField: ['text'],
         options: [
@@ -73,7 +73,7 @@
         ],
         create: true
     });
-    const versions = new TomSelect("#versions", {
+    new TomSelect("#versions", {
         labelField: 'value',
 	    searchField: ['value'],
         options: [
