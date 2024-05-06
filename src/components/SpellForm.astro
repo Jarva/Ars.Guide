@@ -4,30 +4,30 @@
 <form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" method="post" action="/api/submit">
     <div class="mb-3">
         <label for="author" class="form-label">Author</label>
-        <input required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
+        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
     </div>
     <div class="mb-3">
         <label for="spell" class="form-label">Spell</label>
-        <input required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
+        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
     </div>
     <div class="mb-3">
         <label for="glyphs" class="form-label">Glyphs</label>
-        <input required pattern="[A-z ]+" type="text" class="form-control" id="glyphs" />
+        <input name="glyphs" required pattern="[A-z ]+" type="text" class="form-control" id="glyphs" />
     </div>
     <div class="mb-3">
         <label for="category" class="form-label">Category</label>
-        <input required class="form-control" id="category" />
+        <input name="category" required class="form-control" id="category" />
     </div>
     <div class="mb-3">
         <label for="addons" class="form-label">Addons</label>
-        <input class="form-control" id="addons" />
+        <input name="addons" class="form-control" id="addons" />
     </div>
     <div class="mb-3">
         <label for="versions" class="form-label">Versions</label>
-        <input class="form-control" id="versions" />
+        <input name="versions" class="form-control" id="versions" />
     </div>
     <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" value="" id="length" />
+        <input name="length" type="checkbox" class="form-check-input" value="" id="length" />
         <label for="length" class="form-check-label">Requires spell length increase?</label>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
