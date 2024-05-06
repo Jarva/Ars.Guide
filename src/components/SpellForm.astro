@@ -86,7 +86,7 @@
     const form = document.getElementById('spellForm');
     const inputs = document.querySelectorAll('#spellForm input');
     inputs.forEach(input => {
-        input.addEventListener('blur', (event) => {
+        input.addEventListener('blur', (_event) => {
             if ((input as HTMLFormElement).checkValidity()) {
                 input.classList.add('is-valid');
                 input.classList.remove('is-invalid');
