@@ -60,7 +60,7 @@ export default defineConfig({
   }),
   vite: {
     ssr: {
-      external: ['node:events'],
+      external: ['node:events', 'node:process'],
     },
   },
 });
