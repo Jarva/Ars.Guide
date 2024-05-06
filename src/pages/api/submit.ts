@@ -1,5 +1,7 @@
 import type { APIContext } from 'astro';
 
+export const prerender = false;
+
 export async function POST({ request }: APIContext) {
     const body = await request.formData();
   
