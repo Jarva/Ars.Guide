@@ -60,7 +60,6 @@ export default defineConfig({
   }),
   vite: {
     ssr: {
-      noExternal: false,
       external: ['node:timers', 'node:fs/promises', 'node:path', 'node:crypto', 'node:module', 'path'],
     },
   },
