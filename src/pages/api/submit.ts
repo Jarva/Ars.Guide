@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 import { REST } from '@discordjs/rest';
 import { EmbedBuilder } from "@discordjs/builders";
-import { WebhooksAPI } from "@discordjs/core";
+import { WebhooksAPI } from "@discordjs/core/http-only";
 
 export const prerender = false;
 
