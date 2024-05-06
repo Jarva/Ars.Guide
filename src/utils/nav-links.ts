@@ -10,7 +10,12 @@ export const NavItems = [
         label: "KubeJS",
         link: "/kubejs/getting-started/introduction/",
         collection: "kubejs"
-    }
+    },
+    {
+        label: "Spells",
+        link: "/spells/introduction/submit/",
+        collection: "spells"
+    },
 ]
 
 export const SocialItems = [
