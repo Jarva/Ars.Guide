@@ -1,0 +1,4 @@
+name = "arsguide"
+
+[vars]
+WEBHOOK_URL="https://discord.com"

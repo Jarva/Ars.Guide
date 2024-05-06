@@ -26,6 +26,10 @@
         <label for="versions" class="form-label">Versions</label>
         <input name="versions" class="form-control" id="versions" />
     </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" id="description" placeholder="Optional..." />
+    </div>
     <div class="mb-3 form-check">
         <input name="length" type="checkbox" class="form-check-input" value="" id="length" />
         <label for="length" class="form-check-label">Requires spell length increase?</label>
@@ -44,7 +48,7 @@
         labelField: 'text',
 	    searchField: ['text'],
         options: [
-            { class: "combat", value: "aggresive", text: "Aggresive" },
+            { class: "combat", value: "aggressive", text: "Aggressive" },
             { class: "combat", value: "defensive", text: "Defensive" },
             { class: "combat", value: "support", text: "Support" },
             { class: "other", value: "exploration", text: "Exploration" },
