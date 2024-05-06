@@ -38,7 +38,7 @@
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
     "cssnano": "^6.1.1",
-    "discord.js": "^14.15.2",
+    "discord-webhook-node": "^1.1.8",
     "purgecss": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,5 +1,5 @@
 import type { APIContext } from 'astro';
-import { WebhookClient, EmbedBuilder } from "discord.js";
+import { Webhook, MessageBuilder } from "discord-webhook-node";
 
 export const prerender = false;
 
@@ -31,27 +31,21 @@ export async function POST(context: CloudflareContext) {
     const body = Object.fromEntries(form) as unknown as FormData;
     const url = new URL(request.url)
 
-    console.log("ENV", env);
+    const client = new Webhook(env.WEBHOOK_URL);
 
-    const client = new WebhookClient({ url: env.WEBHOOK_URL });
-
-    const embed = new EmbedBuilder()
+    const embed = new MessageBuilder()
         .setTitle('Submission')
         .setURL(url.origin)
-        .addFields(
-            { name: "Spell", value: body.spell },
-            { name: "Glyphs", value: body.glyphs },
-            { name: "Category", value: body.category },
-            { name: "Addons", value: body.addons.split(",").join(", ") },
-            { name: "Versions", value: body.versions.split(",").join(", ") },
-        )
+        .addField("Spell", body.spell)
+        .addField("Glyphs", body.glyphs)
+        .addField("Category", body.category)
+        .addField("Addons", body.addons.split(",").join(", "))
+        .addField("Versions", body.versions.split(",").join(", "))
         .setAuthor({ name: body.author })
         .setDescription(body.description.length == 0 ? null : body.description)
         .setTimestamp()
 
-    await client.send({
-        embeds: [embed]
-    });
+    await client.send(embed);
     
     return Response.redirect(url.origin, 303);
 }

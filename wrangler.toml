@@ -2,4 +2,3 @@ name = "arsguide"
 node_compat = true
 
 [vars]
-WEBHOOK_URL="https://discord.com"

@@ -58,9 +58,4 @@ export default defineConfig({
       enabled: true
     }
   }),
-  vite: {
-    ssr: {
-      external: ['node:events', 'node:process', 'node:worker_threads'],
-    },
-  },
 });
