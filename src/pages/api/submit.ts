@@ -1,5 +1,7 @@
 import type { APIContext } from 'astro';
-import { Webhook, MessageBuilder } from "discord-webhook-node";
+import { REST } from '@discordjs/rest';
+import { EmbedBuilder } from "@discordjs/builders";
+import { WebhooksAPI } from "@discordjs/core";
 
 export const prerender = false;
 
@@ -23,6 +25,8 @@ type CloudflareContext = APIContext & {
     }
 }
 
+const rest = new REST({ version: '10' });
+
 export async function POST(context: CloudflareContext) {
     const { request, locals } = context;
     const form = await request.formData();
@@ -31,21 +35,23 @@ export async function POST(context: CloudflareContext) {
     const body = Object.fromEntries(form) as unknown as FormData;
     const url = new URL(request.url)
 
-    const client = new Webhook(env.WEBHOOK_URL);
+    const client = new WebhooksAPI(rest);
 
-    const embed = new MessageBuilder()
+    const embed = new EmbedBuilder()
         .setTitle('Submission')
         .setURL(url.origin)
-        .addField("Spell", body.spell)
-        .addField("Glyphs", body.glyphs)
-        .addField("Category", body.category)
-        .addField("Addons", body.addons.split(",").join(", "))
-        .addField("Versions", body.versions.split(",").join(", "))
+        .addFields(
+            { name: "Spell", value: body.spell },
+            { name: "Glyphs", value: body.glyphs },
+            { name: "Category", value: body.category },
+            { name: "Addons", value: body.addons.split(",").join(", ") },
+            { name: "Versions", value: body.versions.split(",").join(", ") },
+        )
         .setAuthor({ name: body.author })
         .setDescription(body.description.length == 0 ? null : body.description)
         .setTimestamp()
 
-    await client.send(embed);
+    await client.execute(env.WEBHOOK_ID, env.WEBHOOK_TOKEN, embed.toJSON());
     
     return Response.redirect(url.origin, 303);
 }
