@@ -1,7 +1,7 @@
 ---
 ---
 
-<form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" action="/api/submit">
+<form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" method="post" action="/api/submit">
     <div class="mb-3">
         <label for="author" class="form-label">Author</label>
         <input required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
