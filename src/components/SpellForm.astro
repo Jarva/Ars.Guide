@@ -83,7 +83,7 @@
     const inputs = document.querySelectorAll('#spellForm input');
     inputs.forEach(input => {
         input.addEventListener('blur', (event) => {
-            if (input.checkValidity()) {
+            if ((input as HTMLFormElement).checkValidity()) {
                 input.classList.add('is-valid');
                 input.classList.remove('is-invalid');
             } else {
@@ -94,7 +94,7 @@
     })
     form?.addEventListener('submit', (event) => {
         form.classList.add('was-validated');
-        if (!form.checkValidity()) {
+        if (!(form as HTMLFormElement).checkValidity()) {
             event.preventDefault()
 		    event.stopPropagation()
         }
