@@ -47,8 +47,10 @@ export async function POST(context: CloudflareContext) {
 
     const res = await fetch(env.WEBHOOK_URL, {
         method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-            content: null,
             embeds: [embed.toJSON()]
         })
     });
