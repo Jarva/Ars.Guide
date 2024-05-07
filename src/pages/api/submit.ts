@@ -42,7 +42,7 @@ export async function POST(context: CloudflareContext) {
             { name: "Category", value: body.category, inline: true },
             { name: "Addons", value: body.addons.split(",").join(", "), inline: true },
             { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
-            { name: "Requires Infinite Spell?", value: body.infinite ? "Yes" : "No", inline: true },
+            { name: "Requires Infinite Spell?", value: "infinite" in body ? "Yes" : "No", inline: true },
             { name: "Glyphs", value: body.glyphs },
             { name: "Description", value: body.description || "" },
         )
@@ -54,9 +54,6 @@ export async function POST(context: CloudflareContext) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            // username: "Ars.Guide",
-            // avatar_url: "https://ars.guide/favicon-512x512.png",
-            content: null,
             embeds: [embed.toJSON()],
         })
     });
