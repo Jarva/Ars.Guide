@@ -32,19 +32,17 @@ export async function POST(context: CloudflareContext) {
     const body = Object.fromEntries(form) as unknown as FormData;
     const url = new URL(request.url)
 
-    console.log("Body", body);
-
     const embed = new EmbedBuilder()
         .setTitle("New Spell Submission")
         .addFields(
             { name: "Author", value: body.author, inline: true },
             { name: "Spell", value: body.spell, inline: true },
+            { name: "Glyphs", value: body.glyphs },
             { name: "Category", value: body.category, inline: true },
-            { name: "Addons", value: body.addons.split(",").join(", "), inline: true },
+            { name: "Addons", value: body.addons.length > 0 ? body.addons.split(",").join(", ") : "None", inline: true },
+            { name: "Description", value: body.description.length > 0 ? body.description : "N/A" },
             { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
             { name: "Requires Infinite Spell?", value: "infinite" in body ? "Yes" : "No", inline: true },
-            { name: "Glyphs", value: body.glyphs },
-            { name: "Description", value: body.description || "" },
         )
         .setTimestamp();
 
@@ -57,8 +55,10 @@ export async function POST(context: CloudflareContext) {
             embeds: [embed.toJSON()],
         })
     });
-    const json = await res.json();
-    console.log("Response", json);
+    if (!res.ok) {
+        const json = await res.json();
+        console.error("Discord Response", json);
+    }
     
     return Response.redirect(url.origin, 303);
 }
