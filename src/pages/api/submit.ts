@@ -32,17 +32,15 @@ export async function POST(context: CloudflareContext) {
     const url = new URL(request.url)
 
     const embed = new EmbedBuilder()
-        .setTitle('Submission')
-        .setURL(url.origin)
         .addFields(
-            { name: "Spell", value: body.spell },
+            { name: "Author", value: body.author, inline: true },
+            { name: "Spell", value: body.spell, inline: true },
+            { name: "Category", value: body.category, inline: true },
+            { name: "Addons", value: body.addons.split(",").join(", "), inline: true },
+            { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
             { name: "Glyphs", value: body.glyphs },
-            { name: "Category", value: body.category },
-            { name: "Addons", value: body.addons.split(",").join(", ") },
-            { name: "Versions", value: body.versions.split(",").join(", ") },
+            { name: "Description", value: body.description },
         )
-        .setAuthor({ name: body.author })
-        .setDescription(body.description.length == 0 ? null : body.description)
         .setTimestamp();
 
     const res = await fetch(env.WEBHOOK_URL, {
@@ -51,7 +49,27 @@ export async function POST(context: CloudflareContext) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            embeds: [embed.toJSON()]
+            username: "Ars.Guide",
+            avatar_url: "https://ars.guide/favicon-512x512.png",
+            embeds: [embed.toJSON()],
+            poll: {
+                question: "Should this be added to the Spell Compendium?",
+                answers: [
+                    {
+                        poll_media: {
+                            text: 'Yes'
+                        }
+                    },
+                    {
+                        poll_media: {
+                            text: 'No'
+                        }
+                    }
+                ],
+                duration: 24 * 7,
+                allow_multiselect: false,
+                layout_type: 1,
+            }
         })
     });
     const json = await res.json();
