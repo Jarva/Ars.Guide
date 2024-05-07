@@ -5,12 +5,13 @@ export const prerender = false;
 
 interface FormData {
     author: string;
-    description: string;
+    description?: string;
     spell: string;
     glyphs: string;
     category: string;
     addons: string;
     versions: string;
+    length: boolean;
 }
 
 type CloudflareContext = APIContext & {
@@ -31,6 +32,8 @@ export async function POST(context: CloudflareContext) {
     const body = Object.fromEntries(form) as unknown as FormData;
     const url = new URL(request.url)
 
+    console.log("Body", body);
+
     const embed = new EmbedBuilder()
         .addFields(
             { name: "Author", value: body.author, inline: true },
@@ -38,8 +41,9 @@ export async function POST(context: CloudflareContext) {
             { name: "Category", value: body.category, inline: true },
             { name: "Addons", value: body.addons.split(",").join(", "), inline: true },
             { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
+            { name: "Requires Infinite Spell?", value: body.length ? "Yes" : "No", inline: true },
             { name: "Glyphs", value: body.glyphs },
-            { name: "Description", value: body.description },
+            { name: "Description", value: body.description || "" },
         )
         .setTimestamp();
 
