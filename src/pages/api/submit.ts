@@ -11,7 +11,7 @@ interface FormData {
     category: string;
     addons: string;
     versions: string;
-    length: boolean;
+    infinite: boolean;
 }
 
 type CloudflareContext = APIContext & {
@@ -41,7 +41,7 @@ export async function POST(context: CloudflareContext) {
             { name: "Category", value: body.category, inline: true },
             { name: "Addons", value: body.addons.split(",").join(", "), inline: true },
             { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
-            { name: "Requires Infinite Spell?", value: body.length ? "Yes" : "No", inline: true },
+            { name: "Requires Infinite Spell?", value: body.infinite ? "Yes" : "No", inline: true },
             { name: "Glyphs", value: body.glyphs },
             { name: "Description", value: body.description || "" },
         )
