@@ -34,6 +34,7 @@ export async function POST(context: CloudflareContext) {
 
     console.log("Body", body);
 
+    try {
     const embed = new EmbedBuilder()
         .addFields(
             { name: "Author", value: body.author, inline: true },
@@ -78,6 +79,9 @@ export async function POST(context: CloudflareContext) {
     });
     const json = await res.json();
     console.log("Response", json);
+} catch(e) {
+    console.error("Error", e);
+}
     
     return Response.redirect(url.origin, 303);
 }
