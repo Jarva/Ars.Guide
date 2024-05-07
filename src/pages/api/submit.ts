@@ -56,6 +56,26 @@ export async function POST(context: CloudflareContext) {
             avatar_url: "https://ars.guide/favicon-512x512.png",
             content: null,
             embeds: [embed.toJSON()],
+            poll: {
+                question: {
+                    text: "Should this spell be added to the Spell Compendium?"
+                },
+                answers: [
+                    {
+                        poll_media: {
+                            text: "Yes"
+                        }
+                    },
+                    {
+                        poll_media: {
+                            text: "No"
+                        }
+                    }
+                ],
+                duration: 24 * 7,
+                allow_multiselect: false,
+                layout_type: 1,
+            }
         })
     });
     if (!res.ok) {
