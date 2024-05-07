@@ -36,6 +36,7 @@ export async function POST(context: CloudflareContext) {
 
     try {
     const embed = new EmbedBuilder()
+        .setTitle("New Spell Submission")
         .addFields(
             { name: "Author", value: body.author, inline: true },
             { name: "Spell", value: body.spell, inline: true },
