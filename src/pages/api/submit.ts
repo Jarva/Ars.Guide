@@ -54,8 +54,17 @@ export async function POST(context: CloudflareContext) {
         body: JSON.stringify({
             username: "Ars.Guide",
             avatar_url: "https://ars.guide/favicon-512x512.png",
-            content: null,
             embeds: [embed.toJSON()],
+        })
+    });
+    const poll = await fetch(env.WEBHOOK_URL, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: "Ars.Guide",
+            avatar_url: "https://ars.guide/favicon-512x512.png",
             poll: {
                 question: {
                     text: "Should this spell be added to the Spell Compendium?"
@@ -77,9 +86,13 @@ export async function POST(context: CloudflareContext) {
                 layout_type: 1,
             }
         })
-    });
+    })
     if (!res.ok) {
         const json = await res.json();
+        console.error("Discord Response", json);
+    }
+    if (!poll.ok) {
+        const json = await poll.json();
         console.error("Discord Response", json);
     }
     
