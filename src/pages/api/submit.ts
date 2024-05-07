@@ -1,7 +1,7 @@
 import type { APIContext } from 'astro';
 import { EmbedBuilder } from "@discordjs/builders";
 
-// export const prerender = false;
+export const prerender = false;
 
 interface FormData {
     author: string;
