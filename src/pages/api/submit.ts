@@ -34,7 +34,6 @@ export async function POST(context: CloudflareContext) {
 
     console.log("Body", body);
 
-    try {
     const embed = new EmbedBuilder()
         .setTitle("New Spell Submission")
         .addFields(
@@ -57,6 +56,7 @@ export async function POST(context: CloudflareContext) {
         body: JSON.stringify({
             username: "Ars.Guide",
             avatar_url: "https://ars.guide/favicon-512x512.png",
+            content: null,
             embeds: [embed.toJSON()],
             // poll: {
             //     question: "Should this be added to the Spell Compendium?",
@@ -80,9 +80,6 @@ export async function POST(context: CloudflareContext) {
     });
     const json = await res.json();
     console.log("Response", json);
-} catch(e) {
-    console.error("Error", e);
-}
     
     return Response.redirect(url.origin, 303);
 }
