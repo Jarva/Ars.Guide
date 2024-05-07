@@ -1,4 +1,3 @@
 name = "arsguide"
-node_compat = true
 
 [vars]
