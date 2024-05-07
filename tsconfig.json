@@ -4,7 +4,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "moduleResolution": "Bundler",
-    "allowJs": true,
-    "types": ["@cloudflare/workers-types"]
+    "allowJs": true
   }
 }
