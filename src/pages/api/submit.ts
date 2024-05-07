@@ -1,7 +1,5 @@
 import type { APIContext } from 'astro';
-import { REST } from '@discordjs/rest';
 import { EmbedBuilder } from "@discordjs/builders";
-import { WebhooksAPI } from "@discordjs/core/http-only";
 
 export const prerender = false;
 
@@ -25,8 +23,6 @@ type CloudflareContext = APIContext & {
     }
 }
 
-const rest = new REST({ version: '10' });
-
 export async function POST(context: CloudflareContext) {
     const { request, locals } = context;
     const form = await request.formData();
@@ -34,8 +30,6 @@ export async function POST(context: CloudflareContext) {
   
     const body = Object.fromEntries(form) as unknown as FormData;
     const url = new URL(request.url)
-
-    const client = new WebhooksAPI(rest);
 
     const embed = new EmbedBuilder()
         .setTitle('Submission')
@@ -49,9 +43,15 @@ export async function POST(context: CloudflareContext) {
         )
         .setAuthor({ name: body.author })
         .setDescription(body.description.length == 0 ? null : body.description)
-        .setTimestamp()
+        .setTimestamp();
 
-    await client.execute(env.WEBHOOK_ID, env.WEBHOOK_TOKEN, { embeds: [embed.toJSON()] });
+    await fetch(env.WEBHOOK_URL, {
+        method: "POST",
+        body: JSON.stringify({
+            content: null,
+            embeds: [embed.toJSON()]
+        })
+    });
     
     return Response.redirect(url.origin, 303);
 }
