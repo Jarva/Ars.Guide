@@ -45,13 +45,15 @@ export async function POST(context: CloudflareContext) {
         .setDescription(body.description.length == 0 ? null : body.description)
         .setTimestamp();
 
-    await fetch(env.WEBHOOK_URL, {
+    const res = await fetch(env.WEBHOOK_URL, {
         method: "POST",
         body: JSON.stringify({
             content: null,
             embeds: [embed.toJSON()]
         })
     });
+    const json = await res.json();
+    console.log("Response", json);
     
     return Response.redirect(url.origin, 303);
 }
