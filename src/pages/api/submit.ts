@@ -5,7 +5,7 @@ export const prerender = false;
 
 interface FormData {
     author: string;
-    description?: string;
+    description: string;
     spell: string;
     glyphs: string;
     category: string;
@@ -34,7 +34,7 @@ export async function POST(context: CloudflareContext) {
 
     const embed = new EmbedBuilder()
         .setTitle("New Spell Submission")
-        .addFields(
+        .addFields([
             { name: "Author", value: body.author, inline: true },
             { name: "Spell", value: body.spell, inline: true },
             { name: "Glyphs", value: body.glyphs },
@@ -43,7 +43,7 @@ export async function POST(context: CloudflareContext) {
             { name: "Description", value: body.description.length > 0 ? body.description : "N/A" },
             { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
             { name: "Requires Infinite Spell?", value: "infinite" in body ? "Yes" : "No", inline: true },
-        )
+        ])
         .setTimestamp();
 
     const res = await fetch(env.WEBHOOK_URL, {
