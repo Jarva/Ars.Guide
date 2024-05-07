@@ -52,6 +52,9 @@ export async function POST(context: CloudflareContext) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+            username: "Ars.Guide",
+            avatar_url: "https://ars.guide/favicon-512x512.png",
+            content: null,
             embeds: [embed.toJSON()],
         })
     });
