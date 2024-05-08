@@ -1,5 +1,7 @@
 import type { APIContext } from 'astro';
 import { EmbedBuilder } from "@discordjs/builders";
+import { zfd } from "zod-form-data";
+import { spellFormSchema } from '../../utils/spell-form';
 
 export const prerender = false;
 
@@ -29,7 +31,7 @@ export async function POST(context: CloudflareContext) {
     const form = await request.formData();
     const { env } = locals.runtime;
   
-    const body = Object.fromEntries(form) as unknown as FormData;
+    const body = spellFormSchema.parse(form);
     const url = new URL(request.url)
 
     const embed = new EmbedBuilder()
@@ -37,12 +39,12 @@ export async function POST(context: CloudflareContext) {
         .addFields([
             { name: "Author", value: body.author, inline: true },
             { name: "Spell", value: body.spell, inline: true },
-            { name: "Glyphs", value: body.glyphs },
+            { name: "Glyphs", value: body.glyphs.join(" ➝ ") },
             { name: "Category", value: body.category, inline: true },
-            { name: "Addons", value: body.addons.length > 0 ? body.addons.split(",").join(", ") : "None", inline: true },
-            { name: "Description", value: body.description.length > 0 ? body.description : "N/A" },
-            { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
-            { name: "Requires Infinite Spell?", value: "infinite" in body ? "Yes" : "No", inline: true },
+            { name: "Addons", value: body.addons.join(", "), inline: true },
+            { name: "Description", value: body.description },
+            { name: "Versions", value: body.versions.join(", "), inline: true },
+            { name: "Requires Infinite Spell?", value: body.infinite ? "Yes" : "No", inline: true },
         ])
         .setTimestamp();
 
@@ -52,47 +54,14 @@ export async function POST(context: CloudflareContext) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: "Ars.Guide",
-            avatar_url: "https://ars.guide/favicon-512x512.png",
+            username: "Source Librarian",
+            avatar_url: "https://cdn.discordapp.com/avatars/1235017501419765800/ff05eb9f01601892dd7b083dad16798d.webp?size=4096",
             embeds: [embed.toJSON()],
         })
     });
-    const poll = await fetch(env.WEBHOOK_URL, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            username: "Ars.Guide",
-            avatar_url: "https://ars.guide/favicon-512x512.png",
-            poll: {
-                question: {
-                    text: "Should this spell be added to the Spell Compendium?"
-                },
-                answers: [
-                    {
-                        poll_media: {
-                            text: "Yes"
-                        }
-                    },
-                    {
-                        poll_media: {
-                            text: "No"
-                        }
-                    }
-                ],
-                duration: 24 * 7,
-                allow_multiselect: false,
-                layout_type: 1,
-            }
-        })
-    })
+
     if (!res.ok) {
         const json = await res.json();
-        console.error("Discord Response", json);
-    }
-    if (!poll.ok) {
-        const json = await poll.json();
         console.error("Discord Response", json);
     }
     

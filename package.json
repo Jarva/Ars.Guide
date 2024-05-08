@@ -47,7 +47,8 @@
     "sass": "^1.72.0",
     "tom-select": "^2.3.1",
     "typescript": "^5.4.3",
-    "wrangler": "3.39.0"
+    "wrangler": "3.39.0",
+    "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20240502.0",
