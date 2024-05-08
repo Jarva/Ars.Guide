@@ -40,13 +40,19 @@
 <script>
     import TomSelect from 'tom-select';
     import { addons, categories, versions, glyphs, spellFormSchema } from '../utils/spell-form';
-    new TomSelect("#glyphs", {
+    const glyphSelect = new TomSelect("#glyphs", {
         labelField: 'text',
 	    searchField: ['text'],
+        sortField: 'text',
         options: glyphs,
+        plugins: ['drag_drop', 'caret_position', 'remove_button'],
         create: true,
         hideSelected: false,
-        duplicates: true
+        duplicates: true,
+        onItemAdd: (_value: any, _item: any) => {
+            glyphSelect.setTextboxValue();
+            glyphSelect.refreshOptions();
+        }
     });
     new TomSelect("#category", {
         optgroups: [
