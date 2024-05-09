@@ -1,6 +1,5 @@
 import type { APIContext } from 'astro';
 import { EmbedBuilder } from "@discordjs/builders";
-import { zfd } from "zod-form-data";
 import { spellFormSchema } from '../../utils/spell-form';
 
 export const prerender = false;
