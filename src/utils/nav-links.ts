@@ -17,7 +17,7 @@ export const SocialItems = [
     {
         label: "Discord",
         icon: IconBrandDiscord,
-        link: "https://discord.gg/y7TMXZu"
+        link: "https://discord.com/invite/NyUa297KWB"
     },
     {
         label: "GitHub",
