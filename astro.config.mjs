@@ -10,7 +10,6 @@ import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
 import compress from "astro-compress";
 import metaTags from "astro-meta-tags";
-import cloudflare from "@astrojs/cloudflare";
 import lighthouse from "astro-lighthouse";
 import tunnel from "astro-tunnel";
 
