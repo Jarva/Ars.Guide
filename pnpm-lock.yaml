@@ -116,6 +116,9 @@ dependencies:
   typescript:
     specifier: ^5.4.3
     version: 5.4.3
+  unist-util-visit:
+    specifier: ^5.0.0
+    version: 5.0.0
   wrangler:
     specifier: 3.57.1
     version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
