@@ -52,6 +52,9 @@
         onItemAdd: (_value: any, _item: any) => {
             glyphSelect.setTextboxValue();
             glyphSelect.refreshOptions();
+        },
+        createFilter: function(input) {
+            return !(input.toLowerCase() in (this.options || []))
         }
     });
     new TomSelect("#category", {

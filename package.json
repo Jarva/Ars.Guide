@@ -7,6 +7,7 @@
     "start": "wrangler types && astro dev",
     "build": "wrangler types && astro check && astro build",
     "preview": "wrangler types && astro preview",
+    "register": "wrangler types && tsx src/scripts/register",
     "astro": "astro"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "sass": "^1.72.0",
+    "slugify": "^1.6.6",
     "tom-select": "^2.3.1",
     "typescript": "^5.4.3",
     "wrangler": "3.39.0",
@@ -55,6 +57,9 @@
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@types/bootstrap": "^5.2.10",
     "@types/core-js": "^2.5.8",
-    "core-js": "^3.36.1"
+    "@types/node": "20.12.11",
+    "core-js": "^3.36.1",
+    "dotenv": "16.4.5",
+    "tsx": "4.9.3"
   }
 }
