@@ -51,21 +51,5 @@ export default defineConfig({
   }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), compress(), metaTags(), lighthouse(), tunnel()],
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
-  },
-  vite: {
-    ssr: {
-      external: ['astro-og-canvas', 'node:fs', 'node:path']
-    }
-  },
-  output: "hybrid",
-  adapter: cloudflare({
-    routes: {
-      extend: {
-        exclude: [{ pattern: '/pagefind/*' }, { pattern: '/og/*' }]
-      }
-    },
-    platformProxy: {
-      enabled: true
-    }
-  }),
+  }
 });

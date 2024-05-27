@@ -1,34 +1,16 @@
-import type { APIContext } from 'astro';
 import { EmbedBuilder } from "@discordjs/builders";
-import { addonMap, glyphMap, spellFormSchema, transformMultiSelect, versionMap } from '../../utils/spell-form';
+import { addonMap, glyphMap, spellFormSchema, transformMultiSelect, versionMap } from '../../src/utils/spell-form';
+import { PagesFunction, Response } from '@cloudflare/workers-types'
 
-export const prerender = false;
-
-interface FormData {
-    author: string;
-    description: string;
-    spell: string;
-    glyphs: string;
-    category: string;
-    addons: string;
-    versions: string;
-    infinite: boolean;
+interface Env {
+	WEBHOOK_URL: string;
+    ADMIN_WEBHOOK_URL: string;
 }
 
-type CloudflareContext = APIContext & {
-    locals: APIContext["locals"] & {
-        runtime: {
-            env: {
-                [k: string]: string;
-            }
-        }
-    }
-}
 
-export async function POST(context: CloudflareContext) {
-    const { request, locals } = context;
+export const onRequestPost: PagesFunction<Env> = async (context) => {
+    const { request, env } = context;
     const form = await request.formData();
-    const { env } = locals.runtime;
   
     const body = spellFormSchema.parse(form);
     const url = new URL(request.url)
