@@ -71,3 +71,33 @@
 .expressive-code {
     margin: 1.5rem 0;
 }
+
+@import "tom-select/dist/scss/tom-select.bootstrap5.scss";
+
+.ts-dropdown, .ts-control, .ts-control-input {
+    color: inherit !important;
+}
+
+.ts-wrapper.multi .ts-control > div {
+    background: #5d2f86;
+    color: #fff;
+}
+
+.ts-wrapper.multi .ts-control > input {
+    color: #000;
+}
+
+@include color-mode(dark) {
+    .ts-wrapper.multi .ts-control > div {
+        background: hsl(224, 100%, 85%);
+        color: #000;
+    }
+
+    .ts-wrapper.multi .ts-control > input {
+        color: #fff;
+    }
+}
+
+.card-title {
+    margin-top: 0;
+}
