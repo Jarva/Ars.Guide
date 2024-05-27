@@ -53,5 +53,10 @@ export default defineConfig({
     rehypePlugins: [rehypeSlug, addHeaderLinks]
   },
   output: "hybrid",
-  adapter: cloudflare()
+  adapter: cloudflare(),
+  vite: {
+    build: {
+      minify: false
+    }
+  }
 });
