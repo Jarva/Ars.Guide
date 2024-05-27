@@ -51,7 +51,5 @@ export default defineConfig({
   }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), compress(), metaTags(), lighthouse(), tunnel()],
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
-  },
-  output: "hybrid",
-  adapter: cloudflare()
+  }
 });
