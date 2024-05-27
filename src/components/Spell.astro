@@ -22,7 +22,7 @@ const getGlyphText = getMapText(glyphMap);
     <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
     <h5 class="card-title mb-2">{glyphs.map(glyph => {
         const path = `../../assets/glyphs/${glyph}.png`;
-        if (existsSync(resolve(path))) {
+        if (existsSync(resolve(import.meta.dirname, path))) {
             return <Image class="me-1" src={`/glyphs/${glyph}.png`} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
         }
         return ` ➝ ${getGlyphText(glyph)} ➝ `;
