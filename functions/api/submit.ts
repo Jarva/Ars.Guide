@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "@discordjs/builders";
-import { addonMap, glyphMap, spellFormSchema, transformMultiSelect, versionMap } from '../../src/utils/spell-form';
+import { addonMap, glyphMap, spellFormSchema, transformMultiSelect } from '../../src/utils/spell-form';
 import { PagesFunction, Response } from '@cloudflare/workers-types'
 
 interface Env {
