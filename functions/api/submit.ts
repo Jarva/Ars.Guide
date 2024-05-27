@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { addonMap, glyphMap, spellFormSchema, transformMultiSelect } from '../../src/utils/spell-form';
-import { PagesFunction, Response } from '@cloudflare/workers-types'
+import type { PagesFunction, Response } from '@cloudflare/workers-types'
 
 interface Env {
 	WEBHOOK_URL: string;

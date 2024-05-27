@@ -47,6 +47,7 @@
     "rehype-slug": "^6.0.0",
     "sass": "^1.72.0",
     "typescript": "^5.4.3",
+    "zod": "^3.23.8",
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
