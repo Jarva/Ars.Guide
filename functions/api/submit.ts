@@ -23,8 +23,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             { name: "Category", value: body.category, inline: true },
             { name: "Addons", value: transformMultiSelect(addonMap)(body.addons).join(", "), inline: true },
             { name: "Description", value: body.description },
-            { name: "Versions", value: body.versions.split(",").join(", "), inline: true },
-            { name: "Requires Infinite Spell?", value: body.infinite ? "Yes" : "No", inline: true },
+            { name: "Versions", value: body.versions.split(",").join(", "), inline: true }
         ])
         .setTimestamp();
 

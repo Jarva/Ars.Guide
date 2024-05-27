@@ -1,6 +1,4 @@
 ---
-import { existsSync } from "node:fs";
-import { resolve } from "node:path";
 import { Image } from 'astro:assets';
 import { addonMap, glyphMap, getMapText } from "../utils/spell-form"
 
@@ -16,14 +14,16 @@ const { author, addons = [], glyphs, description, versions } = Astro.props;
 
 const getAddonText = getMapText(addonMap);
 const getGlyphText = getMapText(glyphMap);
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/assets/glyphs/*.{jpeg,jpg,png,gif}')
 ---
 
 <Fragment>
     <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
     <h5 class="card-title mb-2">{glyphs.map(glyph => {
-        const path = `../../assets/glyphs/${glyph}.png`;
-        if (existsSync(resolve(import.meta.dirname, path))) {
-            return <Image class="me-1" src={`/glyphs/${glyph}.png`} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
+        const path = `/assets/glyphs/${glyph}.png`;
+        if (images[path]) {
+            return <Image class="me-1" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
         }
         return ` ➝ ${getGlyphText(glyph)} ➝ `;
     })} {glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
