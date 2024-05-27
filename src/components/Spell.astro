@@ -25,7 +25,7 @@ const getGlyphText = getMapText(glyphMap);
         if (existsSync(resolve(import.meta.dirname, path))) {
             return <Image class="me-1" src={`/glyphs/${glyph}.png`} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
         }
-        return getGlyphText(glyph);
+        return ` ➝ ${getGlyphText(glyph)} ➝ `;
     })} {glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
     {description && <p class="card-text" style="white-space: pre-line;">
         <Fragment set:html={description} />
