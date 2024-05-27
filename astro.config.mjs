@@ -52,6 +52,11 @@ export default defineConfig({
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
   },
+  vite: {
+    ssr: {
+      external: ['astro-og-canvas']
+    }
+  },
   output: "hybrid",
   adapter: cloudflare({
     platformProxy: {
