@@ -1,12 +1,14 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { addonMap, glyphMap, spellFormSchema, transformMultiSelect } from '../../src/utils/spell-form';
 import type { PagesFunction } from '@cloudflare/workers-types'
-import { Response } from "@cloudflare/workers-types";
 
 interface Env {
 	WEBHOOK_URL: string;
     ADMIN_WEBHOOK_URL: string;
 }
+
+declare var self: ServiceWorkerGlobalScope;
+const { Response } = self;
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
