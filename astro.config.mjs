@@ -8,11 +8,10 @@ import rehypeSlug from 'rehype-slug';
 import pagefind from "astro-pagefind";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
-import compress from "astro-compress";
 import metaTags from "astro-meta-tags";
-import cloudflare from "@astrojs/cloudflare";
 import lighthouse from "astro-lighthouse";
 import tunnel from "astro-tunnel";
+import compressor from "astro-compressor";
 
 const addHeaderLinks = () => {
   return tree => {
@@ -38,6 +37,7 @@ const addHeaderLinks = () => {
   };
 };
 
+
 // https://astro.build/config
 export default defineConfig({
   publicDir: 'assets',
@@ -48,10 +48,8 @@ export default defineConfig({
     themeCssSelector(theme) {
       return `[data-bs-theme="${theme.type}"]`;
     }
-  }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), compress(), metaTags(), lighthouse(), tunnel()],
+  }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), metaTags(), lighthouse(), tunnel(), compressor()],
   markdown: {
     rehypePlugins: [rehypeSlug, addHeaderLinks]
-  },
-  output: "hybrid",
-  adapter: cloudflare()
+  }
 });

@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import { addonMap, glyphMap, getMapText } from "../utils/spell-form"
+
+interface Props {
+    author: string;
+    glyphs: string[];
+    addons?: string[];
+    description?: string;
+    versions: string[];
+}
+
+const { author, addons = [], glyphs, description, versions } = Astro.props;
+
+const getAddonText = getMapText(addonMap);
+const getGlyphText = getMapText(glyphMap);
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/assets/glyphs/*.{jpeg,jpg,png,gif}')
+---
+
+<Fragment>
+    <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
+    <h5 class="card-title mb-2">{glyphs.map(glyph => {
+        const path = `/assets/glyphs/${glyph}.png`;
+        if (images[path]) {
+            return <Image class="me-1" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
+        }
+        return ` ➝ ${getGlyphText(glyph)} ➝ `;
+    })} {glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
+    <p class="card-text" style="white-space: pre-line;">
+        {description && <Fragment set:html={description} />}
+        <div>
+            {addons.map(addon => <span class="badge text-bg-dark">{getAddonText(addon)}</span>)}
+            {versions.map(version => <span class="badge text-bg-dark">{version}</span>)}
+        </div>
+    </p>
+</Fragment>

@@ -1,0 +1,104 @@
+---
+---
+
+<form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" method="post" action="/api/submit">
+    <div class="mb-3">
+        <label for="author" class="form-label">Author</label>
+        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
+    </div>
+    <div class="mb-3">
+        <label for="spell" class="form-label">Spell</label>
+        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
+    </div>
+    <div class="mb-3">
+        <label for="glyphs" class="form-label">Glyphs</label>
+        <input name="glyphs" required class="form-control" id="glyphs" />
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input name="category" required class="form-control" id="category" />
+    </div>
+    <div class="mb-3">
+        <label for="addons" class="form-label">Addons</label>
+        <input name="addons" class="form-control" id="addons" />
+    </div>
+    <div class="mb-3">
+        <label for="versions" class="form-label">Versions</label>
+        <input name="versions" required class="form-control" id="versions" />
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea name="description" class="form-control" id="description" placeholder="Optional..." />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    import TomSelect from 'tom-select';
+    import { addons, categories, versions, glyphs, spellFormSchema } from '../utils/spell-form';
+    const glyphSelect = new TomSelect("#glyphs", {
+        labelField: 'text',
+	    searchField: ['text'],
+        sortField: 'text',
+        options: glyphs,
+        plugins: ['drag_drop', 'caret_position', 'remove_button'],
+        create: true,
+        hideSelected: false,
+        duplicates: true,
+        onItemAdd: (_value: any, _item: any) => {
+            glyphSelect.setTextboxValue();
+            glyphSelect.refreshOptions();
+        },
+        createFilter: function(input) {
+            return !(input.toLowerCase() in (this.options || []))
+        }
+    });
+    new TomSelect("#category", {
+        optgroups: [
+            { value: 'combat', label: 'Combat' },
+            { value: 'other', label: 'Other' },
+        ],
+        optgroupField: 'class',
+        labelField: 'text',
+	    searchField: ['text'],
+        options: categories,
+        maxItems: 1,
+    });
+    new TomSelect("#addons", {
+        labelField: 'text',
+	    searchField: ['text'],
+        options: addons,
+        create: true
+    });
+    new TomSelect("#versions", {
+        labelField: 'value',
+	    searchField: ['value'],
+        options: versions
+    });
+    const form = document.getElementById('spellForm');
+    const inputs = document.querySelectorAll('#spellForm input');
+    inputs.forEach(input => {
+        input.addEventListener('blur', (_event) => {
+            if ((input as HTMLFormElement).checkValidity()) {
+                input.classList.add('is-valid');
+                input.classList.remove('is-invalid');
+            } else {
+                input.classList.remove('is-valid');
+                input.classList.add('is-invalid');
+            }
+        }, false)
+    })
+    form?.addEventListener('submit', (event) => {
+        form.classList.add('was-validated');
+        if (!(form as HTMLFormElement).checkValidity()) {
+            event.preventDefault()
+		    event.stopPropagation()
+        }
+        const formData = new FormData(form as HTMLFormElement);
+        const parsed = spellFormSchema.safeParse(formData);
+        if (!parsed.success) {
+            event.preventDefault()
+		    event.stopPropagation()
+        }
+    }, false)
+</script>

@@ -6,8 +6,12 @@ const docsCollection = defineCollection({
 const kubejsCollection = defineCollection({
     type: 'content'
 });
+const spellsCollection = defineCollection({
+    type: 'content'
+});
 
 export const collections = {
     'docs': docsCollection,
-    'kubejs': kubejsCollection
+    'kubejs': kubejsCollection,
+    'spells': spellsCollection,
 };

@@ -10,14 +10,19 @@ export const NavItems = [
         label: "KubeJS",
         link: "/kubejs/getting-started/introduction/",
         collection: "kubejs"
-    }
+    },
+    {
+        label: "Spells",
+        link: "/spells/introduction/submit/",
+        collection: "spells"
+    },
 ]
 
 export const SocialItems = [
     {
         label: "Discord",
         icon: IconBrandDiscord,
-        link: "https://discord.com/invite/NyUa297KWB"
+        link: "https://discord.gg/y7TMXZu"
     },
     {
         label: "GitHub",
