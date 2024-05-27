@@ -35,8 +35,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         body: JSON.stringify({
             username: "Source Librarian",
             avatar_url: "https://cdn.discordapp.com/avatars/1235017501419765800/ff05eb9f01601892dd7b083dad16798d.webp?size=4096",
-            embeds: [embed.toJSON()],
-            allowed_mentions: false
+            embeds: [embed.toJSON()]
         })
     });
 
@@ -65,8 +64,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         body: JSON.stringify({
             username: "Source Librarian",
             avatar_url: "https://cdn.discordapp.com/avatars/1235017501419765800/ff05eb9f01601892dd7b083dad16798d.webp?size=4096",
-            content: adminContent.join("\n"),
-            allowed_mentions: false
+            content: adminContent.join("\n")
         })
     });
 
