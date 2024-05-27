@@ -101,3 +101,11 @@
 .card-title {
     margin-top: 0;
 }
+
+.glyph {
+    vertical-align: middle;
+}
+
+span.glyph + span.glyph::before {
+    content: "➝\00a0";
+}

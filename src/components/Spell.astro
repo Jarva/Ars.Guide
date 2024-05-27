@@ -16,6 +16,10 @@ const getAddonText = getMapText(addonMap);
 const getGlyphText = getMapText(glyphMap);
 
 const images = import.meta.glob<{ default: ImageMetadata }>('/assets/glyphs/*.{jpeg,jpg,png,gif}')
+
+function toTitleCase(str: string) {
+  return str.replaceAll("_", " ").replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());;
+}
 ---
 
 <Fragment>
@@ -25,13 +29,13 @@ const images = import.meta.glob<{ default: ImageMetadata }>('/assets/glyphs/*.{j
         if (images[path]) {
             return <Image class="me-1" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
         }
-        return ` ➝ ${getGlyphText(glyph)} ➝ `;
+        return <span class="h6 glyph me-1">{toTitleCase(getGlyphText(glyph))}</span>;
     })} {glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
     <p class="card-text" style="white-space: pre-line;">
         {description && <Fragment set:html={description} />}
         <div>
-            {addons.map(addon => <span class="badge text-bg-dark">{getAddonText(addon)}</span>)}
-            {versions.map(version => <span class="badge text-bg-dark">{version}</span>)}
+            <div>{addons.map(addon => <span class="badge text-bg-info me-1">{getAddonText(addon)}</span>)}</div>
+            <div>{versions.map(version => <span class="badge text-bg-primary me-1">{version}</span>)}</div>
         </div>
     </p>
 </Fragment>
