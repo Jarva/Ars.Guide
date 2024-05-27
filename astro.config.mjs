@@ -54,7 +54,7 @@ export default defineConfig({
   },
   vite: {
     ssr: {
-      external: ['astro-og-canvas']
+      external: ['astro-og-canvas', 'node:fs', 'node:path']
     }
   },
   output: "hybrid",
