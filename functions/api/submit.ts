@@ -1,14 +1,11 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { addonMap, glyphMap, spellFormSchema, transformMultiSelect } from '../../src/utils/spell-form';
-import type { PagesFunction } from '@cloudflare/workers-types'
+import type { PagesFunction, Response as WorkerResponse } from '@cloudflare/workers-types'
 
 interface Env {
 	WEBHOOK_URL: string;
     ADMIN_WEBHOOK_URL: string;
 }
-
-declare var self: ServiceWorkerGlobalScope;
-const { Response } = self;
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
@@ -79,5 +76,5 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         console.error("Discord Response", json);
     }
 
-    return Response.redirect(url.origin, 303);
+    return Response.redirect(url.origin, 303) as unknown as WorkerResponse;
 }
