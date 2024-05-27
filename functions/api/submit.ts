@@ -7,7 +7,6 @@ interface Env {
     ADMIN_WEBHOOK_URL: string;
 }
 
-
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
     const form = await request.formData();
