@@ -59,6 +59,11 @@ export default defineConfig({
   },
   output: "hybrid",
   adapter: cloudflare({
+    routes: {
+      extend: {
+        exclude: [{ pattern: '/pagefind/*' }, { pattern: '/og/*' }]
+      }
+    },
     platformProxy: {
       enabled: true
     }
