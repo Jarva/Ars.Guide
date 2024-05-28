@@ -6,6 +6,8 @@ interface Env {
     ADMIN_WEBHOOK_URL: string;
 }
 
+const clean = (str: string) => (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
     const form = await request.formData();
@@ -18,10 +20,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         "```markdown",
         `## ${body.spell}`,
         "<Spell",
-        `    author='${body.author}'`,
-        `    glyphs={${JSON.stringify(body.glyphs.split(","))}}`,
-        ...(body.description != "N/A" ? [`    description='${body.description}'`] : []),
-        `    versions={${JSON.stringify(body.versions.split(","))}}`,
+        `    author='${clean(body.author)}'`,
+        `    glyphs={${JSON.stringify(clean(body.glyphs).split(","))}}`,
+        ...(body.description != "N/A" ? [`    description='${clean(body.description)}'`] : []),
+        `    versions={${JSON.stringify(clean(body.versions).split(","))}}`,
         `/>`,
         "```"
     ]
