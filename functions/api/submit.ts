@@ -24,6 +24,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         `    glyphs={${JSON.stringify(clean(body.glyphs).split(","))}}`,
         ...(body.description != "N/A" ? [`    description='${clean(body.description)}'`] : []),
         `    versions={${JSON.stringify(clean(body.versions).split(","))}}`,
+        `    addons={${JSON.stringify(clean(body.addons).split(","))}}`,
         `/>`,
         "```"
     ]
