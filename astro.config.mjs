@@ -4,7 +4,7 @@ import react from "@astrojs/react";
 import purgecss from "astro-purgecss";
 import { visit } from 'unist-util-visit';
 import expressiveCode from "astro-expressive-code";
-import rehypeSlug from 'rehype-slug';
+import { rehypeHeadingIds } from '@astrojs/markdown-remark';
 import pagefind from "astro-pagefind";
 import sitemap from "@astrojs/sitemap";
 import robotsTxt from "astro-robots-txt";
@@ -50,6 +50,6 @@ export default defineConfig({
     }
   }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), metaTags(), lighthouse(), tunnel(), compressor()],
   markdown: {
-    rehypePlugins: [rehypeSlug, addHeaderLinks]
+    rehypePlugins: [rehypeHeadingIds, addHeaderLinks]
   }
 });
