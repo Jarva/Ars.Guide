@@ -13,3 +13,35 @@ import Spell from '../../../components/Spell.astro'
     description='Dropping items into the Smelt rune will smelt half a stack at a time. Stack two runes together to smelt a full stack as you toss them in. Works best when made permanent with chalk'
     versions={["1.16.5","1.18.2","1.19.2","1.20.1"]}
 />
+
+## Return to Sender
+<Spell
+    author='Xacris'
+    glyphs={["touch","rune","sensitive","pickup"]}
+    description='This spell will place a rune that will teleport any items or XP orbs near it to the player that cast it when it is triggered. Can be used to remotely send things to you across vast distances'
+    versions={["1.19.2","1.20.1"]}
+/>
+
+## Ore Processing
+<Spell
+    author='Lyrellion'
+    glyphs={["touch","place_block"]}
+    description='Place on a turret facing an empty block with a second turret on the other side.  Place an inventory adjacent to the turret and fill with ore blocks.  Set up redstone automation as desired to activate the turret.'
+    versions={["1.20.1"]}
+/>
+
+<Spell
+    author='Lyrellion'
+    glyphs={["touch","delay","break","amplify","fortune","fortune","fortune","fortune","pickup"]}
+    description='Place on turret on opposite side of empty block facing the previous turret.  Place an inventory adjacent to the turret for deposit. Automate with redstone as desired.  For best results, place both turrets on a synchronized signal that can be turned on and off.'
+    versions={["1.20.1"]}
+/>
+
+## Berry Picker
+<Spell
+    author='Xacris'
+    glyphs={["touch","chain","aoe","grow","grow","interact","grow","grow","interact","pickup"]}
+    description='This spell is intended to be used by a turret to grow and harvest a field of up to 32 Source Berry plants at rapid speed'
+    versions={["1.16.5","1.18.2","1.19.2","1.20.1"]}
+    addons={["tmg"]}
+/>

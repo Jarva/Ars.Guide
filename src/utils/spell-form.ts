@@ -181,7 +181,7 @@ export const spellFormSchema = zfd.formData({
     ),
     glyphs: zfd.text(
         z.string().min(1)
-    ),
+    ).transform(text => text.toLowerCase().replace(" ", "_")),
     category: zfd.text()
         .refine(val => val in categoryMap),
     addons: zfd.text(
