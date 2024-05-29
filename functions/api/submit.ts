@@ -1,12 +1,13 @@
 import { spellFormSchema } from '../../src/utils/spell-form';
 import type { PagesFunction, Response as WorkerResponse } from '@cloudflare/workers-types'
+import he from "he"
 
 interface Env {
 	WEBHOOK_URL: string;
     ADMIN_WEBHOOK_URL: string;
 }
 
-const clean = (str: string) => (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+const clean = (str: string) => he.encode(str, { useNamedReferences: true });
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
@@ -21,10 +22,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         `## ${body.spell}`,
         "<Spell",
         `    author='${clean(body.author)}'`,
-        `    glyphs={${JSON.stringify(clean(body.glyphs).split(","))}}`,
+        `    glyphs={${JSON.stringify(body.glyphs.split(","))}}`,
         ...(body.description != "N/A" ? [`    description='${clean(body.description)}'`] : []),
-        `    versions={${JSON.stringify(clean(body.versions).split(","))}}`,
-        `    addons={${JSON.stringify(clean(body.addons).split(","))}}`,
+        `    versions={${JSON.stringify(body.versions.split(","))}}`,
+        `    addons={${JSON.stringify(body.addons.split(","))}}`,
         `/>`,
         "```"
     ]

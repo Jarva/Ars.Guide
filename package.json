@@ -40,6 +40,7 @@
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
     "cssnano": "^6.1.1",
+    "he": "^1.2.0",
     "purgecss": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -58,6 +59,7 @@
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@types/bootstrap": "^5.2.10",
     "@types/core-js": "^2.5.8",
+    "@types/he": "^1.2.3",
     "core-js": "^3.36.1"
   }
 }

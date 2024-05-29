@@ -185,7 +185,7 @@ export const spellFormSchema = zfd.formData({
     category: zfd.text()
         .refine(val => val in categoryMap),
     addons: zfd.text(
-        z.string().min(1).catch("None")
+        z.string().min(1).catch("")
     ),
     versions: zfd.text(
         z.string().min(1)

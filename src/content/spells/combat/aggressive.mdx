@@ -6,6 +6,15 @@ weight: 0
 
 import Spell from '../../../components/Spell.astro'
 
+## Sandstorm
+<Spell
+    author='Lyrellion'
+    glyphs={["arc_projectile", "wall", "sensitive", "propagate_homing", "split", "split", "split", "conjure_terrain", "crush"]}
+    description='Fires volleys of sand in the direction you face, burying enemies. Requires Focus of Block Shaping.'
+    versions={["1.20.1"]}
+    addons={["elemental"]}
+/>
+
 ## Bladestorm
 <Spell
     author='Lyrellion'
@@ -19,5 +28,80 @@ import Spell from '../../../components/Spell.astro'
     author='Lyrellion'
     glyphs={["projectile", "launch", "amplify", "wind_shear", "launch", "amplify", "delay", "gravity", "amplify"]}
     description='Launch an enemy into the air then slam them down for massive damage.'
+    versions={["1.20.1"]}
+/>
+
+## Prismatic Barrage
+<Spell
+    author='Lyrellion'
+    glyphs={["touch", "sensitive", "wall", "sensitive", "phantom_block", "duration_down", "duration_down", "leap", "amplify", "amplify"]}
+    description='Fire volleys of blocks at enemies that disappear after a short time. Set spell color to rainbow. Requires Focus of Block Shaping.'
+    versions={["1.20.1"]}
+/>
+
+## Witchbolt
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "harm", "dispel"]}
+    description='For gathering Wixie tokens. Damages a witch then attempts to dispel her for the token. Will not work well with Ars Scalaes.'
+    versions={["1.20.1"]}
+/>
+
+## Omnislash
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "hex", "cut", "amplify", "delay", "cut", "amplify", "delay", "cut", "amplify"]}
+    description='Deals multiple instances of slashing damage to an enemy.'
+    versions={["1.20.1"]}
+/>
+
+## Arcane Missile
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "accelerate", "hex", "harm", "delay", "harm", "delay", "harm", "delay", "harm"]}
+    description='Basic ranged damage spell. Using delay to cause extra damage once triggering a players immunity-frames.'
+    versions={["1.20.1", "1.19.2"]}
+/>
+
+## Decay
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "wither", "amplify", "amplify", "amplify", "hex", "amplify", "amplify", "amplify", "amplify"]}
+    description='Deals heavy damage and negates healing.'
+    versions={["1.20.1"]}
+/>
+
+## Cloudkill
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "linger", "sensitive", "aoe", "aoe", "aoe", "propagate_arc", "envenom", "poison_spores", "amplify"]}
+    description='Create a poisonous cloud that deals damage to entities in the area.'
+    versions={["1.20.1"]}
+    addons={["elemental"]}
+/>
+
+## Bury
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "intangible", "amplify", "aoe", "aoe", "aoe", "pierce", "pierce", "duration_down"]}
+    description="Fire at the ground beneath an enemy's feet to cause them to fall into the terrain and rapidly be encased in it causing suffocation."
+    versions={["1.20.1"]}
+/>
+
+## Ice Storm
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "wall", "sensitive", "propagate_arc", "freeze", "cold_snap", "amplify", "cold_snap", "amplify", "amplify"]}
+    description='Deal heavy cold damage to a target and surrounding enemies.'
+    versions={["1.20.1"]}
+    addons={["elemental"]}
+/>
+
+## Chain Lightning
+<Spell
+    author='Lyrellion'
+    glyphs={["projectile", "wall", "sensitive", "propagate_homing", "split", "split", "lightning", "heal", "dampen"]}
+    description='Cause multiple volleys of lightning to strike a target and surrounding entities for MASSIVE damage. Pair with a Kindling and/or Shocking thread for best results.'
+    addons={["elemental"]}
     versions={["1.20.1"]}
 />
