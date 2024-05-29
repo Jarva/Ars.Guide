@@ -13,7 +13,7 @@ export const NavItems = [
     },
     {
         label: "Spells",
-        link: "/spells/introduction/submit/",
+        link: "/spells/introduction/compendium/",
         collection: "spells"
     },
 ]
