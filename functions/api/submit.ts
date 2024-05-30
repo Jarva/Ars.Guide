@@ -30,6 +30,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     if (body.addons.length > 0) {
         markdownBuilder.push(`    addons='${JSON.stringify(body.addons.split(","))}'`)
     }
+    markdownBuilder.push("```")
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
         method: "POST",
