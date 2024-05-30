@@ -16,19 +16,20 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const body = spellFormSchema.parse(form);
     const url = new URL(request.url)
 
-    const adminContent = [
-        "`" + body.category + ".mdx`",
-        "```markdown",
-        `## ${body.spell}`,
-        "<Spell",
-        `    author='${clean(body.author)}'`,
-        `    glyphs={${JSON.stringify(body.glyphs.split(","))}}`,
-        ...(body.description != "N/A" ? [`    description='${clean(body.description)}'`] : []),
-        `    versions={${JSON.stringify(body.versions.split(","))}}`,
-        `    addons={${JSON.stringify(body.addons.split(","))}}`,
-        `/>`,
-        "```"
-    ]
+    const markdownBuilder: string[] = [];
+    markdownBuilder.push("`" + body.category + ".mdx`");
+    markdownBuilder.push("```markdown")
+    markdownBuilder.push(`## ${body.spell}`)
+    markdownBuilder.push("<Spell")
+    markdownBuilder.push(`    author='${clean(body.author)}'`)
+    markdownBuilder.push(`    glyphs='${JSON.stringify(body.glyphs.split(","))}'`)
+    if (body.description != "N/A") {
+        markdownBuilder.push(`    description='${clean(body.description)}'`)
+    }
+    markdownBuilder.push(`    versions='${JSON.stringify(body.versions.split(","))}'`)
+    if (body.addons.length > 0) {
+        markdownBuilder.push(`    addons='${JSON.stringify(body.addons.split(","))}'`)
+    }
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
         method: "POST",
@@ -38,7 +39,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         body: JSON.stringify({
             username: "Source Librarian",
             avatar_url: "https://cdn.discordapp.com/avatars/1235017501419765800/ff05eb9f01601892dd7b083dad16798d.webp?size=4096",
-            content: adminContent.join("\n")
+            content: markdownBuilder.join("\n")
         })
     });
 

@@ -167,7 +167,7 @@ import Spell from '../../../components/Spell.astro'
     glyphs={["overhead","burst","sensitive","chain","propagate_homing","hex","harm","amplify","heal"]}
     description='Tier 3 Thread of kindling required. Does massive damage wherever the caster aims.'
     versions={["1.20.1","1.19.2"]}
-    addons={["tmg", "neg","elemental","trinkets"]}
+    addons={["tmg","neg","elemental","trinkets"]}
 />
 
 ## Aggressive Wall
@@ -202,7 +202,7 @@ import Spell from '../../../components/Spell.astro'
 
 Chaining can be removed, but it will loose it's large AOE."
     versions={["1.20.1"]}
-    addons={["tmg"]}
+    addons={["tmg","neg"]}
 />
 
 ## Enhanced Bladestorm
@@ -211,5 +211,31 @@ Chaining can be removed, but it will loose it's large AOE."
     glyphs={["aura","amplify","aoe","aoe","not_self","chain","burst","air_sword","amplify","amplify"]}
     description='Creates an area of effect around you that will attack enemies with powerful air swords.'
     versions={["1.20.1","1.19.2"]}
-    addons={["trinkets","tmg"]}
+    addons={["trinkets","tmg","neg"]}
+/>
+
+## Kamikaze Bomber
+<Spell
+    author='72Mansion'
+    glyphs={["orbit","split","split","split","split","explosion","aoe","aoe","aoe","aoe"]}
+    description='Any entity that touches one of your orbiting projectiles triggers an explosion with a decent AoE. You can remove splits from the orbit to add AoE for the explosion.'
+    versions={["1.20.1"]}
+/>
+
+## Thundering Gambit
+<Spell
+    author='Clement446'
+    glyphs={["ray","aoe","sensitive","chain","burst","sensitive","amplify","amplify","reset","blink"]}
+    description='You create a ball of thunder ahead of you, before teleporting in the middle of the thunderstorm.'
+    versions={["1.20.1"]}
+    addons={["tmg", "neg"]}
+/>
+
+## Block Missile Launcher
+<Spell
+    author='Darkfira'
+    glyphs={["touch","sensitive","place_block","leap","amplify","delay","snare","break","amplify","pickup"]}
+    description='*REQUIRES FOCUS OF BLOCK SHAPING* 
+Launches a single block in the direction you are facing dealing damage based on block hardness. You can replace "Place Block" with "Conjure Mageblock" and remove everything from delay onwards if you do not wish to use a specific block.'
+    versions={["1.16.5","1.18.2","1.20.1","1.19.2"]}
 />
