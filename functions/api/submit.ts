@@ -22,14 +22,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     markdownBuilder.push(`## ${body.spell}`)
     markdownBuilder.push("<Spell")
     markdownBuilder.push(`    author='${clean(body.author)}'`)
-    markdownBuilder.push(`    glyphs='${JSON.stringify(body.glyphs.split(","))}'`)
+    markdownBuilder.push(`    glyphs={${JSON.stringify(body.glyphs.split(","))}}`)
     if (body.description != "N/A") {
         markdownBuilder.push(`    description='${clean(body.description)}'`)
     }
-    markdownBuilder.push(`    versions='${JSON.stringify(body.versions.split(","))}'`)
+    markdownBuilder.push(`    versions={${JSON.stringify(body.versions.split(","))}}`)
     if (body.addons.length > 0) {
-        markdownBuilder.push(`    addons='${JSON.stringify(body.addons.split(","))}'`)
+        markdownBuilder.push(`    addons={${JSON.stringify(body.addons.split(","))}}`)
     }
+    markdownBuilder.push("/>")
     markdownBuilder.push("```")
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
