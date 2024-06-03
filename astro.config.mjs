@@ -12,7 +12,7 @@ import metaTags from "astro-meta-tags";
 import lighthouse from "astro-lighthouse";
 import tunnel from "astro-tunnel";
 import compressor from "astro-compressor";
-
+import svelte from "@astrojs/svelte";
 const addHeaderLinks = () => {
   return tree => {
     visit(tree, 'element', node => {
@@ -48,7 +48,7 @@ export default defineConfig({
     themeCssSelector(theme) {
       return `[data-bs-theme="${theme.type}"]`;
     }
-  }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), metaTags(), lighthouse(), tunnel(), compressor()],
+  }), mdx(), react(), purgecss(), pagefind(), sitemap(), robotsTxt(), metaTags(), lighthouse(), tunnel(), compressor(), svelte()],
   markdown: {
     rehypePlugins: [rehypeHeadingIds, addHeaderLinks]
   }

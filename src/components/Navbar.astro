@@ -4,6 +4,7 @@ import { IconX, IconSearch, IconMoon, IconSun, IconMenu, IconDotsVertical } from
 import { NavItems, SocialItems } from '../utils/nav-links'
 import type { Sidebar as SidebarType } from "../utils/sidebar";
 import Sidebar from "../components/Sidebar.astro";
+import StarbuncleRun from '../components/StarbuncleRun.svelte';
 
 interface Props {
     active: string;
@@ -56,6 +57,7 @@ const { active, sidebar } = Astro.props;
                             <a href={item.link} class={`nav-link${item.collection == active ? ' active' : ''}`}>{item.label}</a>   
                         </li>
                     )}
+                    <StarbuncleRun client:only />
                 </ul>
                 <button id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" type="button" aria-label="Search website">
                     <IconSearch size={24} />
