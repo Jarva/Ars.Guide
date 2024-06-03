@@ -15,6 +15,7 @@ const { active, sidebar } = Astro.props;
 ---
 
 <!-- <div class="header-bar sticky-top"></div> -->
+<StarbuncleRun client:only />
 <div class="sticky-top">
 <header class="navbar navbar-expand-lg">
     <div class="container-lg">
@@ -57,7 +58,6 @@ const { active, sidebar } = Astro.props;
                             <a href={item.link} class={`nav-link${item.collection == active ? ' active' : ''}`}>{item.label}</a>   
                         </li>
                     )}
-                    <StarbuncleRun client:only />
                 </ul>
                 <button id="searchToggleDesktop" class="btn btn-link nav-link p-2 d-none d-lg-block" type="button" aria-label="Search website">
                     <IconSearch size={24} />

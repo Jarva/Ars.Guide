@@ -4,6 +4,7 @@
     import { Tooltip } from "bootstrap";
 
     let wrapper: Element;
+    let tooltip: Tooltip | null = null;
 	let state = 'none';
 	let changeBegan = 0;
 	let starbuncles = [
@@ -25,7 +26,8 @@
 
     function updateTooltip() {
         if (wrapper == null) return;
-        new Tooltip(wrapper, {
+        if (tooltip != null) tooltip.dispose();
+        tooltip = new Tooltip(wrapper, {
             title: starbuncle.bio
         })
     }
@@ -72,11 +74,20 @@
 </script>
 
 <style>
+    .no-pointer {
+        pointer-events: none
+    }
+
+    .pointer {
+        pointer-events: auto;
+    }
+
     .buncle-container {
         overflow: hidden;
         height: 50px;
-        max-width: 600px;
-        flex-grow: 1;
+        max-width: 500px;
+        margin: auto;
+        margin-top: 10px;
     }
 
     .buncle-box {
@@ -107,12 +118,14 @@
     }
 </style>
 
-<div bind:this="{wrapper}" class="buncle-container" data-bs-toggle="tooltip" data-bs-placement="bottom">
-    <div class="buncle-name d-flex flex-column align-items-center">
-        <p class="mb-0 text-body-emphasis">{starbuncle.name}</p>
-        <p class="fs-6 lh-1">{starbuncle.adopter}</p>
-    </div>
-    <div class="buncle-box">
-        <img src={src} alt="animated running Starbuncle" class="buncle" class:mirrored={state === "BACKWARDS"} />
+<div class="container-lg fixed-top no-pointer">
+    <div bind:this="{wrapper}" class="buncle-container pointer" data-bs-toggle="tooltip" data-bs-placement="bottom">
+        <div class="buncle-name d-flex flex-column align-items-center">
+            <p class="mb-0 text-body-emphasis">{starbuncle.name}</p>
+            <p class="fs-6 lh-1">{starbuncle.adopter}</p>
+        </div>
+        <div class="buncle-box">
+            <img src={src} alt="animated running Starbuncle" class="buncle" class:mirrored={state === "BACKWARDS"} />
+        </div>
     </div>
 </div>
