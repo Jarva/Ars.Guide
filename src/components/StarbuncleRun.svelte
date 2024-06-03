@@ -74,8 +74,8 @@
 <style>
     .buncle-container {
         overflow: hidden;
-        height: 59px;
-        max-width: 500px;
+        height: 50px;
+        max-width: 600px;
         flex-grow: 1;
     }
 
@@ -92,15 +92,13 @@
     }
 
     .buncle {
-        height: 50px;
+        height: 100%;
         margin-left: -3px;
     }
 
     .buncle-name {
         position: relative;
-        /* top: 50%; */
-        /* left: 50%; */
-        /* transform: translate(-50%, -50%); */
+        height: 50px;
     }
 
     .mirrored {
