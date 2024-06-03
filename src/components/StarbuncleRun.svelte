@@ -3,10 +3,11 @@
 	import anime from 'animejs';
     import { Tooltip } from "bootstrap";
 
+    (anime as any).suspendWhenDocumentHidden = false;
+
     let wrapper: Element;
     let tooltip: Tooltip | null = null;
 	let state = 'none';
-	let changeBegan = 0;
 	let starbuncles = [
 		{
 			name: 'Bailey',
@@ -16,9 +17,8 @@
 		}
 	];
 
-	$: starbuncleIndex = 0;
-    $: starbuncle = starbuncles[0];
-	$: src = `/starbuncles/starbuncle_run_${starbuncles[starbuncleIndex].color}.gif`;
+    let starbuncle = starbuncles[0];
+	$: src = `/starbuncles/starbuncle_run_${starbuncles[0].color}.gif`;
 
 	function getRandomStarbuncleIndex() {
 		return Math.floor(Math.random() * starbuncles.length);
@@ -32,33 +32,55 @@
         })
     }
 
+    enum StateTypes {
+        FORWARDS = "FORWARDS",
+        BACKWARDS = "BACKWARDS",
+        WAITING = "WAITING"
+    }
+
+    function getType(newState: StateTypes) {
+        switch(newState) {
+            case 'FORWARDS':
+            case 'BACKWARDS': return "run"
+            default: return "sitting"
+        }
+    }
+
+    function setState(newState: StateTypes) {
+        state = newState;
+        const type = getType(newState);
+        src = `/starbuncles/starbuncle_${type}_${starbuncle.color}.${type == "run" ? "gif" : "png"}`
+    }
+
 	onMount(() => {
 		if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-			anime({
-				targets: '.buncle-box',
-				translateX: ['-25%', '79%'],
-				delay: 1000,
-				endDelay: 5000,
-				loop: true,
-				duration: 3500,
-				direction: 'alternate',
-				easing: 'linear',
-				changeBegin: function(_anim) {
-					changeBegan++;
-                    state = changeBegan % 2 === 1 ? 'FORWARDS' : 'BACKWARDS';
-                    src = `/starbuncles/starbuncle_run_${starbuncles[starbuncleIndex].color}.gif`;
-				},
-				changeComplete: function(_anim) {
-					if (changeBegan % 2 === 1) {
-						state = 'WAITING';
-						src = `/starbuncles/starbuncle_sitting_${starbuncles[starbuncleIndex].color}.png`;
-					} else {
-						starbuncleIndex = getRandomStarbuncleIndex();
-                        starbuncle = starbuncles[starbuncleIndex];
-                        updateTooltip();
-					}
-				}
-			});
+            anime.timeline({
+                targets: '.buncle-box',
+                loop: true,
+                easing: 'linear'
+            }).add({
+                translateX: '80%',
+                duration: 3500,
+                changeBegin(_anim) {
+                    setState(StateTypes.FORWARDS)
+                },
+            }).add({
+                duration: 5000,
+                changeBegin(_anim) {
+                    setState(StateTypes.WAITING);
+                },
+            }).add({
+                translateX: '-25%',
+                endDelay: 1000,
+                duration: 3500,
+                changeBegin(_anim) {
+                    setState(StateTypes.BACKWARDS);
+                },
+                changeComplete(_anim) {
+                    starbuncle = starbuncles[getRandomStarbuncleIndex()];
+                    updateTooltip();
+                },
+            });
 		}
 
 		fetch('https://raw.githubusercontent.com/baileyholl/Ars-Nouveau/main/supporters.json')
@@ -118,13 +140,13 @@
     }
 </style>
 
-<div class="container-lg fixed-top no-pointer">
+<div class="container-lg fixed-top no-pointer d-none d-lg-block">
     <div bind:this="{wrapper}" class="buncle-container pointer" data-bs-toggle="tooltip" data-bs-placement="bottom">
         <div class="buncle-name d-flex flex-column align-items-center">
             <p class="mb-0 text-body-emphasis">{starbuncle.name}</p>
             <p class="fs-6 lh-1">{starbuncle.adopter}</p>
         </div>
-        <div class="buncle-box">
+        <div class="buncle-box" style="transform: translateX(-25%)">
             <img src={src} alt="animated running Starbuncle" class="buncle" class:mirrored={state === "BACKWARDS"} />
         </div>
     </div>
