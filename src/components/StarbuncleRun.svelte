@@ -3,35 +3,6 @@
 	import anime from 'animejs';
     import { Tooltip } from "bootstrap";
 
-    (anime as any).suspendWhenDocumentHidden = false;
-
-    let wrapper: Element;
-    let tooltip: Tooltip | null = null;
-	let state = 'none';
-	let starbuncles = [
-		{
-			name: 'Bailey',
-			adopter: 'Ars Nouveau Team',
-			bio: 'Ars Nouveau is a passion project brought to life by hundreds of contributions from the community. We hope you enjoy this Rainbow-buncle as much as we enjoy making this mod! Thanks for playing!',
-			color: 'red'
-		}
-	];
-
-    let starbuncle = starbuncles[0];
-	$: src = `/starbuncles/starbuncle_run_${starbuncles[0].color}.gif`;
-
-	function getRandomStarbuncleIndex() {
-		return Math.floor(Math.random() * starbuncles.length);
-	}
-
-    function updateTooltip() {
-        if (wrapper == null) return;
-        if (tooltip != null) tooltip.dispose();
-        tooltip = new Tooltip(wrapper, {
-            title: starbuncle.bio
-        })
-    }
-
     enum StateTypes {
         FORWARDS = "FORWARDS",
         BACKWARDS = "BACKWARDS",
@@ -49,7 +20,39 @@
     function setState(newState: StateTypes) {
         state = newState;
         const type = getType(newState);
-        src = `/starbuncles/starbuncle_${type}_${starbuncle.color}.${type == "run" ? "gif" : "png"}`
+        const color = starbuncle.color == "rainbow" ? "white" : starbuncle.color;
+        src = `/starbuncles/starbuncle_${type}_${color}.${type == "run" ? "gif" : "png"}`
+    }
+
+    (anime as any).suspendWhenDocumentHidden = false;
+
+    let wrapper: Element;
+    let tooltip: Tooltip | null = null;
+	let state = 'none';
+	let starbuncles = [
+		{
+			name: 'Bailey',
+			adopter: 'Ars Nouveau Team',
+			bio: 'Ars Nouveau is a passion project brought to life by hundreds of contributions from the community. We hope you enjoy this Rainbow-buncle as much as we enjoy making this mod! Thanks for playing!',
+			color: 'rainbow'
+		}
+	];
+
+    let starbuncle = starbuncles[0];
+	$: src = "";
+    
+    setState(StateTypes.FORWARDS);
+
+	function getRandomStarbuncleIndex() {
+		return Math.floor(Math.random() * starbuncles.length);
+	}
+
+    function updateTooltip() {
+        if (wrapper == null) return;
+        if (tooltip != null) tooltip.dispose();
+        tooltip = new Tooltip(wrapper, {
+            title: starbuncle.bio
+        })
     }
 
 	onMount(() => {
@@ -127,6 +130,7 @@
     .buncle {
         height: 100%;
         margin-left: -3px;
+        image-rendering: crisp-edges;
     }
 
     .buncle-name {
@@ -138,6 +142,22 @@
         transform: scaleX(-1);
         margin-left: -7px;
     }
+
+    .rainbow {
+        animation-name: rainbow;
+        animation-duration: 15s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+    }
+
+    @keyframes rainbow {
+        0% {
+            filter: sepia() saturate(2.25) hue-rotate(0deg);
+        }
+        100% {
+            filter: sepia() saturate(2.25) hue-rotate(360deg);
+        }
+    }
 </style>
 
 <div class="container-lg fixed-top no-pointer d-none d-lg-block">
@@ -147,7 +167,7 @@
             <p class="fs-6 lh-1">{starbuncle.adopter}</p>
         </div>
         <div class="buncle-box" style="transform: translateX(-25%)">
-            <img src={src} alt="animated running Starbuncle" class="buncle" class:mirrored={state === "BACKWARDS"} />
+            <img src={src} alt="animated running Starbuncle" class="buncle" class:mirrored={state === "BACKWARDS"} class:rainbow={starbuncle.color === "rainbow"} />
         </div>
     </div>
 </div>
