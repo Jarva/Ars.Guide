@@ -4,6 +4,7 @@ import { IconX, IconSearch, IconMoon, IconSun, IconMenu, IconDotsVertical } from
 import { NavItems, SocialItems } from '../utils/nav-links'
 import type { Sidebar as SidebarType } from "../utils/sidebar";
 import Sidebar from "../components/Sidebar.astro";
+import StarbuncleRun from '../components/StarbuncleRun.svelte';
 
 interface Props {
     active: string;
@@ -14,6 +15,7 @@ const { active, sidebar } = Astro.props;
 ---
 
 <!-- <div class="header-bar sticky-top"></div> -->
+<StarbuncleRun client:only />
 <div class="sticky-top">
 <header class="navbar navbar-expand-lg">
     <div class="container-lg">
