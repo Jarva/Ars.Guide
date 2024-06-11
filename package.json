@@ -42,6 +42,7 @@
     "astro-tunnel": "^0.1.6",
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
+    "canvaskit-wasm": "^0.39.1",
     "cssnano": "^6.1.1",
     "he": "^1.2.0",
     "purgecss": "^5.0.0",
