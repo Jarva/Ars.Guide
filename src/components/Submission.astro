@@ -1,0 +1,31 @@
+---
+import { getMapText } from "../utils/spell-form"
+import {addonMap} from "../utils/spell-compendium/data/addons";
+import type { Submission } from '../utils/spell-compendium/spells';
+import Glyphs from './Glyphs.astro'
+import {slug} from "github-slugger";
+import { toTitleCase } from "../utils/text";
+
+type Props = Submission & {
+    standalone: boolean;
+};
+
+const { author, addons, versions, spells, name, category, standalone } = Astro.props;
+const getAddonText = getMapText(addonMap);
+---
+
+{!standalone && <h2 id={name.toLowerCase()}>
+    {name}<a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${name.toLowerCase()} permalink`} href={`./${category}/${slug(name)}`}>#</a>
+</h2>}
+<h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
+{spells.map(spell => (
+    <h5 class="card-title mb-2"><Glyphs glyphs={spell.glyphs} />{spell.glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
+    <p class="card-text" style="white-space: pre-line;">
+        <Fragment set:html={spell.description} />
+    </p>
+))}
+<div>
+    {standalone && <div><span class="badge text-bg-info me-1">{toTitleCase(category)}</span></div>}
+    <div>{addons.map(addon => <span class="badge text-bg-info me-1">{getAddonText(addon)}</span>)}</div>
+    <div>{versions.map(version => <span class="badge text-bg-primary me-1">{version}</span>)}</div>
+</div>

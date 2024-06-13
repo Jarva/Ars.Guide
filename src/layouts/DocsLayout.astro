@@ -3,27 +3,31 @@ import { IconPencil, IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import BaseLayout from "./BaseLayout.astro"
 import { editLink } from "../utils/constants"
 import Sidebar from "../components/Sidebar.astro";
-import { getSidebar, getHeadings, type GenericCollectionEntry, getPreviousEntry, getNextEntry } from "../utils/sidebar";
+import { getSidebar, getHeadings, type GenericCollectionEntry, getPreviousEntry, getNextEntry, type Sidebar as TSidebar, type ParentHeading } from "../utils/sidebar";
 import type { MarkdownHeading } from "astro";
 import Heading from "../components/Heading.astro";
 import Seo from "../components/Seo.astro";
 
 interface Props {
-  entry: GenericCollectionEntry;
-  headings?: MarkdownHeading[]
+  sidebar: TSidebar;
+  headings?: ParentHeading[];
+  title: string;
+  description: string;
+  path: string;
+  collection: string;
+  slug: string;
+  editPath: string;
 }
 
-const { entry, headings = [] } = Astro.props;
-const sidebar = await getSidebar(entry);
-const formattedHeadings = getHeadings(headings);
+const { collection, slug, headings: formattedHeadings = [], sidebar, title, description, path, editPath } = Astro.props;
 
-const prev = getPreviousEntry(entry, sidebar);
-const next = getNextEntry(entry, sidebar);
+const prev = getPreviousEntry(slug, sidebar);
+const next = getNextEntry(slug, sidebar);
 ---
 
-<BaseLayout layout="section docs" sidebar={sidebar} collection={entry.collection}>
+<BaseLayout layout="section docs" sidebar={sidebar} collection={collection}>
   <Fragment slot="head">
-    <Seo title={entry.data.title} description={entry.data.description} path={`${entry.collection}/${entry.slug}`} />
+    <Seo title={title} description={description} path={path} />
   </Fragment>
     <div class="wrap container-lg" role="document">
         <div class="content">
@@ -35,7 +39,7 @@ const next = getNextEntry(entry, sidebar);
                 </div>
                 <nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
                   <div class="page-links">
-                    {headings.length > 0 && <>
+                    {formattedHeadings.length > 0 && <>
                       <h3>On this page</h3>
                       <nav id="toc">
                         <ul>
@@ -46,8 +50,8 @@ const next = getNextEntry(entry, sidebar);
                   </div>
                 </nav>
                 <main class="docs-content col-lg-11 col-xl-9" data-pagefind-body>
-                    <h1 data-pagefind-meta="title">{entry.data.title}</h1>
-                    {headings.length > 0 && <nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
+                    <h1 data-pagefind-meta="title">{title}</h1>
+                    {formattedHeadings.length > 0 && <nav class="toc-mobile d-xl-none" aria-label="Quaternary navigation">
                       <details>
                         <summary>
                           On this page
@@ -64,7 +68,7 @@ const next = getNextEntry(entry, sidebar);
                     <slot />
                     <div data-pagefind-ignore="all" class="page-footer-meta d-flex flex-column flex-md-row justify-content-between">
                         <div class="edit-page">
-                            <a href={`${editLink}/${entry.collection}/${entry.id}`}>
+                            <a href={`${editLink}/${editPath}`}>
                                 <IconPencil size={16} />
                                 Edit this page on GitHub
                             </a>

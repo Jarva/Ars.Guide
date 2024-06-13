@@ -206,7 +206,6 @@
             const result = template.cloneNode(true);
             const a = result.querySelector('a');
             const content = result.querySelector('.content');
-            console.log("Got Data", data);
             a.innerHTML = data.meta.title;
             a.href = data.url;
             content.innerHTML = data.excerpt;

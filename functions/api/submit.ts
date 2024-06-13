@@ -1,4 +1,5 @@
 import { spellFormSchema } from '../../src/utils/spell-form';
+import type { Submission } from '../../src/utils/spell-compendium/spells';
 import type { PagesFunction, Response as WorkerResponse } from '@cloudflare/workers-types'
 import he from "he"
 
@@ -16,22 +17,25 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const body = spellFormSchema.parse(form);
     const url = new URL(request.url)
 
+    const submission: Submission = {
+        name: body.spell,
+        category: body.category,
+        author: body.author,
+        versions: body.versions,
+        addons: body.addons,
+        spells: [
+            {
+                glyphs: body.glyphs,
+                description: body.description
+            }
+        ]
+    }
+
     const markdownBuilder: string[] = [];
-    markdownBuilder.push("`" + body.category + ".mdx`");
-    markdownBuilder.push("```markdown")
-    markdownBuilder.push(`## ${body.spell}`)
-    markdownBuilder.push("<Spell")
-    markdownBuilder.push(`    author='${clean(body.author)}'`)
-    markdownBuilder.push(`    glyphs={${JSON.stringify(body.glyphs.split(","))}}`)
-    if (body.description != "N/A") {
-        markdownBuilder.push(`    description='${clean(body.description)}'`)
-    }
-    markdownBuilder.push(`    versions={${JSON.stringify(body.versions.split(","))}}`)
-    if (body.addons.length > 0) {
-        markdownBuilder.push(`    addons={${JSON.stringify(body.addons.split(","))}}`)
-    }
-    markdownBuilder.push("/>")
-    markdownBuilder.push("```")
+
+    markdownBuilder.push("```json");
+    markdownBuilder.push(JSON.stringify(submission));
+    markdownBuilder.push("```");
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
         method: "POST",

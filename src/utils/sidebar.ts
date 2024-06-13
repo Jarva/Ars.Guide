@@ -1,5 +1,5 @@
 import type { MarkdownHeading } from "astro";
-import { getCollection, type CollectionEntry, type CollectionKey } from "astro:content"
+import { getCollection, type CollectionEntry, type CollectionKey, type AnyEntryMap } from "astro:content"
 import "core-js/es/array/to-sorted";
 
 export type GenericCollectionEntry = CollectionEntry<CollectionKey>
@@ -19,8 +19,8 @@ interface SectionAccumulator {
 
 export type Sidebar = ParentSection[];
 
-export const getSidebar = async (entry: GenericCollectionEntry): Promise<Sidebar> => {
-    const allEntries = await getCollection(entry.collection);
+export const getSidebar = async (collection: keyof AnyEntryMap, slug: string): Promise<Sidebar> => {
+    const allEntries = await getCollection(collection);
 
     const sectionEntries = allEntries.reduce<SectionAccumulator>((acc, curr) => {
         const top = getTopLevel(curr)
@@ -28,10 +28,10 @@ export const getSidebar = async (entry: GenericCollectionEntry): Promise<Sidebar
         if (curr.slug === top) {
             section.entry = curr;
         } else {
-            section.children.push({ entry: curr, active: curr.slug == entry.slug });
+            section.children.push({ entry: curr, active: curr.slug == slug });
             section.children.sort((a, b) => a.entry.data.weight - b.entry.data.weight);
         }
-        if (curr.slug == entry.slug) {
+        if (curr.slug == slug) {
             section.active = true;
         }
         acc[top] = section;
@@ -41,16 +41,16 @@ export const getSidebar = async (entry: GenericCollectionEntry): Promise<Sidebar
     return Object.values(sectionEntries).toSorted((a, b) => a.entry.data.weight - b.entry.data.weight);
 }
 
-export const getPreviousEntry = (entry: GenericCollectionEntry, sidebar: Sidebar) => {
+export const getPreviousEntry = (slug: string, sidebar: Sidebar) => {
     const entries = sidebar.flatMap(section => section.children);
-    const idx = entries.findIndex(e => e.entry.slug == entry.slug);
+    const idx = entries.findIndex(e => e.entry.slug == slug);
     if (idx == 0) return null;
     return entries[idx - 1];
 }
 
-export const getNextEntry = (entry: GenericCollectionEntry, sidebar: Sidebar) => {
+export const getNextEntry = (slug: string, sidebar: Sidebar) => {
     const entries = sidebar.flatMap(section => section.children);
-    const idx = entries.findIndex(e => e.entry.slug == entry.slug);
+    const idx = entries.findIndex(e => e.entry.slug == slug);
     if (idx == entries.length - 1) return null;
     return entries[idx + 1];
 }

@@ -1,0 +1,19 @@
+---
+import Submission from './Submission.astro'
+import type { Category } from "../utils/spell-compendium/data/categories";
+import { getSubmissionsFromCategory } from "../utils/spell-compendium/category";
+
+interface Props {
+    category: Category
+}
+
+const { category } = Astro.props;
+
+const submissions = getSubmissionsFromCategory(category);
+---
+
+<Fragment>
+    {submissions.map(submission =>
+        <Submission standalone={false} {...submission} />
+    )}
+</Fragment>

@@ -4,48 +4,6 @@ description: "A list of Exploration spells"
 weight: 0
 ---
 
-import Spell from '../../../components/Spell.astro'
+import CategorySubmissions from '../../../components/CategorySubmissions.astro'
 
-## Flight
-<Spell
-    author='Lyrellion'
-    spell='Flight'
-    glyphs={["self", "launch", "amplify", "glide", "extend_time", "extend_time", "extend_time", "extend_time"]}
-    description='Launch yourself into the air and gain flight for an extended duration.<br/>Replace Self with Touch to grant flight to another player.'
-    versions={["1.20.1"]}
-/>
-
-## Ethereal Path
-<Spell
-    author='Danicus'
-    glyphs={["projectile","pierce","pierce","intangible","aoe","aoe","pierce","pierce","extend_time","extend_time"]}
-    description='A spell that will allow you to easily pass through walls and floors.'
-    versions={["1.20.1"]}
-/>
-
-## Rainbow Road
-<Spell
-    author='Xacris'
-    glyphs={["echoing_projectile","extend_time","extend_time","extend_time","decelerate","delay","propagate_underfoot","phantom_block","aoe","aoe"]}
-    description='This spell will conjure a series of floating platforms that form a solid walkway as it flies! Set the spell color to rainbow for even more fun'
-    versions={["1.20.1"]}
-    addons={["neg"]}
-/>
-
-## Instant Transmission
-<Spell
-    author='Xacris'
-    glyphs={["ray","aoe","aoe","aoe","aoe","aoe","aoe","aoe","blink"]}
-    description='Instantly teleport up to where you are looking, up to 128 blocks away'
-    versions={["1.16.5","1.18.2","1.19.2","1.20.1"]}
-    addons={["tmg","neg"]}
-/>
-
-## Bridge Chasm
-<Spell
-    author='Lyrellion'
-    glyphs={["projectile","reverse_direction","conjure terrain","pierce","pierce","pierce","pierce","pierce","pierce","pierce"]}
-    description='Fire at the opposite wall of a chasm to create a narrow bridge you can cross.'
-    versions={["1.20.1"]}
-    addons={["tmg","neg","elemental"]}
-/>
+<CategorySubmissions category={"exploration"} />

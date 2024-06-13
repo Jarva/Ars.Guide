@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import { collections } from '../../content/config';
 import { getPath } from '../../utils/path';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import type { GenericCollectionEntry } from '../../utils/sidebar';
+import { getSidebar, type GenericCollectionEntry, getHeadings } from '../../utils/sidebar';
 import type { CollectionKey } from 'astro:content';
 
 interface Props {
@@ -16,9 +16,6 @@ export async function getStaticPaths() {
         const entries = await getCollection(collection as CollectionKey);
         for (const entry of entries) {
             const slug = entry.slug;
-            // if (slug == "index") {
-            //     paths.push(getPath({ collection, entry }));
-            // }
             paths.push(getPath({ collection, entry, slug }));
         }
     }
@@ -27,7 +24,9 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await entry.render();
+const sidebar = await getSidebar(entry.collection, entry.slug);
+const formattedHeadings = getHeadings(headings);
 ---
-<DocsLayout entry={entry} headings={headings}>
+<DocsLayout editPath={`/content/${entry.collection}/${entry.id}`} collection={entry.collection} slug={entry.slug} headings={formattedHeadings} sidebar={sidebar} title={entry.data.title} description={entry.data.description} path={`${entry.collection}/${entry.slug}`}>
     <Content />
 </DocsLayout>

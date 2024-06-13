@@ -1,0 +1,57 @@
+---
+import type { GetStaticPaths } from "astro";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { categoryMap, type Category } from "../../utils/spell-compendium/data/categories";
+import { getSubmissionsFromCategory } from "../../utils/spell-compendium/category";
+import { getSidebar } from "../../utils/sidebar";
+import type { Submission as TSubmission } from "../../utils/spell-compendium/spells";
+import Submission from "../../components/Submission.astro";
+import { slug as slugify } from 'github-slugger'
+import { toTitleCase } from "../../utils/text";
+
+interface Props {
+    submission: TSubmission;
+    category: Category;
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+    const getParentCategory = (category: Category) => {
+        switch (category) {
+            case "aggressive":
+            case "defensive":
+            case "support": return "combat";
+            default: return "other"
+        }
+    }
+
+    const paths = [];
+
+    for (const category of Object.keys(categoryMap)) {
+        const submissions = await getSubmissionsFromCategory(category as Category);
+
+        for (const submission of submissions) {
+            const parent = getParentCategory(category as Category);
+            paths.push({
+                params: {
+                    slug: `${parent}/${category}/${slugify(submission.name)}`
+                },
+                props: {
+                    category,
+                    submission,
+                }
+            });
+        }
+    }
+
+    return paths;
+}
+
+const { slug } = Astro.params;
+const { submission, category } = Astro.props;
+const sidebar = await getSidebar("spells", slug as string);
+
+const description = submission.name;
+---
+<DocsLayout collection="spells" slug={slug as string} headings={[]} sidebar={sidebar} title={toTitleCase(submission.name)} description={description} path={`spells/${slug}`} editPath="">
+    <Submission standalone={true} {...submission} />
+</DocsLayout>
