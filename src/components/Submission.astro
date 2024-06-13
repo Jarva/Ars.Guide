@@ -15,7 +15,7 @@ const getAddonText = getMapText(addonMap);
 ---
 
 {!standalone && <h2 id={name.toLowerCase()}>
-    {name}<a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${name.toLowerCase()} permalink`} href={`./${category}/${slug(name)}`}>#</a>
+    {name}<a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${name.toLowerCase()} permalink`} href={`${Astro.url}/${slug(name)}`}>#</a>
 </h2>}
 <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
 {spells.map(spell => (
