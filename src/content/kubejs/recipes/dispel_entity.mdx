@@ -1,0 +1,40 @@
+---
+title: "Dispel Entity"
+description: "Example recipes for Dispel Entity"
+weight: 810
+---
+
+## Add a new Dispel Entity recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This is the Dispel Entity recipe that allows you to dispel a Blaze that is on fire for it to drop loot.
+
+| Key               | Description                                                             |
+|-------------------|-------------------------------------------------------------------------|
+| `entity`          | The entity that was dispelled                                           |
+| `loot_conditions` | A list of loot conditions, all loot table conditions should be eligible |
+| `loot_table`      | The loot table that should produce loot after the dispel                |
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:dispel_entity",
+    entity: "minecraft:blaze",
+    id: "ars_nouveau:blaze_powder",
+    loot_conditions: [
+      {
+        condition: "minecraft:entity_properties",
+        entity: "this",
+        predicate: {
+          flags: {
+            is_on_fire: true
+          }
+        }
+      }
+    ],
+    loot_table: "minecraft:entities/blaze"
+  });
+});
+```
+

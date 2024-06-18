@@ -1,0 +1,41 @@
+---
+title: "Crush"
+description: "Example recipes for Crush"
+weight: 810
+---
+
+import Glyph from "../../../components/Glyph.astro"
+
+## Add a new Crush recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+These recipes will affect the usage of <Glyph glyph="crush" /> on blocks and item entities.
+
+| Key                | Description                                                    |
+|--------------------|----------------------------------------------------------------|
+| `chance`           | The chance of the output being produced, from 0-1              |
+| `skip_block_place` | Whether Crush will effect this item when floating in the world |
+
+```js
+const getItem = (item) => ({
+  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
+});
+
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:crush",
+    input: getItem("minecraft:azure_bluet"),
+    output: [
+      {
+        chance: 1.0,
+        count: 2,
+        item: "minecraft:light_gray_dye",
+        maxRange: 1
+      }
+    ],
+    skip_block_place: false
+  });
+});
+```
+

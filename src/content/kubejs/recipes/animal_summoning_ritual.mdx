@@ -1,0 +1,38 @@
+---
+title: "Animal Summoning Ritual"
+description: "Example recipes for the Animal Summoning Ritual"
+weight: 810
+---
+
+## Add a new Animal Summoning Ritual recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This is the Animal Summoning Ritual recipe that allows you to summon 5 bats when augmenting the ritual with an Amethyst Shard.
+
+| Key       | Description                                          |
+|-----------|------------------------------------------------------|
+| `augment` | Ingredient that should be use to augment this ritual |
+| `count`   | The amount of mobs to spawn                          |
+| `mob`     | The entity ID of the mob to spawn                    |
+| `weight`  | The chance the mob is selected from the list         |
+| `source`  | always keep this as `MOB_LIST`                       |
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:summon_ritual",
+    augment: {
+      "item": "minecraft:amethyst_shard"
+    },
+    count: 5,
+    mobs: [
+      {
+        mob: "minecraft:bat",
+        weight: 1
+      }
+    ],
+    source: "MOB_LIST"
+  });
+});
+```

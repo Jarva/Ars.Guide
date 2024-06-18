@@ -1,0 +1,28 @@
+---
+title: "Budding Conversion"
+description: "Example recipes for Budding Conversion"
+weight: 810
+---
+
+## Add a new Budding Conversion recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This is the Budding Conversion recipe that allows Amethyst Golems to convert amethyst blocks to budding amethyst.
+
+| Key      | Description                       |
+|----------|-----------------------------------|
+| `input`  | Block ID that should be converted |
+| `result` | Block ID that should be produced  |
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:budding_conversion",
+    id: "ars_nouveau:budding_amethyst",
+    input: "minecraft:amethyst_block",
+    result: "minecraft:budding_amethyst"
+  });
+});
+```
+

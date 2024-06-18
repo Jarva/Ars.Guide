@@ -109,3 +109,9 @@
 span.glyph + span.glyph::before {
     content: "➝\00a0";
 }
+
+.badge {
+    display: block;
+    max-width: fit-content;
+    margin-bottom: 20px;
+}

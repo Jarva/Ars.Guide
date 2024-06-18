@@ -1,26 +1,13 @@
 ---
-import { Image } from 'astro:assets';
-import { glyphMap, type Glyph } from "../utils/spell-compendium/data/glyphs";
-import { getMapText } from "../utils/spell-form"
-import { toTitleCase } from '../utils/text';
-
-const images = import.meta.glob<{ default: ImageMetadata }>('/assets/glyphs/*.{jpeg,jpg,png,gif}')
-const getGlyphText = getMapText(glyphMap);
-
+import Glyph from "./Glyph.astro";
+import { type Glyph as TGlyph } from "../utils/spell-compendium/data/glyphs";
 
 interface Props {
-    glyphs: Glyph[]
+    glyphs: TGlyph[]
 }
 
 const { glyphs } = Astro.props;
 ---
 <Fragment>
-    {glyphs.map(glyph => {
-        const path = `/assets/glyphs/${glyph}.png`;
-
-        if (images[path]) {
-            return <Image class="me-1" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
-        }
-        return <span class="h6 glyph me-1">{toTitleCase(getGlyphText(glyph))}</span>;
-    })}
+    {glyphs.map(glyph => <Glyph classes="me-1" glyph={glyph} />)}
 </Fragment>

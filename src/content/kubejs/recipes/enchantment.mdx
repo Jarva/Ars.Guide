@@ -1,0 +1,41 @@
+---
+title: "Enchantment"
+description: "Example recipes for Enchantments"
+weight: 810
+---
+
+## Add a new Enchantment recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+| Key             | Description                                                                                            |
+|-----------------|--------------------------------------------------------------------------------------------------------|
+| `level`         | The level of the enchantment to output, if greater than 1 it requires the previous level to be present |
+| `source`        | How much source is required                                                                            |
+| `pedestalItems` | A list of items required on pedestals around the Enchanting Apparatus                                  |
+
+```js
+const getItem = (item) => ({
+  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
+});
+
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:enchantment",
+    enchantment: "minecraft:blast_protection",
+    level: 1,
+    pedestalItems: [
+      {
+        "item": getItem("#forge:storage_blocks/iron")
+      },
+      {
+        "item": getItem("#forge:storage_blocks/iron")
+      },
+      {
+        "item": getItem("#forge:storage_blocks/source")
+      }
+    ],
+    sourceCost: 2000
+  });
+});
+```

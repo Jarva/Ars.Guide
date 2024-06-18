@@ -1,0 +1,28 @@
+---
+title: "Scry Ritual"
+description: "Example recipes for the Scry Ritual"
+weight: 810
+---
+
+## Add a new Scry Ritual recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This is the Scry Ritual recipe that allows you to scry for Amethyst blocks when augmenting the ritual with an Amethyst Shard.
+
+| Key         | Description                                    |
+|-------------|------------------------------------------------|
+| `augment`   | Item Tag of items that should use this recipe  |
+| `highlight` | Block Tag of blocks that should be highlighted |
+
+```js
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:scry_ritual",
+    augment: "forge:gems/amethyst",
+    highlight: "forge:storage_blocks/amethyst",
+    id: "ars_nouveau:amethyst_gems"
+  });
+});
+```
+

@@ -1,0 +1,43 @@
+---
+title: "Imbuement Chamber"
+description: "Example recipes for the Imbuement Chamber"
+weight: 810
+---
+
+## Add a new Imbuement Chamber recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+| Key             | Description                                                                  |
+|-----------------|------------------------------------------------------------------------------|
+| `count`         | How many items to output                                                     |
+| `source`        | How much source is required, this also dictates how long it takes to create  |
+| `pedestalItems` | A list of items required on pedestals around the Imbuement Chamber           |
+
+```js
+const getItem = (item) => ({
+  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
+});
+
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:imbuement",
+    count: 1,
+    input: getItem("#forge:gems/source"),
+    output: "ars_nouveau:fire_essence",
+    pedestalItems: [
+      {
+        "item": getItem("minecraft:flint_and_steel"),
+      },
+      {
+        "item": getItem("minecraft:torch"),
+      },
+      {
+        "item": getItem("minecraft:gunpowder"),
+      }
+    ],
+    source: 2000
+  });
+});
+```
+

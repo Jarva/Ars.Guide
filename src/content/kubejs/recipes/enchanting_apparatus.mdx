@@ -1,0 +1,39 @@
+---
+title: "Enchanting Apparatus"
+description: "Example recipes for the Enchanting Apparatus"
+weight: 810
+---
+
+## Add a new Enchanting Apparatus recipe
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+| Key                | Description                                                         |
+|--------------------|---------------------------------------------------------------------|
+| `source`           | How much source is required                                         |
+| `reagent`          | The central item placed inside the Enchanting Apparatus             |
+| `keepNbtOfReagent` | Whether NBT from the reagent should be copied over to the output    |
+| `pedestalItems`    | A list of items required on pedestals around the Imbuement Chamber  |
+
+```js
+const getItem = (item) => ({
+  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
+});
+
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:enchanting_apparatus",
+    keepNbtOfReagent: false,
+    output: getItem("ars_nouveau:alchemists_crown"),
+    pedestalItems: [
+      getItem("minecraft:glass_bottle"),
+      getItem("minecraft:glass_bottle"),
+      getItem("minecraft:glass_bottle"),
+    ],
+    reagent: [
+      getItem("minecraft:golden_helmet"),
+    ],
+    sourceCost: 0
+  })
+});
+```
