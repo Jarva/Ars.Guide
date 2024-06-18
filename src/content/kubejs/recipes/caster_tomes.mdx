@@ -27,26 +27,38 @@ ServerEvents.recipes((event) => {
 The spell is not affected by glyph limits. The `.id` provided at the end controls the name of the tome in the `/ars-tome` command.
 
 ```js
-ServerEvents.recipes((event) => {
-  event
-    .custom({
-      type: "ars_nouveau:caster_tome",
-      flavour_text: "Vault without all those safety precautions.",
-      name: "Danger Vault",
-      sound: {
+const version = Platform.mods.minecraft.getVersion();
+const rgb = (r, g, b) => {
+  if (version == "1.20.1") {
+    return {
+      "type": "ars_nouveau:constant",
+      "red": r,
+      "green": g,
+      "blue": b,
+    };
+  }
+  return 256*256*r+256*g+b;
+}
+
+ServerEvents.recipes(event => {
+  event.custom({
+    type: "ars_nouveau:caster_tome",
+    color: rgb(255, 0, 0),
+    flavour_text: "Vault without all those safety precautions.",
+    name: "Danger Vault",
+    sound: {
         family: "ars_nouveau:fire_family",
         pitch: 1,
         volume: 1,
-      },
-      spell: [
+    },
+    spell: [
         "ars_nouveau:glyph_self",
         "ars_nouveau:glyph_leap",
         "ars_nouveau:glyph_amplify",
         "ars_nouveau:glyph_amplify",
-      ],
-      tome_type: "ars_nouveau:caster_tome",
-    })
-    .id("ars_nouveau:tomes/danger_vault");
+    ],
+    tome_type: "ars_nouveau:caster_tome",
+  }).id("ars_nouveau:tomes/danger_vault")
 });
 ```
 
