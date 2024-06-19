@@ -19,10 +19,6 @@ ServerEvents.recipes((event) => {
 <span class="badge text-bg-dark server-scripts">server_scripts</span>
 
 ```js
-const getItem = (item) => ({
-  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
-});
-
 ServerEvents.recipes((event) => {
   event.remove({ id: "ars_nouveau:glyph_blink", type: "ars_nouveau:glyph" });
   event
@@ -31,11 +27,11 @@ ServerEvents.recipes((event) => {
       count: 1,
       exp: 160,
       inputItems: [
-        getItem("ars_nouveau:manipulation_essence"),
-        getItem("ars_nouveau:manipulation_essence"),
-        getItem("#forge:ender_pearls"),
-        getItem("#forge:ender_pearls"),
-        getItem("#forge:ender_pearls"),
+        { item: "ars_nouveau:manipulation_essence" },
+        { item: "ars_nouveau:manipulation_essence" },
+        { tag: "forge:ender_pearls" },
+        { tag: "forge:ender_pearls" },
+        { tag: "forge:ender_pearls" },
       ],
       output: "ars_nouveau:glyph_blink",
     })

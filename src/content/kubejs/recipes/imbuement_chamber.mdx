@@ -15,25 +15,21 @@ weight: 810
 | `pedestalItems` | A list of items required on pedestals around the Imbuement Chamber           |
 
 ```js
-const getItem = (item) => ({
-  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
-});
-
 ServerEvents.recipes(event => {
   event.custom({
     type: "ars_nouveau:imbuement",
     count: 1,
-    input: getItem("#forge:gems/source"),
+    input: { tag: "forge:gems/source" },
     output: "ars_nouveau:fire_essence",
     pedestalItems: [
       {
-        "item": getItem("minecraft:flint_and_steel"),
+        "item": { item: "minecraft:flint_and_steel" },
       },
       {
-        "item": getItem("minecraft:torch"),
+        "item": { item: "minecraft:torch" },
       },
       {
-        "item": getItem("minecraft:gunpowder"),
+        "item": { item: "minecraft:gunpowder" },
       }
     ],
     source: 2000

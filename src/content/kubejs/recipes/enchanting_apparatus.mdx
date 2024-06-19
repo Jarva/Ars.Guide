@@ -16,22 +16,18 @@ weight: 810
 | `pedestalItems`    | A list of items required on pedestals around the Imbuement Chamber  |
 
 ```js
-const getItem = (item) => ({
-  item: item.startsWith("#") ? { tag: item.substring(1) } : { item },
-});
-
 ServerEvents.recipes(event => {
   event.custom({
     type: "ars_nouveau:enchanting_apparatus",
     keepNbtOfReagent: false,
-    output: getItem("ars_nouveau:alchemists_crown"),
+    output: { item: "ars_nouveau:alchemists_crown" },
     pedestalItems: [
-      getItem("minecraft:glass_bottle"),
-      getItem("minecraft:glass_bottle"),
-      getItem("minecraft:glass_bottle"),
+      { item: "minecraft:glass_bottle" },
+      { item: "minecraft:glass_bottle" },
+      { item: "minecraft:glass_bottle" },
     ],
     reagent: [
-      getItem("minecraft:golden_helmet"),
+      { item: "minecraft:golden_helmet" },
     ],
     sourceCost: 0
   })
