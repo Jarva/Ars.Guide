@@ -1,0 +1,66 @@
+---
+title: "Slab/Stair Recipe Fix"
+description: "Dyanmically fixes recipes for slabs and stairs"
+weight: 810
+---
+
+## Fix Recipes for Slabs and Stairs
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This script dynamically looks for slabs and stairs from Ars Nouveau and recreates recipes for them.
+This can be helpful if something breaks them, such as a conflict.
+
+Not needed if it isn't broken in your pack, but may be good to have for future-proofing.
+
+```js
+ServerEvents.recipes((event) => {
+  /**
+   * @param {string} material
+   * @param {string} id
+   */
+  const slab = (material, id) => {
+    if (Ingredient.of(material).itemIds.length === 0) {
+      return;
+    }
+
+    event.remove([{ type: "minecraft:crafting_shaped", output: id }]);
+    event.remove([{ type: "minecraft:stonecutting", output: id }]);
+    event.shaped(Item.of(id, 6), ["AAA"], { A: material });
+    event.stonecutting(Item.of(id, 2), material);
+  };
+
+  /**
+   * @param {string} material
+   * @param {string} id
+   */
+  const stair = (material, id) => {
+    if (Ingredient.of(material).itemIds.length === 0) {
+      return;
+    }
+
+    event.remove([{ type: "minecraft:crafting_shaped", output: id }]);
+    event.remove([{ type: "minecraft:stonecutting", output: id }]);
+    event.shaped(Item.of(id, 4), ["A  ", "AA ", "AAA"], { A: material });
+    event.stonecutting(Item.of(id, 1), material);
+  };
+
+  /**
+   * @param {(material: string, id: string) => void} f
+   * @param {string} mod
+   * @param {RegExp} re
+   */
+  const go = (f, mod, re) => {
+    if (Platform.isLoaded(mod)) {
+      Ingredient.of(re).itemIds.forEach((id) => {
+        const material = id.match(re)[1];
+        f(material, id);
+      });
+    }
+  };
+
+  go(slab,  "ars_nouveau", /^(ars_nouveau:.*)_slab$/);
+  go(stair, "ars_nouveau", /^(ars_nouveau:.*)_stairs$/);
+});
+```
+
