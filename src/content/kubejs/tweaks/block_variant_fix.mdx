@@ -16,12 +16,20 @@ Not needed if it isn't broken in your pack, but may be good to have for future-p
 
 ```js
 ServerEvents.recipes((event) => {
+  const MATERIAL_REPLACEMENTS = {
+    "ars_nouveau:archwood": "ars_nouveau:archwood_planks",
+    "ars_additions:sourcestone": "ars_nouveau:sourcestone",
+    "ars_additions:polished_sourcestone": "ars_nouveau:smooth_sourcestone",
+  };
+
   /**
    * @param {string} id
    */
   const removeRecipes = (id) => {
-    event.remove([{ type: "minecraft:crafting_shaped", output: id }]);
-    event.remove([{ type: "minecraft:stonecutting", output: id }]);
+    event.remove([
+      { type: "minecraft:crafting_shaped", output: id },
+      { type: "minecraft:stonecutting", output: id },
+    ]);
   };
 
   /**
@@ -34,7 +42,9 @@ ServerEvents.recipes((event) => {
     }
     removeRecipes(id);
     event.shaped(Item.of(id, 6), ["AAA"], { A: material });
-    event.stonecutting(Item.of(id, 2), material);
+    if (material.includes("stone")) {
+      event.stonecutting(Item.of(id, 2), material);
+    }
   };
 
   /**
@@ -47,7 +57,9 @@ ServerEvents.recipes((event) => {
     }
     removeRecipes(id);
     event.shaped(Item.of(id, 4), ["A  ", "AA ", "AAA"], { A: material });
-    event.stonecutting(Item.of(id, 1), material);
+    if (material.includes("stone")) {
+      event.stonecutting(Item.of(id, 1), material);
+    }
   };
 
   /**
@@ -56,14 +68,7 @@ ServerEvents.recipes((event) => {
    */
   const wall = (material, id) => {
     if (Ingredient.of(material).itemIds.length === 0) {
-      material = material.replace(/[^:]*:/, "ars_nouveau:");
-      if (material == "ars_nouveau:polished_sourcestone") {
-        material = "ars_nouveau:smooth_sourcestone";
-      }
-
-      if (Ingredient.of(material).itemIds.length === 0) {
-        return;
-      }
+      return;
     }
     removeRecipes(id);
     event.shaped(Item.of(id, 6), ["AAA", "AAA"], { A: material });
@@ -79,6 +84,8 @@ ServerEvents.recipes((event) => {
     if (Platform.isLoaded(mod)) {
       Ingredient.of(re).itemIds.forEach((id) => {
         let material = id.match(re)[1];
+        let replacement = MATERIAL_REPLACEMENTS[material];
+        material = replacement != null ? replacement : material;
         f(material, id);
       });
     }
@@ -92,4 +99,3 @@ ServerEvents.recipes((event) => {
   go(wall, "ars_additions", /^(ars_additions:.*)_wall$/);
 });
 ```
-
