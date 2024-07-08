@@ -1,0 +1,101 @@
+---
+title: "Block Variant Recipe Fixer"
+description: "Dynamically fixes recipes for block variants (slabs, stairs, walls)"
+weight: 810
+---
+
+## Fix Recipes for Block Variants
+
+<span class="badge text-bg-dark server-scripts">server_scripts</span>
+
+This script dynamically looks for slabs and stairs from Ars Nouveau as well as walls from
+Ars Additions and recreates recipes for them.
+This can be helpful if something breaks them, such as a conflict.
+
+Not needed if it isn't broken in your pack, but may be good to have for future-proofing.
+
+```js
+ServerEvents.recipes((event) => {
+  const MATERIAL_REPLACEMENTS = {
+    "ars_nouveau:archwood": "ars_nouveau:archwood_planks",
+    "ars_additions:sourcestone": "ars_nouveau:sourcestone",
+    "ars_additions:polished_sourcestone": "ars_nouveau:smooth_sourcestone",
+  };
+
+  /**
+   * @param {string} id
+   */
+  const removeRecipes = (id) => {
+    event.remove([
+      { type: "minecraft:crafting_shaped", output: id },
+      { type: "minecraft:stonecutting", output: id },
+    ]);
+  };
+
+  /**
+   * @param {string} material
+   * @param {string} id
+   */
+  const slab = (material, id) => {
+    if (Ingredient.of(material).itemIds.length === 0) {
+      return;
+    }
+    removeRecipes(id);
+    event.shaped(Item.of(id, 6), ["AAA"], { A: material });
+    if (material.includes("stone")) {
+      event.stonecutting(Item.of(id, 2), material);
+    }
+  };
+
+  /**
+   * @param {string} material
+   * @param {string} id
+   */
+  const stair = (material, id) => {
+    if (Ingredient.of(material).itemIds.length === 0) {
+      return;
+    }
+    removeRecipes(id);
+    event.shaped(Item.of(id, 4), ["A  ", "AA ", "AAA"], { A: material });
+    if (material.includes("stone")) {
+      event.stonecutting(Item.of(id, 1), material);
+    }
+  };
+
+  /**
+   * @param {string} material
+   * @param {string} id
+   */
+  const wall = (material, id) => {
+    if (Ingredient.of(material).itemIds.length === 0) {
+      return;
+    }
+    removeRecipes(id);
+    event.shaped(Item.of(id, 6), ["AAA", "AAA"], { A: material });
+    event.stonecutting(Item.of(id, 1), material);
+  };
+
+  /**
+   * @param {(material: string, id: string) => void} f
+   * @param {string} mod
+   * @param {RegExp} re
+   */
+  const go = (f, mod, re) => {
+    if (Platform.isLoaded(mod)) {
+      Ingredient.of(re).itemIds.forEach((id) => {
+        let material = id.match(re)[1];
+        let replacement = MATERIAL_REPLACEMENTS[material];
+        material = replacement != null ? replacement : material;
+        f(material, id);
+      });
+    }
+  };
+
+  // Ars Nouveau
+  go(slab, "ars_nouveau", /^(ars_nouveau:.*)_slab$/);
+  go(stair, "ars_nouveau", /^(ars_nouveau:.*)_stairs$/);
+
+  // Ars Additions
+  go(wall, "ars_additions", /^(ars_additions:.*)_wall$/);
+});
+```
