@@ -26,7 +26,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         category: body.category,
         author: clean(body.author),
         versions: body.versions,
-        addons: body.addons,
+        addons: body.addons || [],
         spells: [
             {
                 glyphs: body.glyphs,

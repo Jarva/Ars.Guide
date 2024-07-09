@@ -49,7 +49,7 @@ export const spellFormSchema = zfd.formData({
     ),
     addons: zfd.text(
         z.string()
-    ).transform(typeMultiSelect<Addon>()),
+    ).transform(typeMultiSelect<Addon>()).optional(),
     versions: zfd.text(
         z.string().min(1)
     ).transform(typeMultiSelect<Version>()),
