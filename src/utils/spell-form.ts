@@ -48,7 +48,7 @@ export const spellFormSchema = zfd.formData({
         z.custom<Category>(val => val in categoryMap)
     ),
     addons: zfd.text(
-        z.string().min(1).catch("")
+        z.string()
     ).transform(typeMultiSelect<Addon>()),
     versions: zfd.text(
         z.string().min(1)

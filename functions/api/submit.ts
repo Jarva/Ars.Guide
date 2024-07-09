@@ -1,7 +1,9 @@
-import { spellFormSchema } from '../../src/utils/spell-form';
+import { getMapText, spellFormSchema } from '../../src/utils/spell-form';
 import type { Submission } from '../../src/utils/spell-compendium/spells';
 import type { PagesFunction, Response as WorkerResponse } from '@cloudflare/workers-types'
 import he from "he"
+import { EmbedBuilder } from "@discordjs/builders"
+import { glyphMap } from '../../src/utils/spell-compendium/data/glyphs';
 
 interface Env {
 	WEBHOOK_URL: string;
@@ -9,6 +11,8 @@ interface Env {
 }
 
 const clean = (str: string) => he.encode(str, { useNamedReferences: true });
+
+const getAddonText = getMapText(glyphMap)
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
     const { request, env } = context;
@@ -18,15 +22,15 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const url = new URL(request.url)
 
     const submission: Submission = {
-        name: body.spell,
+        name: clean(body.spell),
         category: body.category,
-        author: body.author,
+        author: clean(body.author),
         versions: body.versions,
         addons: body.addons,
         spells: [
             {
                 glyphs: body.glyphs,
-                description: body.description
+                description: clean(body.description)
             }
         ]
     }
@@ -34,8 +38,19 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const markdownBuilder: string[] = [];
 
     markdownBuilder.push("```json");
-    markdownBuilder.push(JSON.stringify(submission));
+    markdownBuilder.push(JSON.stringify(submission) + ",");
     markdownBuilder.push("```");
+
+    const embed = new EmbedBuilder()
+        .setTitle(body.spell)
+        .setDescription(body.description)
+        .setFields([
+            { name: "Category", value: body.category, inline: true },
+            { name: "Versions", value: body.versions.join(", "), inline: true },
+            { name: "Addons", value: body.addons.length > 0 ? body.addons.join(", ") : "N/A" },
+            { name: "Glyphs", value: body.glyphs.map(glyph => getAddonText(glyph)).join(" ➝ ") },
+        ])
+        .setAuthor({ name: clean(body.author) });
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
         method: "POST",
@@ -45,8 +60,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         body: JSON.stringify({
             username: "Source Librarian",
             avatar_url: "https://cdn.discordapp.com/avatars/1235017501419765800/ff05eb9f01601892dd7b083dad16798d.webp?size=4096",
-            content: markdownBuilder.join("\n")
-        })
+            content: markdownBuilder.join("\n"),
+            embeds: [embed.toJSON()]
+        }),
     });
 
     if (!adminRes.ok) {
