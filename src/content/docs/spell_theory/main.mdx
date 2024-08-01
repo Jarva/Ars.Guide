@@ -1,0 +1,41 @@
+---
+title: "I-Frames explanation"
+description: "Technical Documentation for I-Frame skips."
+weight:900
+---
+# What is an I-Frame
+
+
+An "i-frame" (short for invulnerability frame) refers to a short window during which an entity (usually the player) becomes invulnerable after being hit.
+
+In minecraft, the default duration is of approximately 0.5 second, except for certain effects such as poison that at higher level start to attack every tick.
+
+## How does bypassing I-Frames increase damage ?
+
+Here is a table showing the damage of the "poison" effect, and showing how bypassing iframes can lead to a more potent source of damage :
+
+| Potion Level | Invulnerability Duration | Damage Per Second |
+| ------------ | ------------------------ | ----------------- |
+|      01      | 25 total ticks           |      0.4*❤*second |
+|      02      | 25 total ticks           |     0.83*❤*second |
+|      03      | 25 total ticks           |     1.66*❤*second |
+|      04      | 25 total ticks           |     3.33*❤*second |
+|      05+     | 25 total ticks           |     10.0*❤*second |
+## How does having multiple damage sources in one tick work ?
+
+It is important to note that if multiple hits (or damage source) apply at the same exact tick, meaning that the player was not invulnerable, then the **source with the highest damage** will be picked and applied to the player, discarding the others.
+
+# Ars Nouveau and I-Frames
+
+In ars nouveau, depending on your Mod selection, you can (or not) bypass iframes rather easily.
+
+Here is a table showcasing most of the known methods of bypassing I-Frames :
+
+| Name      | Addon(s)       | Reqs                      | How to Trigger | Reset Before or After hit | Other properties | Downside(s) | Upside(s) |
+|-----------|----------------|---------------------------|--------------------------------------------|---------------------------|------------------|----------------------------| -----------------------------|
+| Hellfire  | [Ars Elemental](https://www.curseforge.com/minecraft/mc-mods/ars-elemental)  | Fire Focus <br>OR<br>T3 Kindling | Use [Ignite](https://www.arsnouveau.wiki/category/glyphs_1/entry/glyph_ignite) THEN use  [Heal](https://www.arsnouveau.wiki/category/glyphs_2/entry/glyph_heal)<br><br>Attack Entity THEN Use [Heal](https://www.arsnouveau.wiki/category/glyphs_2/entry/glyph_heal)  | Resets Before Hit | Heals target<br>AND<br> Is Fire Damage              | can be negated with Dispel | Early access and easy to spam |
+| Air Sword | [Ars Trinkets](https://www.curseforge.com/minecraft/mc-mods/ars-trinkets)   | 3000 MANA<br>AND<br>KNOW [Air Sword]           | Use \[Air Sword\]                  | Resets After Hit  | Is Air school <br>AND <br>Is Player attack<br>AND<br>Is physical Damage | Very high mana cost| Can not be countered by Dispel|
+
+## Other ways to bypass I-Frames
+
+Certain mods (such as ["iron's RPG tweaks](https://www.curseforge.com/minecraft/mc-mods/irons-rpg-tweaks)") allow players to bypass I-Frames (can also use tags to filter which attacks bypass frames)
