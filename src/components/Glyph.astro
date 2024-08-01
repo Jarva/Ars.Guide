@@ -19,6 +19,6 @@ const path = `/assets/glyphs/${glyph}.png`;
 ---
 {
     images[path]
-    ? <Image class={classes} src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
-    : <span class={`h6 glyph ${classes}`}>{toTitleCase(getGlyphText(glyph))}</span>
+    ? <Image class="me-1 glyph" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
+    : <span class="h6 glyph-text me-1">{toTitleCase(getGlyphText(glyph))}</span>
 }

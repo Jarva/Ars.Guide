@@ -102,14 +102,20 @@
     margin-top: 0;
 }
 
-.glyph {
+.glyph-text {
     vertical-align: middle;
 }
 
-span.glyph + span.glyph::before {
+span.glyph-text + span.glyph-text::before {
     content: "➝\00a0";
 }
 
 span.badge + p {
     margin-top: 18px;
+}
+
+.glyph {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
 }

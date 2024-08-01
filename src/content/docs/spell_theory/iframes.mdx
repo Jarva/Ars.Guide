@@ -1,0 +1,56 @@
+---
+title: "What is an I-Frame?"
+description: "Technical Documentation for I-Frame skips."
+weight: 900
+---
+
+import Glyphs from '../../../components/Glyphs.astro'
+
+An "I-Frame" (short for invulnerability frame) refers to a short window during which an entity becomes invulnerable after being hit.
+
+The default duration of an I-Frame is 11 ticks, which is approximately 0.55 seconds, except for certain effects such as poison that at higher level start to attack every tick.
+
+## How do I-Frames impact designing spells?
+
+If an entity is hit with multiple damage sources at the exact same tick, then only the source with the highest damage will apply.
+
+In the following spell <Glyphs glyphs={["touch", "harm", "amplify", "harm", "harm"]} />, only the damage from the <Glyphs glyphs={["harm", "amplify"]} /> will apply, and the other two harm glyphs will be wasted.
+
+## How can I bypass I-Frames?
+
+In Ars Nouveau it's not possible to bypass I-Frames without an addon or another mod that allows the behaviour.
+
+Here are some methods that allow bypassing I-Frames depending on your mod list:
+
+### Ars Elemental
+
+Ars Elemental is an incredibly popular Ars addon that adds a lot of new glyphs and effects themed around the elements.
+
+#### Hellfire
+
+Ars Elemental adds a new effect called Hellfire, this effect allows creatures that are immune to fire damage to be damaged by Fire Spells, but it also causes <Glyphs glyphs={["heal"]} /> to reset the damage immunity for the damaged entity.
+
+Using this effect alongside a glyph like <Glyphs glyphs={["hex"]} /> allows you to half the healing they receive and add more damage on top.
+
+Hellfire can be applied in two ways, using a Fire Focus, or a Tier 3 Kindling thread. Once you have one of these equipped you'll need to cast <Glyphs glyphs={["ignite"]} /> to apply Hellfire to your target.
+
+#### Frozen
+
+Ars Elemental adds another new effect called Frozen, this effect allows the glyph <Glyphs glyphs={["freeze"]} /> to reset the entities immunity frames.
+
+This happens once an entity is hit by Freeze and becomes fully frozen, which can be achieved faster using <Glyphs glyphs={["amplify"]} />.
+
+### Ars Trinkets
+
+Ars Trinkets is a power fantasy addon that allows you to reach unprecedented levels of mana and spell power.
+
+#### Air Sword
+
+For the low cost of 3000 mana, you can cast <Glyphs glyphs={["air_sword"]} /> which will reset the invulnerability frames of any entity hit after the <Glyphs glyphs={["air_sword"]} /> deals damage.
+
+### Other ways to bypass I&#8209;Frames
+
+Certain mods allow players to bypass I-Frames in different ways.
+
+#### Iron's RPG Tweaks
+[Iron's RPG Tweaks](https://www.curseforge.com/minecraft/mc-mods/irons-rpg-tweaks) removes the concept of invulnerability frames entirely.

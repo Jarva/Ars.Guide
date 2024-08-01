@@ -14,9 +14,9 @@ export default {
     "sound_boom": t("Sonic Boom"),
     "sun_flare": t("Sun Flare"),
     "water_spear": t("Water Spear"),
-    "aura":t("Aura")
-    "missile":t("Missile")
-    "overhead":t("Overhead"),
+    "aura": t("Aura"),
+    "missile": t("Missile"),
+    "overhead": t("Overhead"),
     "propagate_missile": t("Propagate Missile"),
     "propagate_overhead" :t("Propagate Overhead")
 }
