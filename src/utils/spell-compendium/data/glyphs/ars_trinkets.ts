@@ -6,7 +6,7 @@ export default {
     "devour_soul": t("Devour Soul"),
     "filter_self": t("Filter is Self"),
     "filter_not_self": t("Filter is Not Self"),
-    "soul_inspector": t("Air Sword"),
+    "soul_inspector": t("Soul Inspector"),
     "mana_bomb": t("Spirit Bomb"),
     "exp_sac": t("Corrupted Blessing"),
     "sacrifice": t("Sacrifice Health"),
