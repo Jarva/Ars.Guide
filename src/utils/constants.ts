@@ -3,4 +3,4 @@ export const description = "Your un-official written guide for the technical sid
 
 export const collections = ["docs", "kubejs", "spells"];
 
-export const editLink = "https://github.com/Jarva/Ars.Guide/blob/astro/src"
+export const editLink = "https://github.com/Jarva/Ars.Guide/blob/main/src"
