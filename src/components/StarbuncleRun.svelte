@@ -92,7 +92,7 @@
 				starbuncles.push(...data.starbuncleAdoptions);
 			});
 
-        new Tooltip(wrapper, {
+        tooltip = new Tooltip(wrapper, {
             title: starbuncle.bio
         });
 	});
