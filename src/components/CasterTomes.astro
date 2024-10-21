@@ -32,7 +32,7 @@ const tomes: Tome[] = await Promise.all(
       .then((f: {name: string, download_url: string}[]) =>
         f
           .filter((t) => t.name.endsWith(".json"))
-          .map((t) => fetch(t.download_url).then((p) => p.json())),
+          .map((t) => fetch(t.download_url.replace(/^.*\/baileyholl\/Ars-Nouveau\//i, "https://cdn.jsdelivr.net/gh/baileyholl/ars-nouveau@")).then((p) => p.json())),
       ),
   );
 ---
