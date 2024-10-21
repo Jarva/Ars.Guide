@@ -1,5 +1,7 @@
 ---
+import { slug } from "github-slugger";
 import Glyphs from "./Glyphs.astro";
+import { IconCircleFilled } from "@tabler/icons-react";
 
 type Tome = {
     type: string,
@@ -19,42 +21,90 @@ type Tome = {
     },
 }
 
-const tomes: Tome[] = await Promise.all(
-    await fetch(
-      "https://api.github.com/repos/baileyholl/Ars-Nouveau/contents/src/generated/resources/data/ars_nouveau/recipe/tomes/",
-      {
+const JS_DELIVR_URL = "https://cdn.jsdelivr.net/gh/baileyholl/ars-nouveau@main/";
+
+const fetchTome = (path: string) => {
+    const response = fetch(`${JS_DELIVR_URL}${path}`)
+
+    return response.then(res => res.json());
+}
+
+const tomeRequest = await fetch(
+    "https://api.github.com/repos/baileyholl/Ars-Nouveau/contents/src/generated/resources/data/ars_nouveau/recipe/tomes/",
+    {
         headers: {
-          Accept: "application/vnd.github.text-match+json",
+            Accept: "application/vnd.github.text-match+json",
         },
-      },
-    )
-      .then((t) => t.json())
-      .then((f: {name: string, download_url: string}[]) =>
-        f
-          .filter((t) => t.name.endsWith(".json"))
-          .map((t) => fetch(t.download_url.replace(/^.*\/baileyholl\/Ars-Nouveau\//i, "https://cdn.jsdelivr.net/gh/baileyholl/ars-nouveau@")).then((p) => p.json())),
-      ),
-  );
+    }
+)
+
+const tomeList: {path: string}[] = await tomeRequest.json().then(list => {
+    if ("message" in list) {
+        return [
+            { path: "src/generated/resources/data/ars_nouveau/recipe/tomes/alex_tome.json" },
+            { path: "src/generated/resources/data/ars_nouveau/recipe/tomes/arachne_tome.json" }
+        ]
+    }
+    return list;
+});
+
+if (tomeList)
+console.log(tomeList);
+
+const tomes: Tome[] = await Promise.all(
+    tomeList
+        .filter(tome => tome.path.endsWith(".json"))
+        .map(tome => fetchTome(tome.path))
+);
+
+
+
+const formatColor = (color: Tome["color"]) => {
+    if (color.id == "ars_nouveau:rainbow") return "Rainbow"
+    return `R: ${color.r}, G: ${color.g}, B: ${color.b}`
+}
+
+const getIconFormatting = (color: Tome["color"]) => {
+    if (color.id == "ars_nouveau:rainbow") return {
+        style: { "vertical-align": "initial" },
+        className: "rainbow"
+    };
+    return {
+        style: { "vertical-align": "initial" },
+        color: `rgb(${color.r}, ${color.g}, ${color.b})`
+    };
+}
+
 ---
 <Fragment>
     {tomes.map(tome =>
-        <h2 style=`color:rgb(${tome.color.r}, ${tome.color.g}, ${tome.color.b})` id={tome.name.toLowerCase()}>{tome.name}</h2>
-        <Glyphs glyphs={tome.spell.map(g => {
-            const colonIdx = g.indexOf(":")
-            if (colonIdx != -1) {
-                g = g.slice(colonIdx + 1)
-            }
-            const glyphPrefix = "glyph_"
-            if (g.startsWith(glyphPrefix)) {
-                g = g.slice(glyphPrefix.length)
-            }
-            const glyphSuffix = "_glyph"
-            if (g.endsWith(glyphSuffix)) {
-                g = g.slice(0, g.length - glyphSuffix.length)
-            }
+        <Fragment>
+            <h2 id={slug(tome.name)}>
+                <span data-bs-toggle="tooltip" data-bs-title={formatColor(tome.color)}><IconCircleFilled size={24} {...getIconFormatting(tome.color )} />&nbsp;{tome.name}</span><a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${tome.name.toLowerCase()} permalink`} href={`#${slug(tome.name)}`}>#</a>
+            </h2>
+            <Glyphs glyphs={tome.spell.map(g => {
+                const colonIdx = g.indexOf(":")
+                if (colonIdx != -1) {
+                    g = g.slice(colonIdx + 1)
+                }
+                const glyphPrefix = "glyph_"
+                if (g.startsWith(glyphPrefix)) {
+                    g = g.slice(glyphPrefix.length)
+                }
+                const glyphSuffix = "_glyph"
+                if (g.endsWith(glyphSuffix)) {
+                    g = g.slice(0, g.length - glyphSuffix.length)
+                }
 
-            return g
-        })} />
-        <p class="card-text" style="white-space: pre-line;">{tome.flavour_text}</p>
+                return g
+            })} />
+            <p class="card-text" style="white-space: pre-line;">{tome.flavour_text}</p>
+        </Fragment>
     )}
 </Fragment>
+
+<script>
+    import { Tooltip } from "bootstrap";
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+</script>

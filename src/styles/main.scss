@@ -119,3 +119,21 @@ span.badge + p {
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
 }
+
+.rainbow {
+    animation-name: rainbow;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes rainbow {
+    0% {
+        color: hsl(0, 100%, 50%);
+        filter: sepia() saturate(2.25) hue-rotate(0deg);
+    }
+    100% {
+        color: hsl(360, 100%, 50%);
+        filter: sepia() saturate(2.25) hue-rotate(360deg);
+    }
+}
