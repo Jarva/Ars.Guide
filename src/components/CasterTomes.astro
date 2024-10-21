@@ -1,0 +1,60 @@
+---
+import Glyphs from "./Glyphs.astro";
+
+type Tome = {
+    type: string,
+    name: string,
+    flavour_text: string,
+    spell: string[],
+    sound: {
+        sound?: {
+            id: string
+        }
+    }
+    color: {
+        r: number,
+        g: number,
+        b: number,
+        id: string,
+    },
+}
+
+const tomes: Tome[] = await Promise.all(
+    await fetch(
+      "https://api.github.com/repos/baileyholl/Ars-Nouveau/contents/src/generated/resources/data/ars_nouveau/recipe/tomes/",
+      {
+        headers: {
+          Accept: "application/vnd.github.text-match+json",
+        },
+      },
+    )
+      .then((t) => t.json())
+      .then((f: {name: string, download_url: string}[]) =>
+        f
+          .filter((t) => t.name.endsWith(".json"))
+          .map((t) => fetch(t.download_url).then((p) => p.json())),
+      ),
+  );
+---
+<Fragment>
+    {tomes.map(tome =>
+        <h2 style=`color:rgb(${tome.color.r}, ${tome.color.g}, ${tome.color.b})` id={tome.name.toLowerCase()}>{tome.name}</h2>
+        <Glyphs glyphs={tome.spell.map(g => {
+            const colonIdx = g.indexOf(":")
+            if (colonIdx != -1) {
+                g = g.slice(colonIdx + 1)
+            }
+            const glyphPrefix = "glyph_"
+            if (g.startsWith(glyphPrefix)) {
+                g = g.slice(glyphPrefix.length)
+            }
+            const glyphSuffix = "_glyph"
+            if (g.endsWith(glyphSuffix)) {
+                g = g.slice(0, g.length - glyphSuffix.length)
+            }
+
+            return g
+        })} />
+        <p class="card-text" style="white-space: pre-line;">{tome.flavour_text}</p>
+    )}
+</Fragment>

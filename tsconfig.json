@@ -6,6 +6,6 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "moduleResolution": "Bundler",
-    "allowJs": true,
+    "allowJs": true
   }
 }
