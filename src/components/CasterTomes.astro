@@ -64,7 +64,7 @@ const formatColor = (color: Tome["color"]) => {
     return `R: ${color.r}, G: ${color.g}, B: ${color.b}`
 }
 
-const getIconFormatting = (color: Tome["color"]) => {
+const getIconFormatting = (color: Tome["color"]): any => {
     if (color.id == "ars_nouveau:rainbow") return {
         style: { "vertical-align": "initial" },
         className: "rainbow"
