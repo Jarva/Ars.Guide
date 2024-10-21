@@ -15,10 +15,17 @@ interface Props {
 
 const { glyph, classes } = Astro.props;
 
+const title = getGlyphText(glyph);
 const path = `/assets/glyphs/${glyph}.png`;
 ---
 {
     images[path]
-    ? <Image class="me-1 glyph" src={images[path]()} alt={`${glyph} glyph`} title={getGlyphText(glyph)} width={25} height={25} />
-    : <span class="h6 glyph-text me-1">{toTitleCase(getGlyphText(glyph))}</span>
+    ? <Image data-bs-toggle="tooltip" data-bs-title={title} data-bs-placement="bottom" class="me-1 glyph" src={images[path]()} alt={`${glyph} glyph`} title={title} width={25} height={25} />
+    : <span class="h6 glyph-text me-1">{toTitleCase(title)}</span>
 }
+
+<script>
+    import { Tooltip } from "bootstrap"
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => Tooltip.getOrCreateInstance(tooltipTriggerEl))
+</script>
