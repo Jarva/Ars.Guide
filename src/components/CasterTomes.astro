@@ -48,9 +48,6 @@ const tomeList: {path: string}[] = await tomeRequest.json().then(list => {
     return list;
 });
 
-if (tomeList)
-console.log(tomeList);
-
 const tomes: Tome[] = await Promise.all(
     tomeList
         .filter(tome => tome.path.endsWith(".json"))
@@ -65,12 +62,15 @@ const formatColor = (color: Tome["color"]) => {
 }
 
 const getIconFormatting = (color: Tome["color"]): any => {
+    const style = {
+        verticalAlign: "initial"
+    }
     if (color.id == "ars_nouveau:rainbow") return {
-        style: { "vertical-align": "initial" },
+        style: { ...style, animationDuration: "5s" },
         className: "rainbow"
     };
     return {
-        style: { "vertical-align": "initial" },
+        style: style,
         color: `rgb(${color.r}, ${color.g}, ${color.b})`
     };
 }
