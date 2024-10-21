@@ -9,7 +9,8 @@ import Glyphs from '../../../components/Glyphs.astro'
 An "I-Frame" (short for invulnerability frame, in reference to other popular games) refers to a short time window during which an entity becomes invulnerable after being hit.
 In Minecraft, during this window you are only partially invulnerable as only the highest damage taken will actually be registered and any damage source lower than it will be ignored.
 
-The default duration of an I-Frame is 11 ticks, which is approximately 0.55 seconds, except for certain effects such as poison that at higher level start to attack every tick.
+The default duration of an I-Frame is 10 ticks, which is approximately 0.5 seconds, except for certain effects such as poison that at higher level start to attack every tick.  
+{/* You can verify this by using `/tick freeze`, punching a mob, `/tick step 9`, verifying that it is still invulnerable, `/tick step`, then verifying that it can now be attacked. */}
 
 ## How do I-Frames impact designing spells?
 
