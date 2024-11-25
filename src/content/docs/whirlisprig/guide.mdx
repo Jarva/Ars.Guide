@@ -7,39 +7,46 @@ weight: 810
 import Callout from '../../../components/Callout.astro'
 import { IconInfoCircle } from "@tabler/icons-react"
 
-By Gweaven — 
+By Gweaven
 
 <Callout title="Note" type="note" icon={IconInfoCircle}>
 - <sup>C</sup> is being used to denote a configurable value. The numbers provided are the default values.
 - "Flower" refers to the Whirlisprig's magical blossom and the area it encompasses (plants in 10 blocks in every horizontal direction from the whirlisprig blossom, 30 above and only 1 below or a 21x21x32 rectangle)
+</Callout>
 
 **Item Generation**
 - A random item is generated from the full loot table based on what a regular harvesting tool would produce, such as hand breaking.
 
-**Happines**
+## **Happiness**
 Happiness is determined by the amount of blocks total, that the Whirlisprig accepts
 - There is 2 main groups of blocks the Whirlisprigs will accept, the liked ones and the loved ones, right clicking on a sprig with a block will tell you which one it is: "The Whirlisprig would be excited to have this in their home!" for loved "The Whirlisprig likes this block!" for liked
 - Loved blocks increase the moodScore by 2, and liked ones only by 1, the moodScore is shared among all Whirlisprigs of the same flower, you can have max 50 blocks of the same type before it will stop counting towards the moodScore. The score starts at 1 not 0.
-- Whirlisprigs have 4 Happiness levels
-# Very Unhappy moodScore: 1 - 249
-# Content moodScore: 250 - 499
-# Happy moodScore: 500 - 749
-# Very Happy moodScore: 750 - 999
-# Extremely Happy 1000 +
+- Whirlisprigs have 5 Happiness levels
 
-**Diversity**
+| Mood            | Score   |
+|-----------------|---------|
+| Very Unhappy    | 1-249   |
+| Content         | 250-499 |
+| Happy           | 500-749 |
+| Very Happy      | 750-999 |
+| Extremely Happy | 1000+   |
+
+## Diversity
 Diversity is determined by the amount of unique accepted blocks you ave.
 - Diversity starts at 1 by default, altough unless you prepare an area for it staff like grass blocks and flower will already make it increase a little. 
 - Stuff like pumpkins count double, 1 point for the pumpkin and another one for the stalk.
 - Clicking on a Whirlisprig it will tell you at which diversity level you are at
 - They have 3 levels of diversity plus a default '0' level
-# "There does not appear to be much diversity" diversityScore: 1-11
-# "There is some diversity but it could be better" diversityScore: 12 - 21
-# "The Whirlisprig thinks her home is very diverse" diversityScore: 22 - 39
-# "The home is extremely diverse, but Whrilisprig will never turn down a new addition to their home!" 40+
+
+| Diversity                                                                                         | Score |
+|---------------------------------------------------------------------------------------------------|-------|
+| There does not appear to be much diversity                                                        | 1-11  |
+| There is some diversity but it could be better                                                    | 12-21 |
+| The Whirlisprig thinks her home is very diverse                                                   | 22-39 |
+| The home is extremely diverse, but Whrilisprig will never turn down a new addition to their home! | 40+   |
 
 
-**Progress**
+## Progress
 Everytime you see the little flying block with a green trail go towards the blossom the progress value increased by tick.
 - The increase happens at the start of the animation, the animation is just for aesthetics
 - For example at 101 moodScore, everytime the animation plays the progress value increases by 3
@@ -49,7 +56,7 @@ Everytime you see the little flying block with a green trail go towards the blos
 - Each whirlisprig will update the progress bar independently of the others, so having 2 whirlisprig will double your production, having 3 will triple it, and so on, the more the merrier
 
 
-**Filtering**
+## Filtering
  - Using a Item Scroll: Deny you can tell your whirlisprigs to ignore certain items while generating items. The ignored items still influence the production rate. 
  - Every Whirlisprig is linked to their flower so using the deny scroll on one will apply the filter to all of them because it is saving the setting in the flower, but you cannot use the deny scroll directly on the flower.
  - To remove a filter you have previously set, the only way is to break and replace the flower
@@ -57,6 +64,6 @@ Everytime you see the little flying block with a green trail go towards the blos
  - The item that are ignored are the ones in the loot output, meaning that if you have leaves near Whirlisprig, putting leaves in the deny scroll won't do anything, you need to put sticks. This is only true for specific items, for most of them the block and the output is the same
  
 **Notes**
-- Whirlisprigs go by She/Them (this is more for fun I know) as seen from "The Whirlisprig thinks her home is very diverse" and "The Whirlisprig would be excited to have this in their home!"
+- Whirlisprigs go by She/They (this is more for fun I know) as seen from "The Whirlisprig thinks her home is very diverse" and "The Whirlisprig would be excited to have this in their home!"
 - They accept the colours: Orange, Yellow, White, Green dye
 - The Whirlisprig Blossom doesn't need to have a block underneath it, it can float in midair
