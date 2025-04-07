@@ -12,12 +12,12 @@ The Volcanic Sourcelink generates source from burning fuel items.
 
 ## Source Per Item
 
-| Item Type            | Source Generated | Progress |
-| -------------------- | ---------------- | -------- |
-| Fire Essence         | 2000             | 1        |
-| Blazing Archwood Log | 125              | 6        |
-| Archwood Log[^1]     | 75               | 4        |
-| Other Fuel           | `duration / 12`  | 1        |
+| Item Type            | Source Generated     | Progress |
+| -------------------- | -------------------- | -------- |
+| Fire Essence         | 2000                 | 1        |
+| Blazing Archwood Log | 125                  | 6        |
+| Archwood Log[^1]     | 75                   | 4        |
+| Other Fuel           | `duration / 12`[^2]  | 1        |
 
 ## Block Conversion
 
@@ -27,8 +27,9 @@ It is possible but not advisable to use this as a way to generate Lava due to Dr
 
 | From                 | To               | Progress Used |
 | -------------------- | ---------------- | ------------- |
-| Stones[^2]           | Magma Block      | 150           |
+| Stones[^3]           | Magma Block      | 150           |
 | Magma Block          | Lava             | 200           |
 
 [^1]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">c:logs/archwood</span>
-[^2]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">c:stones</span>
+[^2]: Duration is measured in ticks. Assuming no lag, there are 20 ticks in a second.
+[^3]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">c:stones</span>
