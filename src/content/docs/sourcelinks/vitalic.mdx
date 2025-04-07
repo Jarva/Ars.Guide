@@ -4,19 +4,23 @@ description: "Technical Documentation for Vitalic Sourcelinks."
 weight: 810
 ---
 
-The Vitalic Sourcelink generates source from creatures dying and baby animals spawning and growing up.
+The Vitalic Sourcelink generates source from creatures dying and baby animals[^1] spawning and growing up.
+
+Baby animals within 6 blocks of it will also grow up faster, aging an additional 25 seconds for every 3 seconds
+that it is in range of the Vitalic Sourcelink.
 
 | Max Source | Transfer Rate | Event Range (Blocks) |
 | ---------- | ------------- | -------------------- |
-| 2500       | 1000          | 15                   |
+| 20000      | 10000         | 15                   |
 
 ## Source Per Event
 
 | Event Type                      | Source Generated       |
 | ------------------------------- | ---------------------- |
-| Entity Died[^1]                 | 200                    |
+| Entity Died[^2]                 | 200                    |
 | Baby Entity Spawned             | 600                    |
-| Baby Animal within 6 blocks[^2] | 10 source per 60 ticks |
+| Baby Animal within 6 blocks[^3] | 10 source per 60 ticks |
 
-[^1]: Entity must not be summoned (`ISummon`) or dispellable (`IDispellable`)
-[^2]: Baby animals with growth disabled from Quark are ignored
+[^1]: Any entity that extends `AgeableMob` and have `AgeableMob#isBaby` return `true`.
+[^2]: Entity must not be summoned (`ISummon`), dispellable (`IDispellable`), or have the <span class="badge text-bg-info">Entity Tag</span> <span class="badge text-bg-dark">ars_nouveau:vitalic_death_blacklist</span> tag.
+[^3]: Baby animals with growth disabled from Quark or have the <span class="badge text-bg-info">Entity Tag</span> <span class="badge text-bg-dark">ars_nouveau:vitalic_growth_blacklist</span> tag are ignored.

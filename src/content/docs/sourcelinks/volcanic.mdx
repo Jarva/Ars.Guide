@@ -6,17 +6,29 @@ weight: 810
 
 The Volcanic Sourcelink generates source from burning fuel items.
 
-| Max Source | Transfer Rate | Event Range (Blocks) |
-| ---------- | ------------- | -------------------- |
-| 5000       | 1000          | 1                    |
+| Max Source | Transfer Rate | Event Range (Blocks) | Event Interval (Seconds) |
+| ---------- | ------------- | -------------------- | ------------------------ |
+| 20000      | 10000         | 1                    | 1                        |
 
 ## Source Per Item
 
-| Item Type            | Source Generated |
-| -------------------- | ---------------- |
-| Fire Essence         | 2000             |
-| Blazing Archwood Log | 125              |
-| Archwood Log[^1]     | 75               |
-| Other Fuel           | `duration / 12`  |
+| Item Type            | Source Generated | Progress |
+| -------------------- | ---------------- | -------- |
+| Fire Essence         | 2000             | 1        |
+| Blazing Archwood Log | 125              | 6        |
+| Archwood Log[^1]     | 75               | 4        |
+| Other Fuel           | `duration / 12`  | 1        |
 
-[^1]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">forge:logs/archwood</span>
+## Block Conversion
+
+When the total progress of the Volcanic Sourcelink reaches certain values, blocks in a 3x3x3 area around it may change.
+
+It is possible but not advisable to use this as a way to generate Lava due to Dripstone and Cauldrons being both easier and faster.
+
+| From                 | To               | Progress Used |
+| -------------------- | ---------------- | ------------- |
+| Stones[^2]           | Magma Block      | 150           |
+| Magma Block          | Lava             | 200           |
+
+[^1]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">c:logs/archwood</span>
+[^2]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">c:stones</span>

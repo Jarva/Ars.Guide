@@ -6,17 +6,30 @@ weight: 810
 
 The Mycelial Sourcelink generates source from consuming edible items.
 
-| Max Source | Transfer Rate | Event Range (Blocks) |
-| ---------- | ------------- | -------------------- |
-| 1000       | 1000          | 1                    |
+| Max Source | Transfer Rate | Event Range (Blocks) | Event Interval (Seconds) |
+| ---------- | ------------- | -------------------- | ------------------------ |
+| 20000      | 10000         | 1                    | 2                        |
 
 ## Source Per Item
 
-| Item Type        | Source Generated                       |
-| ---------------- | -------------------------------------- |
-| Base             | `(11 * nutrition) + (30 * saturation)` |
-| Magic Plants[^1] | `(Base + 10) * 2`                      |
-| Magic Food[^2]   | `(Base + 10) * 2`                      |
+| Item Type        | Source Generated                       | Progress |
+| ---------------- | -------------------------------------- | -------- |
+| Base             | `(11 * nutrition) + (60 * saturation)` | 1        |
+| Magic Plants[^1] | `(Base + 10) * 2.5`                    | 5        |
+| Magic Food[^2]   | `(Base + 10) * 2.5`                    | 5        |
+
+## Block Conversion
+
+When the total progress of the Mycelial Sourcelink reaches certain values, blocks around it may change.
+
+| From                 | To               | Progress Used | Range (Centered) |
+| -------------------- | ---------------- | ------------- | ---------------- |
+| Dirt Block           | Mycelium         | 25            | 3x1x3            |
+| Grass Block          | Mycelium         | 25            | 3x1x3            |
+| Air[^3]              | Brown Mushroom   | 10            | 3x3x3            |
+| Air[^3]              | Red Mushroom     | 10            | 3x3x3            |
+
 
 [^1]: <span class="badge text-bg-info">Item Tag</span> <span class="badge text-bg-dark">ars_nouveau:magic_food</span>
 [^2]: <span class="badge text-bg-info">Block Tag</span> <span class="badge text-bg-dark">ars_nouveau:magic_plants</span>
+[^3]: Must be above Mycelium.
