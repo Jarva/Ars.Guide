@@ -6,13 +6,13 @@ weight: 810
 
 The Alchemical Sourcelink generates source from consuming nearby potion jars.
 
-| Max Source | Transfer Rate | Event Range (Blocks) |
-| ---------- | ------------- | -------------------- |
-| 20000      | 10000         | 1                    |
+| Max Source | Transfer Rate | Event Range (Blocks) | Event Interval (Seconds) |
+| ---------- | ------------- | -------------------- | ------------------------ |
+| 20000      | 10000         | 1                    | 1                        |
 
 ## Source Per Potion
 
-Potions are consumed per 100mb
+Potions are consumed per bottle (100mB).
 
 Each effect in the potion jar is evaluated as:  
 `(duration / 50) + (amplifier * 250) + 150`[^1]
@@ -23,4 +23,4 @@ The source produced by the potion is evaluated as:
 If the potion has multiple effects, then an additional modifier is applied:  
 `total * (2.1 ^ effects)`
 
-[^1]: The duration is calculated in ticks
+[^1]: The duration is calculated in ticks. Assuming no lag, there are 20 ticks in a second.
