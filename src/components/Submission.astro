@@ -1,31 +1,80 @@
 ---
-import { getMapText } from "../utils/spell-form"
+import {getMapText} from "../utils/spell-form"
 import {addonMap} from "../utils/spell-compendium/data/addons";
-import type { Submission } from '../utils/spell-compendium/spells';
+import type {Submission} from '../utils/spell-compendium/spells';
 import Glyphs from './Glyphs.astro'
 import {slug} from "github-slugger";
-import { toTitleCase } from "../utils/text";
+import {toTitleCase} from "../utils/text";
+import {exportToBase64} from "../utils/spell-compendium/spell-parser";
 
 type Props = Submission & {
     standalone: boolean;
 };
 
-const { author, addons, versions, spells, name, category, standalone } = Astro.props;
+const {author, addons, versions, spells, name, category, standalone} = Astro.props;
 const getAddonText = getMapText(addonMap);
 ---
 
-{!standalone && <h2 id={name.toLowerCase()}>
-    <Fragment set:html={name} /><a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${name.toLowerCase()} permalink`} href={`${Astro.url}/${slug(name)}`}>#</a>
+{!standalone &&
+<h2 id={name.toLowerCase()}>
+    <Fragment set:html={name}/>
+    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${name.toLowerCase()} permalink`}
+       href={`${Astro.url}/${slug(name)}`}>#</a>
 </h2>}
 <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
-{spells.map(spell => (
-    <h5 class="card-title mb-2"><Glyphs glyphs={spell.glyphs} />{spell.glyphs.length > 10 && <span class="badge text-bg-dark">Requires infinite spell demo</span>}</h5>
-    <p class="card-text" style="white-space: pre-line;">
-        <Fragment set:html={spell.description} />
-    </p>
-))}
+{spells.map((spell, index) => {
+    const encodedJson =  exportToBase64(name, spell.glyphs)
+    const outputId = `encoded-output-${index}`;  // Unique ID for each button
+    return (
+        <div class="mb-4">
+            <h5 class="card-title mb-2">
+                <Glyphs glyphs={spell.glyphs}/>
+                {spell.glyphs.length > 10 && (
+                        <span class="badge text-bg-dark">Requires infinite spell demo</span>
+                )}
+            </h5>
+            <p class="card-text" style="white-space: pre-line;">
+                <Fragment set:html={spell.description}/>
+            </p>
+            <button
+                    class="btn btn-sm btn-outline-primary mb-2"
+                    type="button"
+                    data-encoded={encodedJson}
+                    data-output={outputId}
+            >
+                Copy Spell to Clipboard
+            </button>
+        </div>
+    );
+    })}
+
 <div>
-    {standalone && <div><span class="badge text-bg-info me-1">{toTitleCase(category)}</span></div>}
+    {standalone &&
+            <div><span class="badge text-bg-info me-1">{toTitleCase(category)}</span></div>}
     <div>{addons.map(addon => <span class="badge text-bg-info me-1">{getAddonText(addon)}</span>)}</div>
     <div>{versions.map(version => <span class="badge text-bg-primary me-1">{version}</span>)}</div>
 </div>
+
+
+<script type="module">
+    // Function to copy the spell to the clipboard
+    function copySpellToClipboard(event) {
+        const button = event.target;
+        const encoded = button.dataset.encoded; // Getting encoded spell data
+
+        // Copy the encoded spell to clipboard
+        navigator.clipboard.writeText(encoded).then(
+            () => {
+                // Optionally, you can also show a success message in the console
+                console.log('Spell copied to clipboard!', encoded);
+            }
+        ).catch((err) => {
+            console.error("Clipboard write failed:", err);
+        });
+    }
+
+    // Add event listeners to buttons after the component is rendered
+    document.querySelectorAll('.btn-outline-primary').forEach(button => {
+        button.addEventListener('click', copySpellToClipboard);
+    });
+</script>

@@ -10,6 +10,9 @@
         <label for="spell" class="form-label">Spell</label>
         <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
     </div>
+    <button type="button" class="btn btn-secondary mb-3" id="importClipboardBtn">
+        Import from Clipboard
+    </button>
     <div class="mb-3">
         <label for="glyphs" class="form-label">Glyphs</label>
         <input name="glyphs" required class="form-control" id="glyphs" />
@@ -36,6 +39,9 @@
 <script>
     import TomSelect from 'tom-select';
     import { addons, categories, versions, glyphs, spellFormSchema } from '../utils/spell-form';
+    import { parseJsonSpell, parseBase64Spell } from '../utils/spell-compendium/spell-parser';
+    import {getRegistryKeyFromInternal, glyphLookup} from "../utils/spell-compendium/data/glyphs";
+
     const glyphSelect = new TomSelect("#glyphs", {
         labelField: 'text',
 	    searchField: ['text'],
@@ -64,7 +70,7 @@
         options: categories,
         maxItems: 1,
     });
-    new TomSelect("#addons", {
+    const addonSelect = new TomSelect("#addons", {
         labelField: 'text',
 	    searchField: ['text'],
         options: addons,
@@ -75,6 +81,34 @@
 	    searchField: ['value'],
         options: versions
     });
+
+    document.getElementById('importClipboardBtn')?.addEventListener('click', async () => {
+        try {
+            const clipboardText = await navigator.clipboard.readText();
+
+            let spellData;
+
+            if (clipboardText.trim().startsWith('{')) {
+                // JSON (Version 1)
+                spellData = parseJsonSpell(clipboardText);
+            } else {
+                // Binary base64 (Version 2)
+                spellData = parseBase64Spell(clipboardText);
+            }
+
+            if (!spellData) {
+                alert("Failed to parse spell from clipboard.");
+                return;
+            }
+
+            fillFormWithSpellData(spellData);
+
+        } catch (err) {
+            console.error("Clipboard read failed:", err);
+            alert("Could not read from clipboard.");
+        }
+    });
+
     const form = document.getElementById('spellForm');
     const inputs = document.querySelectorAll('#spellForm input');
     inputs.forEach(input => {
@@ -101,4 +135,27 @@
 		    event.stopPropagation()
         }
     }, false)
+
+    function fillFormWithSpellData({ name, glyphs }: { name: string; glyphs: string[] }) {
+        const spellInput = document.getElementById('spell') as HTMLInputElement;
+        // print the name and the glyphs to the console
+        console.log(`Name: ${name}`);
+        console.log(`Glyphs: ${glyphs.join(', ')}`);
+        if (spellInput) spellInput.value = name;
+        if (glyphSelect) {
+            glyphSelect.clear();
+            glyphs.forEach(g => {
+                const glyph = glyphLookup[g];
+                console.log("Decoded glyph from: ", g ,glyph);
+                glyphSelect.addItem(glyph.value, true);
+                // add the source to the addons only if it is not already there
+                if (!addonSelect.items.some(item => item === glyph.source)) {
+                    addonSelect.addItem(glyph.source, true);
+                }
+            });
+        }
+        spellInput?.dispatchEvent(new Event('blur'));
+    }
+
 </script>
+
