@@ -4,47 +4,47 @@
 <form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" method="post" action="/api/submit">
     <div class="mb-3">
         <label for="author" class="form-label">Author</label>
-        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
+        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author"/>
     </div>
     <div class="mb-3">
         <label for="spell" class="form-label">Spell</label>
-        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
+        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell"/>
     </div>
     <button type="button" class="btn btn-secondary mb-3" id="importClipboardBtn">
         Import from Clipboard
     </button>
     <div class="mb-3">
         <label for="glyphs" class="form-label">Glyphs</label>
-        <input name="glyphs" required class="form-control" id="glyphs" />
+        <input name="glyphs" required class="form-control" id="glyphs"/>
     </div>
     <div class="mb-3">
         <label for="category" class="form-label">Category</label>
-        <input name="category" required class="form-control" id="category" />
+        <input name="category" required class="form-control" id="category"/>
     </div>
     <div class="mb-3">
         <label for="addons" class="form-label">Addons</label>
-        <input name="addons" class="form-control" id="addons" />
+        <input name="addons" class="form-control" id="addons"/>
     </div>
     <div class="mb-3">
         <label for="versions" class="form-label">Versions</label>
-        <input name="versions" required class="form-control" id="versions" />
+        <input name="versions" required class="form-control" id="versions"/>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea name="description" required class="form-control" id="description" placeholder="..." />
+        <textarea name="description" required class="form-control" id="description" placeholder="..."/>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <script>
     import TomSelect from 'tom-select';
-    import { addons, categories, versions, glyphs, spellFormSchema } from '../utils/spell-form';
-    import { parseJsonSpell, parseBase64Spell } from '../utils/spell-compendium/spell-parser';
+    import {addons, categories, versions, glyphs, spellFormSchema} from '../utils/spell-form';
+    import {parseJsonSpell, parseBase64Spell} from '../utils/spell-compendium/spell-parser';
     import {getRegistryKeyFromInternal, glyphLookup} from "../utils/spell-compendium/data/glyphs";
 
     const glyphSelect = new TomSelect("#glyphs", {
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         sortField: 'text',
         options: glyphs,
         plugins: ['drag_drop', 'caret_position', 'remove_button'],
@@ -55,30 +55,30 @@
             glyphSelect.setTextboxValue();
             glyphSelect.refreshOptions();
         },
-        createFilter: function(input) {
+        createFilter: function (input) {
             return !(input.toLowerCase() in (this.options || []))
         }
     });
     new TomSelect("#category", {
         optgroups: [
-            { value: 'combat', label: 'Combat' },
-            { value: 'other', label: 'Other' },
+            {value: 'combat', label: 'Combat'},
+            {value: 'other', label: 'Other'},
         ],
         optgroupField: 'class',
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         options: categories,
         maxItems: 1,
     });
     const addonSelect = new TomSelect("#addons", {
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         options: addons,
         create: true
     });
     new TomSelect("#versions", {
         labelField: 'value',
-	    searchField: ['value'],
+        searchField: ['value'],
         options: versions
     });
 
@@ -98,6 +98,7 @@
 
             if (!spellData) {
                 alert("Failed to parse spell from clipboard.");
+                console.error(clipboardText);
                 return;
             }
 
@@ -126,17 +127,17 @@
         form.classList.add('was-validated');
         if (!(form as HTMLFormElement).checkValidity()) {
             event.preventDefault()
-		    event.stopPropagation()
+            event.stopPropagation()
         }
         const formData = new FormData(form as HTMLFormElement);
         const parsed = spellFormSchema.safeParse(formData);
         if (!parsed.success) {
             event.preventDefault()
-		    event.stopPropagation()
+            event.stopPropagation()
         }
     }, false)
 
-    function fillFormWithSpellData({ name, glyphs }: { name: string; glyphs: string[] }) {
+    function fillFormWithSpellData({name, glyphs}: { name: string; glyphs: string[] }) {
         const spellInput = document.getElementById('spell') as HTMLInputElement;
         // print the name and the glyphs to the console
         console.log(`Name: ${name}`);
@@ -146,11 +147,13 @@
             glyphSelect.clear();
             glyphs.forEach(g => {
                 const glyph = glyphLookup[g];
-                console.log("Decoded glyph from: ", g ,glyph);
-                glyphSelect.addItem(glyph.value, true);
-                // add the source to the addons only if it is not already there
-                if (!addonSelect.items.some(item => item === glyph.source)) {
-                    addonSelect.addItem(glyph.source, true);
+                console.log("Decoded glyph from: ", g, glyph);
+                if (glyph) {
+                    glyphSelect.addItem(glyph.value, true);
+                    // add the source to the addons only if it is not already there
+                    if (!addonSelect.items.some(item => item === glyph.source)) {
+                        addonSelect.addItem(glyph.source, true);
+                    }
                 }
             });
         }

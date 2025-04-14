@@ -71,9 +71,43 @@ export function exportToJson(name: string, glyphs: string[]) {
 }
 
 export function exportToBase64(name: string, glyphs: string[]) {
-    // Generate the JSON string
-    const jsonString = exportToJson(name, glyphs);
+    const encoder = new TextEncoder();
+    const parts = glyphs;
 
-    // Encode the JSON string to Base64 using btoa
-    return btoa(jsonString);
+    // Helper to write UTF strings in the Java DataOutputStream.writeUTF format
+    const writeUTF = (str: string, bytes: number[]) => {
+        const encoded = encoder.encode(str);
+        if (encoded.length > 65535) {
+            throw new Error("String too long for writeUTF");
+        }
+        // Java's writeUTF writes the length as a 2-byte unsigned int
+        bytes.push((encoded.length >> 8) & 0xff, encoded.length & 0xff);
+        bytes.push(...encoded);
+    };
+
+    const bytes: number[] = [];
+
+    bytes.push(2); // version byte
+
+    writeUTF(name, bytes);
+
+    // Write part count (Java's writeInt: 4 bytes, big-endian)
+    const partCount = parts.length;
+    bytes.push((partCount >> 24) & 0xff);
+    bytes.push((partCount >> 16) & 0xff);
+    bytes.push((partCount >> 8) & 0xff);
+    bytes.push(partCount & 0xff);
+
+    // Write all parts
+    for (let part of parts) {
+        // if the glyph uses the internal registry, convert it to the lookup key
+        if (!part.includes(":"))
+            part = getRegistryKeyFromInternal(part);
+
+        writeUTF(part, bytes);
+    }
+
+    // Convert to Base64
+    const binaryString = String.fromCharCode(...bytes);
+    return btoa(binaryString);
 }
