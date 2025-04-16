@@ -17,3 +17,26 @@ const submissions = getSubmissionsFromCategory(category);
         <Submission standalone={false} {...submission} />
     )}
 </Fragment>
+
+<script type="module">
+    // Function to copy the spell to the clipboard
+    function copySpellToClipboard(event) {
+        const button = event.target;
+        const encoded = button.dataset.encoded; // Getting encoded spell data
+
+        // Copy the encoded spell to clipboard
+        navigator.clipboard.writeText(encoded).then(
+            () => {
+                // Optionally, you can also show a success message in the console
+                console.log('Spell copied to clipboard!', encoded);
+            }
+        ).catch(err => {
+            console.error("Clipboard write failed:", err);
+        });
+    }
+
+    // Add event listeners to buttons after the component is rendered
+    document.querySelectorAll('.btn-outline-primary').forEach(button => {
+        button.addEventListener('click', copySpellToClipboard);
+    });
+</script>

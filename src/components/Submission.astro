@@ -58,27 +58,3 @@ const getAddonText = getMapText(addonMap);
     <div>{addons.map(addon => <span class="badge text-bg-info me-1">{getAddonText(addon)}</span>)}</div>
     <div>{versions.map(version => <span class="badge text-bg-primary me-1">{version}</span>)}</div>
 </div>
-
-
-<script type="module">
-    // Function to copy the spell to the clipboard
-    function copySpellToClipboard(event) {
-        const button = event.target;
-        const encoded = button.dataset.encoded; // Getting encoded spell data
-
-        // Copy the encoded spell to clipboard
-        navigator.clipboard.writeText(encoded).then(
-            () => {
-                // Optionally, you can also show a success message in the console
-                console.log('Spell copied to clipboard!', encoded);
-            }
-        ).catch(err => {
-            console.error("Clipboard write failed:", err);
-        });
-    }
-
-    // Add event listeners to buttons after the component is rendered
-    document.querySelectorAll('.btn-outline-primary').forEach(button => {
-        button.addEventListener('click', copySpellToClipboard);
-    });
-</script>
