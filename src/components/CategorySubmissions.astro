@@ -19,6 +19,23 @@ const submissions = getSubmissionsFromCategory(category);
 </Fragment>
 
 <script type="module">
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const body = toast.querySelector('.toast-body');
+        body.textContent = message;
+
+        toast.classList.remove('hidden');
+        // Force reflow to allow animation restart
+        void toast.offsetWidth;
+        toast.classList.add('show');
+
+        setTimeout(() => {
+            toast.classList.remove('show');
+            toast.classList.add('hidden');
+        }, 2500);
+    }
+
     // Function to copy the spell to the clipboard
     function copySpellToClipboard(event) {
         const button = event.target;
@@ -27,11 +44,12 @@ const submissions = getSubmissionsFromCategory(category);
         // Copy the encoded spell to clipboard
         navigator.clipboard.writeText(encoded).then(
             () => {
-                // Optionally, you can also show a success message in the console
                 console.log('Spell copied to clipboard!', encoded);
+                showToast('Spell copied to clipboard!');
             }
         ).catch(err => {
             console.error("Clipboard write failed:", err);
+            showToast('Failed to copy spell');
         });
     }
 

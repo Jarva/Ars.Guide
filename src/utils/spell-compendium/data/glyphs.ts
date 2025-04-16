@@ -58,7 +58,7 @@ function buildGlyphMap(glyphObj: Record<string, { text: string }>, source: strin
         });
     }
 
-    console.log(map)
+    // console.log(map)
     return Object.fromEntries(map);
 }
 
