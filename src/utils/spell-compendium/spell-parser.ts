@@ -1,15 +1,28 @@
 import {getRegistryKeyFromInternal} from "./data/glyphs.ts";
+import type {SpellColor, SpellSound} from "./spells.ts";
 
-export function parseJsonSpell(jsonStr:string) {
+export function parseJsonSpell(jsonStr: string) : {
+    name: string;
+    glyphs: string[];
+    color?: SpellColor | null;
+    sound?: SpellSound | null;
+} | null {
     try {
         const parsed = JSON.parse(jsonStr);
-        if (parsed.version !== 1) return null;
+
+        if (!parsed.name || !Array.isArray(parsed.recipe)) {
+            console.warn("Invalid spell JSON format.");
+            return null;
+        }
 
         return {
             name: parsed.name,
-            glyphs: parsed.parts || []
+            glyphs: parsed.recipe,
+            color: parsed.color || null,
+            sound: parsed.sound || null
         };
-    } catch {
+    } catch (e) {
+        console.warn("Failed to parse JSON:", e);
         return null;
     }
 }
@@ -26,13 +39,16 @@ export function parseBase64Spell(base64Str: string) {
         const decoder = new TextDecoder();
 
         const readUTF = () => {
-            const len = view.getUint16(offset); offset += 2;
-            const strBytes = new Uint8Array(buffer, offset, len); offset += len;
+            const len = view.getUint16(offset);
+            offset += 2;
+            const strBytes = new Uint8Array(buffer, offset, len);
+            offset += len;
             return decoder.decode(strBytes);
         };
 
         const name = readUTF();
-        const partCount = view.getInt32(offset); offset += 4;
+        const partCount = view.getInt32(offset);
+        offset += 4;
 
         const glyphs = [];
         for (let i = 0; i < partCount; i++) {
@@ -49,25 +65,43 @@ export function parseBase64Spell(base64Str: string) {
     }
 }
 
-export function exportToJson(name: string, glyphs: string[]) {
+export function exportToJson(name: string, glyphs: string[], color?: SpellColor, sound?: SpellSound) {
 
     const spell_parts = glyphs.map(glyph => {
-        // use reverse lookup to get the registry key
-        const match = getRegistryKeyFromInternal(glyph)
+        const match = getRegistryKeyFromInternal(glyph);
         if (match) {
             return match;
-        }else{
+        } else {
             console.warn("Failed to find registry key for glyph:", glyph);
+            return "";
         }
-        return ""
-    });
+    }).filter(Boolean); // Remove invalid/empty strings
 
-    // Construct the JSON object and convert it to a string
+    // Default color if not provided
+    if (!color) {
+        color = {
+            id: "ars_nouveau:constant",
+            r: 255,
+            g: 255,
+            b: 255
+        }
+    }
+
+    if (!sound){
+        sound = {
+            id: "ars_nouveau:fire_family",
+            pitch: 1,
+            volume: 1
+        }
+    }
+
     return JSON.stringify({
-        version: 1,
-        name: name,
-        parts: spell_parts
-    });
+        name,
+        color,
+        sound,
+        recipe: spell_parts
+    }, null, 2);
+
 }
 
 export function exportToBase64(name: string, glyphs: string[]) {

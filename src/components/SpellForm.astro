@@ -40,7 +40,8 @@
     import TomSelect from 'tom-select';
     import {addons, categories, versions, glyphs, spellFormSchema} from '../utils/spell-form';
     import {parseJsonSpell, parseBase64Spell} from '../utils/spell-compendium/spell-parser';
-    import {getRegistryKeyFromInternal, glyphLookup} from "../utils/spell-compendium/data/glyphs";
+    import {glyphLookup} from "../utils/spell-compendium/data/glyphs";
+    import type {SpellColor, SpellSound} from "../utils/spell-compendium/spells";
 
     const glyphSelect = new TomSelect("#glyphs", {
         labelField: 'text',
@@ -82,6 +83,9 @@
         options: versions
     });
 
+    // TODO: Add a selector for the spell color (rgb or rainbow option)
+    let DEBUG = true
+
     document.getElementById('importClipboardBtn')?.addEventListener('click', async () => {
         try {
             const clipboardText = await navigator.clipboard.readText();
@@ -89,7 +93,7 @@
             let spellData;
 
             if (clipboardText.trim().startsWith('{')) {
-                // JSON (Version 1)
+                // JSON support colors
                 spellData = parseJsonSpell(clipboardText);
             } else {
                 // Binary base64 (Version 2)
@@ -100,6 +104,10 @@
                 alert("Failed to parse spell from clipboard.");
                 console.error(clipboardText);
                 return;
+            }
+
+            if (DEBUG) {
+                console.log("Spell data from clipboard:", spellData);
             }
 
             fillFormWithSpellData(spellData);
@@ -137,7 +145,12 @@
         }
     }, false)
 
-    function fillFormWithSpellData({name, glyphs}: { name: string; glyphs: string[] }) {
+    function fillFormWithSpellData({name, glyphs, spell_color, spell_sound}: {
+        name: string;
+        glyphs: string[];
+        spell_color?: SpellColor,
+        spell_sound?: SpellSound
+    }) {
         const spellInput = document.getElementById('spell') as HTMLInputElement;
         // print the name and the glyphs to the console
         console.log(`Name: ${name}`);

@@ -6,6 +6,20 @@ import type {Version} from "./data/versions.ts";
 export interface Spell {
   glyphs: Glyph[];
   description: string;
+  spell_color?: SpellColor;
+  spell_sound?: string;
+}
+export interface SpellColor {
+  id: string;
+  r: number;
+  g: number;
+  b: number;
+}
+
+export interface SpellSound {
+  id: string;
+  pitch: number;
+  volume: number;
 }
 
 export interface Submission {
