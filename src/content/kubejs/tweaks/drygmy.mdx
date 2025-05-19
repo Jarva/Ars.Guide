@@ -13,9 +13,12 @@ Some scripts on this page require [LootJS](https://modrinth.com/mod/lootjs) to f
 Additionally, the scripts that utilise LootJS require the below snippet to exist in the same file as them to work.
 
 ```js
-const DRYGMY_UUID = "[I;1946194541,268914259,-2012236738,1743961897]";
-const onlyDrygmy = (builder) =>
-  builder.matchKiller((entity) => entity.nbt(`{UUID:${DRYGMY_UUID}}`));
+const DRYGMY_UUID = '7400926d-1007-4e53-880f-b43e67f2bf29';
+
+function onlyDrygmy(event, entity) {
+    return event.addEntityModifier(entity).matchAttackerCustom((attacker) => attacker.uuid.toString() == DRYGMY_UUID);
+}
+
 ```
 </Callout>
 
@@ -43,10 +46,7 @@ This tweak creates a special loot table that produces Nether Stars only for Dryg
 
 ```js
 LootJS.modifiers((event) => {
-  onlyDrygmy(event.addEntityLootModifier("minecraft:wither")).addLoot(
-    "minecraft:nether_star",
-  );
-});
+    onlyDrygmy(event, 'minecraft:wither').addLoot('minecraft:nether_star');
 ```
 
 ## Irons Spellbooks
