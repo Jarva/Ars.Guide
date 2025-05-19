@@ -73,10 +73,7 @@ This tweak prevents Ancient Knights (`irons_spellbooks:citadel_keeper`) from dro
 
 ```js
 LootJS.modifiers((event) => {
-  onlyDrygmy(
-    event.addEntityLootModifier("irons_spellbooks:citadel_keeper"),
-  ).removeLoot("minecraft:netherite_scrap");
-});
+    onlyDrygmy(event, 'irons_spellbooks:citadel_keeper').removeLoot('minecraft:netherite_scrap');
 ```
 
 ### Boss Mobs
