@@ -60,7 +60,7 @@ This tweak removes Irons Spellbooks scrolls from all entity drops in Drygmy farm
 
 ```js
 LootJS.modifiers((event) => {
-  onlyDrygmy(event.addTypeModifier("entity").removeLoot("irons_spellbooks:scroll");
+  onlyDrygmy(event.addTypeModifier("entity")).removeLoot("irons_spellbooks:scroll");
 });
 ```
 
