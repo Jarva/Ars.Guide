@@ -47,6 +47,7 @@ This tweak creates a special loot table that produces Nether Stars only for Dryg
 ```js
 LootJS.modifiers((event) => {
     onlyDrygmy(event, 'minecraft:wither').addLoot('minecraft:nether_star');
+});
 ```
 
 ## Irons Spellbooks
@@ -59,9 +60,7 @@ This tweak removes Irons Spellbooks scrolls from all entity drops in Drygmy farm
 
 ```js
 LootJS.modifiers((event) => {
-  onlyDrygmy(event.addLootTypeModifier(LootType.ENTITY)).removeLoot(
-    "irons_spellbooks:scroll",
-  );
+  onlyDrygmy(event.addTypeModifier("entity").removeLoot("irons_spellbooks:scroll");
 });
 ```
 
@@ -74,6 +73,7 @@ This tweak prevents Ancient Knights (`irons_spellbooks:citadel_keeper`) from dro
 ```js
 LootJS.modifiers((event) => {
     onlyDrygmy(event, 'irons_spellbooks:citadel_keeper').removeLoot('minecraft:netherite_scrap');
+});
 ```
 
 ### Boss Mobs
