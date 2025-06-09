@@ -41,7 +41,7 @@ type Augments = {
 }
 
 const exportedGlyphs: {[id: string]: ExportedGlyph} = await fetch(
-    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/glyphs.json",
+    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/glyphs.json",
     {
         headers: {
             Accept: "application/vnd.github.text-match+json",
@@ -50,7 +50,7 @@ const exportedGlyphs: {[id: string]: ExportedGlyph} = await fetch(
 ).then(r => r.json());
 
 const lang: {[key: string]: string} = await fetch(
-    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/lang/en_us.json",
+    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/lang/en_us.json",
     {
         headers: {
             Accept: "application/vnd.github.text-match+json",
