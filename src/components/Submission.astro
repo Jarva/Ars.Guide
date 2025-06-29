@@ -5,7 +5,7 @@ import type {Submission} from '../utils/spell-compendium/spells';
 import Glyphs from './Glyphs.astro'
 import {slug} from "github-slugger";
 import {toTitleCase} from "../utils/text";
-import {exportToBase64, exportToJson} from "../utils/spell-compendium/spell-parser";
+import {exportCompressedSpell, exportToJson} from "../utils/spell-compendium/spell-parser";
 
 type Props = Submission & {
     standalone: boolean;
@@ -23,8 +23,9 @@ const getAddonText = getMapText(addonMap);
 </h2>}
 <h6 class="card-subtitle mb-2 text-body-secondary">By {author}</h6>
 {spells.map(spell => {
-    const encodedJson = exportToJson(name, spell.glyphs, spell.spell_color);
-    const encoded64 =  exportToBase64(name, spell.glyphs)
+    // TODO: Remove the old encodedJson after testing phase
+    const encodedJson = exportToJson(name, spell.glyphs, spell.spell_color, undefined ,spell.style);
+    const encoded64 =  exportCompressedSpell(name, spell.glyphs, spell.spell_color, undefined, spell.style)
     return <div class="mb-4">
         <h5 class="card-title mb-2">
             <Glyphs glyphs={spell.glyphs}/>

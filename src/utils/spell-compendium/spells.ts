@@ -4,31 +4,33 @@ import type {Glyph} from "./data/glyphs.ts";
 import type {Version} from "./data/versions.ts";
 
 export interface Spell {
-  glyphs: Glyph[];
-  description: string;
-  spell_color?: SpellColor;
-  spell_sound?: string;
+    glyphs: Glyph[];
+    description: string;
+    spell_color?: SpellColor;
+    spell_sound?: string;
+    style?: Record<string, any>;
 }
+
 export interface SpellColor {
-  id: string;
-  r: number;
-  g: number;
-  b: number;
+    id: string;
+    r: number;
+    g: number;
+    b: number;
 }
 
 export interface SpellSound {
-  id: string;
-  pitch: number;
-  volume: number;
+    id: string;
+    pitch: number;
+    volume: number;
 }
 
 export interface Submission {
-  name: string;
-  category: Category;
-  author: string;
-  versions: Version[];
-  addons: Addon[];
-  spells: Spell[];
+    name: string;
+    category: Category;
+    author: string;
+    versions: Version[];
+    addons: Addon[];
+    spells: Spell[];
 }
 
 export const submissions: Submission[] = [

@@ -33,13 +33,14 @@
         <label for="description" class="form-label">Description</label>
         <textarea name="description" required class="form-control" id="description" placeholder="..."/>
     </div>
+    <input type="hidden" name="style" id="style" />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <script>
     import TomSelect from 'tom-select';
     import {addons, categories, versions, glyphs, spellFormSchema} from '../utils/spell-form';
-    import {parseJsonSpell, parseBase64Spell} from '../utils/spell-compendium/spell-parser';
+    import {parseJsonSpell, parseCompressedSpell} from '../utils/spell-compendium/spell-parser';
     import {glyphLookup} from "../utils/spell-compendium/data/glyphs";
     import type {SpellColor, SpellSound} from "../utils/spell-compendium/spells";
 
@@ -83,9 +84,6 @@
         options: versions
     });
 
-    // TODO: Add a selector for the spell color (rgb or rainbow option)
-    let DEBUG = true
-
     document.getElementById('importClipboardBtn')?.addEventListener('click', async () => {
         try {
             const clipboardText = await navigator.clipboard.readText();
@@ -97,7 +95,7 @@
                 spellData = parseJsonSpell(clipboardText);
             } else {
                 // Binary base64 (Version 2)
-                spellData = parseBase64Spell(clipboardText);
+                spellData = parseCompressedSpell(clipboardText);
             }
 
             if (!spellData) {
@@ -106,9 +104,9 @@
                 return;
             }
 
-            if (DEBUG) {
-                console.log("Spell data from clipboard:", spellData);
-            }
+
+            console.log("Spell data from clipboard:", spellData);
+
 
             fillFormWithSpellData(spellData);
 
@@ -145,22 +143,24 @@
         }
     }, false)
 
-    function fillFormWithSpellData({name, glyphs, spell_color, spell_sound}: {
+    function fillFormWithSpellData({name, glyphs, spell_color, spell_sound, spell_style}: {
         name: string;
         glyphs: string[];
         spell_color?: SpellColor,
-        spell_sound?: SpellSound
+        spell_sound?: SpellSound,
+        spell_style?: Record<string, any>
     }) {
         const spellInput = document.getElementById('spell') as HTMLInputElement;
+        const spellStyle = document.getElementById('style') as HTMLInputElement;
         // print the name and the glyphs to the console
-        console.log(`Name: ${name}`);
-        console.log(`Glyphs: ${glyphs.join(', ')}`);
+        // console.log(`Name: ${name}`);
+        // console.log(`Glyphs: ${glyphs.join(', ')}`);
         if (spellInput) spellInput.value = name;
         if (glyphSelect) {
             glyphSelect.clear();
             glyphs.forEach(g => {
                 const glyph = glyphLookup[g];
-                console.log("Decoded glyph from: ", g, glyph);
+                // console.log("Decoded glyph from: ", g, glyph);
                 if (glyph) {
                     glyphSelect.addItem(glyph.value, true);
                     // add the source to the addons only if it is not already there
@@ -171,6 +171,9 @@
             });
         }
         spellInput?.dispatchEvent(new Event('blur'));
+        if (spell_style && spellStyle){
+            spellStyle.value = JSON.stringify(spell_style);
+        }
     }
 
 </script>

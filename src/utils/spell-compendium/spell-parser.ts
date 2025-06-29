@@ -1,11 +1,13 @@
 import {getRegistryKeyFromInternal} from "./data/glyphs.ts";
 import type {SpellColor, SpellSound} from "./spells.ts";
+import pako from "pako";
 
-export function parseJsonSpell(jsonStr: string) : {
+export function parseJsonSpell(jsonStr: string): {
     name: string;
     glyphs: string[];
     color?: SpellColor | null;
     sound?: SpellSound | null;
+    particleTimeline?: Record<string, any>
 } | null {
     try {
         const parsed = JSON.parse(jsonStr);
@@ -19,7 +21,8 @@ export function parseJsonSpell(jsonStr: string) : {
             name: parsed.name,
             glyphs: parsed.recipe,
             color: parsed.color || null,
-            sound: parsed.sound || null
+            sound: parsed.sound || null,
+            particleTimeline: parsed.particleTimeline || null
         };
     } catch (e) {
         console.warn("Failed to parse JSON:", e);
@@ -27,52 +30,14 @@ export function parseJsonSpell(jsonStr: string) : {
     }
 }
 
-export function parseBase64Spell(base64Str: string) {
-    try {
-        const buffer = Uint8Array.from(atob(base64Str), c => c.charCodeAt(0)).buffer;
-        const view = new DataView(buffer);
-        let offset = 0;
-
-        const version = view.getUint8(offset++);
-        if (version !== 2) return null;
-
-        const decoder = new TextDecoder();
-
-        const readUTF = () => {
-            const len = view.getUint16(offset);
-            offset += 2;
-            const strBytes = new Uint8Array(buffer, offset, len);
-            offset += len;
-            return decoder.decode(strBytes);
-        };
-
-        const name = readUTF();
-        const partCount = view.getInt32(offset);
-        offset += 4;
-
-        const glyphs = [];
-        for (let i = 0; i < partCount; i++) {
-            glyphs.push(readUTF());
-        }
-
-        return {
-            name,
-            glyphs
-        };
-    } catch (err) {
-        console.error("Failed to decode Base64 spell:", err);
-        return null;
-    }
-}
-
-export function exportToJson(name: string, glyphs: string[], color?: SpellColor, sound?: SpellSound) {
+export function exportToJson(name: string, glyphs: string[], color?: SpellColor, sound?: SpellSound, spell_timeline?: Record<string, any>): string {
 
     const spell_parts = glyphs.map(glyph => {
         const match = getRegistryKeyFromInternal(glyph);
         if (match) {
             return match;
         } else {
-            console.warn("Failed to find registry key for glyph:", glyph);
+            // console.warn("Failed to find registry key for glyph:", glyph);
             return "";
         }
     }).filter(Boolean); // Remove invalid/empty strings
@@ -87,7 +52,7 @@ export function exportToJson(name: string, glyphs: string[], color?: SpellColor,
         }
     }
 
-    if (!sound){
+    if (!sound) {
         sound = {
             id: "ars_nouveau:fire_family",
             pitch: 1,
@@ -99,49 +64,43 @@ export function exportToJson(name: string, glyphs: string[], color?: SpellColor,
         name,
         color,
         sound,
-        recipe: spell_parts
+        recipe: spell_parts,
+        particleTimeline: spell_timeline || {}
     }, null, 2);
 
 }
 
-export function exportToBase64(name: string, glyphs: string[]) {
-    const encoder = new TextEncoder();
-    const parts = glyphs;
+export function parseCompressedSpell(base64Str: string): {
+    name: string;
+    glyphs: string[];
+    particleTimeline?: object;
+} | null {
+    try {
+        const binary = Uint8Array.from(atob(base64Str), c => c.charCodeAt(0));
+        const decompressed = pako.ungzip(binary, {to: 'string'});
+        const parsed = JSON.parse(decompressed);
 
-    // Helper to write UTF strings in the Java DataOutputStream.writeUTF format
-    const writeUTF = (str: string, bytes: number[]) => {
-        const encoded = encoder.encode(str);
-        if (encoded.length > 65535) {
-            throw new Error("String too long for writeUTF");
+        if (!parsed.name || !Array.isArray(parsed.recipe)) {
+            console.warn("Invalid spell JSON format.");
+            return null;
         }
-        // Java's writeUTF writes the length as a 2-byte unsigned int
-        bytes.push((encoded.length >> 8) & 0xff, encoded.length & 0xff);
-        bytes.push(...encoded);
-    };
 
-    const bytes: number[] = [];
-
-    bytes.push(2); // version byte
-
-    writeUTF(name, bytes);
-
-    // Write part count (Java's writeInt: 4 bytes, big-endian)
-    const partCount = parts.length;
-    bytes.push((partCount >> 24) & 0xff);
-    bytes.push((partCount >> 16) & 0xff);
-    bytes.push((partCount >> 8) & 0xff);
-    bytes.push(partCount & 0xff);
-
-    // Write all parts
-    for (let part of parts) {
-        // if the glyph uses the internal registry, convert it to the lookup key
-        if (!part.includes(":"))
-            part = getRegistryKeyFromInternal(part);
-
-        writeUTF(part, bytes);
+        return {
+            name: parsed.name,
+            glyphs: parsed.recipe,
+            particleTimeline: parsed.particleTimeline || null
+        };
+    } catch (e) {
+        console.error("Failed to parse compressed spell:", e);
+        return null;
     }
+}
 
-    // Convert to Base64
-    const binaryString = String.fromCharCode(...bytes);
-    return btoa(binaryString);
+
+export function exportCompressedSpell(
+    name: string, recipe: string[], color?: SpellColor, sound?: SpellSound, particle_timeline: object = {}
+): string {
+    const jsonStr = exportToJson(name, recipe, color, sound, particle_timeline);
+    const compressed = pako.gzip(jsonStr);
+    return btoa(String.fromCharCode(...compressed));
 }
