@@ -1,0 +1,124 @@
+---
+import { slug } from "github-slugger";
+
+type ExportedGlyph = {
+  typeName: Component
+  typeIndex: number
+  classes: string[]
+  spellSchools: SpellSchool[]
+  defaults: Defaults
+  name: string
+  texture: string
+  animated: boolean
+  registryName: string
+  localizationKey: string
+}
+
+type Component = {
+  translate: string
+}
+
+type SpellSchool = {
+    id: string
+    subschools: string[]
+}
+
+type Defaults = {
+  starter: boolean
+  perSpellLimit: number
+  augments: Augments
+  invalidCombinations: string[]
+  tier: number
+  cost: number
+  enabled: boolean
+}
+
+type Augments = {
+  compatible: string[]
+  descriptions: {[id: string]: Component}
+  costs: {[id: string]: number}
+  limits: {[id: string]: number}
+}
+
+const exportedGlyphs: {[id: string]: ExportedGlyph} = await fetch(
+    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/glyphs.json",
+    {
+        headers: {
+            Accept: "application/vnd.github.text-match+json",
+        },
+    }
+).then(r => r.json());
+
+const lang: {[key: string]: string} = await fetch(
+    "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/lang/en_us.json",
+    {
+        headers: {
+            Accept: "application/vnd.github.text-match+json",
+        },
+    }
+).then(r => r.json());
+
+const augmentDescriptions = new Map(Object.entries(lang).filter(([k, _]) => k.includes(".augment_desc.")).map(([k, v]) => [k.replace(/^([^.]*.){2}/, ""), v]))
+
+const namespace = (location: string) => location.replace(/:.*$/, "")
+const path = (location: string) => location.replace(/^.*:/, "")
+
+const img = (size: number, glyph: ExportedGlyph) => {
+    return `<img style="margin-right:0.75rem;width:${size}rem;height:${size}rem;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;" src="https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@1.21/output/resources/${namespace(glyph.registryName).replace("^(not_enough_glyphs|toomanyglyphs|arsomega|ars_scalaes)$", "notenoughglyphs")}/assets/${namespace(glyph.texture)}/textures/${path(glyph.texture)}.${glyph.animated ? "gif" : "png"}?raw=true"} />`
+}
+
+---
+<Fragment>
+    {Object.values(exportedGlyphs).toSorted((a, b) => lang[a.localizationKey].localeCompare(lang[b.localizationKey])).map(glyph =>
+        <Fragment>
+            <h2 id={glyph.registryName}>
+                <Fragment set:html={img(1.75, glyph)} />
+                {lang[glyph.localizationKey]}
+            </h2>
+
+            <p>
+                {lang[`${namespace(glyph.registryName)}.glyph_desc.${path(glyph.registryName)}`]}
+            </p>
+
+            {glyph.defaults.invalidCombinations.length > 0 && <Fragment>
+                <h3 id={slug(`${glyph.registryName}_invalid`)}>Invalid Combinations</h3>
+                <ul>
+                    {glyph.defaults.invalidCombinations.map(combo => exportedGlyphs[combo]).map(combo => <li>
+                        <Fragment set:html={img(1.33, combo)} />
+                        <span style="font-size: 1.33rem;">
+                            {lang[combo.localizationKey]}
+                        </span>
+                    </li>)}
+                </ul>
+            </Fragment>}
+
+            {glyph.defaults.augments.compatible.length > 0 && <Fragment>
+                <h3 id={slug(`${glyph.registryName}_augments`)}>Augments</h3>
+                <ul>
+                    {glyph.defaults.augments.compatible.map(augment => exportedGlyphs[augment]).map(augment => <li>
+                        <Fragment set:html={img(1.33, augment)} />
+                        <span style="font-size: 1.33rem; font-weight:bold">
+                            {lang[augment.localizationKey]}
+                        </span>
+                        {glyph.defaults.augments.limits[augment.registryName] != null && <span style="margin-left: 0.5rem;">Max {glyph.defaults.augments.limits[augment.registryName]}</span>}
+                        {glyph.defaults.augments.costs[augment.registryName] != null && <span style="margin-left: 0.5rem;">Costs {glyph.defaults.augments.costs[augment.registryName]}</span>}
+                        <p>
+                            {augmentDescriptions.get(`${path(glyph.registryName)}_${path(augment.registryName)}`)}
+                        </p>
+                    </li>)}
+                </ul>
+            </Fragment>}
+
+            <h3 id={slug(`${glyph.registryName}_augments`)}>Details</h3>
+
+            <p style="margin-bottom: 0rem;"><b>Type</b>: {lang[glyph.typeName.translate]}</p>
+            <p style="margin-bottom: 0rem;"><b>Tier</b>: {glyph.defaults.tier}</p>
+            <p style="margin-bottom: 0rem;"><b>Cost</b>: {glyph.defaults.cost}</p>
+            {glyph.defaults.perSpellLimit != 2147483647 && <p style="margin-bottom: 0rem;"><b>Limit Per Spell</b>: {glyph.defaults.perSpellLimit}</p>}
+            <p style="margin-bottom: 0rem;"><b>Schools</b>: {glyph.spellSchools.length > 0 ? <ol>{glyph.spellSchools.map(s => <li>{lang[`ars_nouveau.school.${s.id}`]}</li>)}</ol> : "None"}</p>
+            <p style="margin-bottom: 0rem;"><b>Enabled</b>: {glyph.defaults.enabled}</p>
+            <p style="margin-bottom: 0rem;"><b>ID</b>: {glyph.registryName}</p>
+            <p style="margin-bottom: 0rem;"><b>Classes</b>: <ol>{glyph.classes.map(c => <li>{c}</li>)}</ol></p>
+        </Fragment>
+    )}
+</Fragment>
