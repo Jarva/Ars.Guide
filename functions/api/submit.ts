@@ -1,23 +1,23 @@
-import { getMapText, spellFormSchema } from '../../src/utils/spell-form';
-import type { Submission } from '../../src/utils/spell-compendium/spells';
-import type { PagesFunction, Response as WorkerResponse } from '@cloudflare/workers-types'
+import {getMapText, spellFormSchema} from '../../src/utils/spell-form';
+import type {Submission} from '../../src/utils/spell-compendium/spells';
+import type {PagesFunction, Response as WorkerResponse} from '@cloudflare/workers-types'
 import he from "he"
-import { EmbedBuilder } from "@discordjs/builders"
-import { glyphMap } from '../../src/utils/spell-compendium/data/glyphs';
+import {EmbedBuilder} from "@discordjs/builders"
+import {glyphMap} from '../../src/utils/spell-compendium/data/glyphs';
 
 interface Env {
-	WEBHOOK_URL: string;
+    WEBHOOK_URL: string;
     ADMIN_WEBHOOK_URL: string;
 }
 
-const clean = (str: string) => he.encode(str, { useNamedReferences: true });
+const clean = (str: string) => he.encode(str, {useNamedReferences: true});
 
 const getAddonText = getMapText(glyphMap)
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
-    const { request, env } = context;
+    const {request, env} = context;
     const form = await request.formData();
-  
+
     const body = spellFormSchema.parse(form);
     const url = new URL(request.url)
 
@@ -30,7 +30,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         spells: [
             {
                 glyphs: body.glyphs,
-                description: clean(body.description)
+                description: clean(body.description),
+                style: body.style ? JSON.parse(body.style) : {},
             }
         ]
     }
@@ -45,12 +46,12 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         .setTitle(body.spell)
         .setDescription(body.description)
         .setFields([
-            { name: "Category", value: body.category, inline: true },
-            { name: "Versions", value: body.versions.join(", "), inline: true },
-            { name: "Addons", value: body.addons.length > 0 ? body.addons.join(", ") : "N/A" },
-            { name: "Glyphs", value: body.glyphs.map(glyph => getAddonText(glyph)).join(" ➝ ") },
+            {name: "Category", value: body.category, inline: true},
+            {name: "Versions", value: body.versions.join(", "), inline: true},
+            {name: "Addons", value: body.addons && body.addons.length > 0 ? body.addons.join(", ") : "N/A"},
+            {name: "Glyphs", value: body.glyphs.map(glyph => getAddonText(glyph)).join(" ➝ ")},
         ])
-        .setAuthor({ name: clean(body.author) });
+        .setAuthor({name: clean(body.author)});
 
     const adminRes = await fetch(env.ADMIN_WEBHOOK_URL, {
         method: "POST",

@@ -46,6 +46,7 @@
     "cssnano": "^6.1.1",
     "github-slugger": "^2.0.0",
     "he": "^1.2.0",
+    "pako": "^2.1.0",
     "purgecss": "^5.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -66,6 +67,7 @@
     "@types/bootstrap": "^5.2.10",
     "@types/core-js": "^2.5.8",
     "@types/he": "^1.2.3",
+    "@types/pako": "^2.0.3",
     "core-js": "^3.36.1"
   }
 }

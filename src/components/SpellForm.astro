@@ -4,41 +4,49 @@
 <form id="spellForm" style="max-width: 500px" novalidate autocomplete="off" method="post" action="/api/submit">
     <div class="mb-3">
         <label for="author" class="form-label">Author</label>
-        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author" />
+        <input name="author" required pattern="[A-z0-9 ]+" type="text" class="form-control" id="author"/>
     </div>
     <div class="mb-3">
         <label for="spell" class="form-label">Spell</label>
-        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell" />
+        <input name="spell" required pattern="[A-z ]+" type="text" class="form-control" id="spell"/>
     </div>
+    <button type="button" class="btn btn-secondary mb-3" id="importClipboardBtn">
+        Import from Clipboard
+    </button>
     <div class="mb-3">
         <label for="glyphs" class="form-label">Glyphs</label>
-        <input name="glyphs" required class="form-control" id="glyphs" />
+        <input name="glyphs" required class="form-control" id="glyphs"/>
     </div>
     <div class="mb-3">
         <label for="category" class="form-label">Category</label>
-        <input name="category" required class="form-control" id="category" />
+        <input name="category" required class="form-control" id="category"/>
     </div>
     <div class="mb-3">
         <label for="addons" class="form-label">Addons</label>
-        <input name="addons" class="form-control" id="addons" />
+        <input name="addons" class="form-control" id="addons"/>
     </div>
     <div class="mb-3">
         <label for="versions" class="form-label">Versions</label>
-        <input name="versions" required class="form-control" id="versions" />
+        <input name="versions" required class="form-control" id="versions"/>
     </div>
     <div class="mb-3">
         <label for="description" class="form-label">Description</label>
-        <textarea name="description" required class="form-control" id="description" placeholder="..." />
+        <textarea name="description" required class="form-control" id="description" placeholder="..."/>
     </div>
+    <input type="hidden" name="style" id="style" />
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <script>
     import TomSelect from 'tom-select';
-    import { addons, categories, versions, glyphs, spellFormSchema } from '../utils/spell-form';
+    import {addons, categories, versions, glyphs, spellFormSchema} from '../utils/spell-form';
+    import {parseJsonSpell, parseCompressedSpell} from '../utils/spell-compendium/spell-parser';
+    import {glyphLookup} from "../utils/spell-compendium/data/glyphs";
+    import type {SpellColor, SpellSound} from "../utils/spell-compendium/spells";
+
     const glyphSelect = new TomSelect("#glyphs", {
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         sortField: 'text',
         options: glyphs,
         plugins: ['drag_drop', 'caret_position', 'remove_button'],
@@ -49,32 +57,65 @@
             glyphSelect.setTextboxValue();
             glyphSelect.refreshOptions();
         },
-        createFilter: function(input) {
+        createFilter: function (input) {
             return !(input.toLowerCase() in (this.options || []))
         }
     });
     new TomSelect("#category", {
         optgroups: [
-            { value: 'combat', label: 'Combat' },
-            { value: 'other', label: 'Other' },
+            {value: 'combat', label: 'Combat'},
+            {value: 'other', label: 'Other'},
         ],
         optgroupField: 'class',
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         options: categories,
         maxItems: 1,
     });
-    new TomSelect("#addons", {
+    const addonSelect = new TomSelect("#addons", {
         labelField: 'text',
-	    searchField: ['text'],
+        searchField: ['text'],
         options: addons,
         create: true
     });
     new TomSelect("#versions", {
         labelField: 'value',
-	    searchField: ['value'],
+        searchField: ['value'],
         options: versions
     });
+
+    document.getElementById('importClipboardBtn')?.addEventListener('click', async () => {
+        try {
+            const clipboardText = await navigator.clipboard.readText();
+
+            let spellData;
+
+            if (clipboardText.trim().startsWith('{')) {
+                // JSON support colors
+                spellData = parseJsonSpell(clipboardText);
+            } else {
+                // Binary base64 (Version 2)
+                spellData = parseCompressedSpell(clipboardText);
+            }
+
+            if (!spellData) {
+                alert("Failed to parse spell from clipboard.");
+                console.error(clipboardText);
+                return;
+            }
+
+
+            console.log("Spell data from clipboard:", spellData);
+
+
+            fillFormWithSpellData(spellData);
+
+        } catch (err) {
+            console.error("Clipboard read failed:", err);
+            alert("Could not read from clipboard.");
+        }
+    });
+
     const form = document.getElementById('spellForm');
     const inputs = document.querySelectorAll('#spellForm input');
     inputs.forEach(input => {
@@ -92,13 +133,48 @@
         form.classList.add('was-validated');
         if (!(form as HTMLFormElement).checkValidity()) {
             event.preventDefault()
-		    event.stopPropagation()
+            event.stopPropagation()
         }
         const formData = new FormData(form as HTMLFormElement);
         const parsed = spellFormSchema.safeParse(formData);
         if (!parsed.success) {
             event.preventDefault()
-		    event.stopPropagation()
+            event.stopPropagation()
         }
     }, false)
+
+    function fillFormWithSpellData({name, glyphs, spell_color, spell_sound, spell_style}: {
+        name: string;
+        glyphs: string[];
+        spell_color?: SpellColor,
+        spell_sound?: SpellSound,
+        spell_style?: Record<string, any>
+    }) {
+        const spellInput = document.getElementById('spell') as HTMLInputElement;
+        const spellStyle = document.getElementById('style') as HTMLInputElement;
+        // print the name and the glyphs to the console
+        // console.log(`Name: ${name}`);
+        // console.log(`Glyphs: ${glyphs.join(', ')}`);
+        if (spellInput) spellInput.value = name;
+        if (glyphSelect) {
+            glyphSelect.clear();
+            glyphs.forEach(g => {
+                const glyph = glyphLookup[g];
+                // console.log("Decoded glyph from: ", g, glyph);
+                if (glyph) {
+                    glyphSelect.addItem(glyph.value, true);
+                    // add the source to the addons only if it is not already there
+                    if (!addonSelect.items.some(item => item === glyph.source)) {
+                        addonSelect.addItem(glyph.source, true);
+                    }
+                }
+            });
+        }
+        spellInput?.dispatchEvent(new Event('blur'));
+        if (spell_style && spellStyle){
+            spellStyle.value = JSON.stringify(spell_style);
+        }
+    }
+
 </script>
+

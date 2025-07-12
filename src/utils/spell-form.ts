@@ -53,4 +53,5 @@ export const spellFormSchema = zfd.formData({
     versions: zfd.text(
         z.string().min(1)
     ).transform(typeMultiSelect<Version>()),
+    style: z.string().optional()
 });
