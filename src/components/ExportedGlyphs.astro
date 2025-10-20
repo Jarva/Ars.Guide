@@ -64,7 +64,7 @@ const namespace = (location: string) => location.replace(/:.*$/, "")
 const path = (location: string) => location.replace(/^.*:/, "")
 
 const img = (size: number, glyph: ExportedGlyph) => {
-    return `<img style="margin-right:0.75rem;width:${size}rem;height:${size}rem;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;" src="https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@1.21/output/resources/${namespace(glyph.registryName).replace("^(not_enough_glyphs|toomanyglyphs|arsomega|ars_scalaes)$", "notenoughglyphs")}/assets/${namespace(glyph.texture)}/textures/${path(glyph.texture)}.${glyph.animated ? "gif" : "png"}?raw=true"} />`
+    return `<img style="margin-right:0.75rem;width:${size}rem;height:${size}rem;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;" src="https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@1.21/output/${glyph.animated ? 'animated_textures' : 'resources'}/${namespace(glyph.registryName).replace(/^(toomanyglyphs|arsomega|ars_scalaes|ars_trinkets)$/, "not_enough_glyphs")}/${glyph.animated ? '' : `assets/${namespace(glyph.texture)}/textures`}/${path(glyph.texture)}.${glyph.animated ? "gif" : "png"}?raw=true"} />`
 }
 
 ---
