@@ -91,9 +91,9 @@ const img = (size: number, glyph: ExportedGlyph) => {
             </p>
 
             {glyph.defaults.invalidCombinations.length > 0 && <Fragment>
-                <h3 id={(`${slug}-invalid`)}>
+                <h3 id={(`${slug}/invalid`)}>
                     Invalid Combinations
-                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-invalid permalink`} href={`#${slug}-invalid`}>#</a>
+                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}/invalid permalink`} href={`#${slug}/invalid`}>#</a>
                 </h3>
                 <ul>
                     {glyph.defaults.invalidCombinations.map(combo => exportedGlyphs[combo]).map(combo => <li>
@@ -106,9 +106,9 @@ const img = (size: number, glyph: ExportedGlyph) => {
                 </Fragment>}
 
             {glyph.defaults.augments.compatible.length > 0 && <Fragment>
-                <h3 id={`${slug}-augments`}>
+                <h3 id={`${slug}/augments`}>
                     Augments
-                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-augments permalink`} href={`#${slug}-augments`}>#</a>
+                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}/augments permalink`} href={`#${slug}/augments`}>#</a>
                 </h3>
                 <ul>
                     {glyph.defaults.augments.compatible.map(augment => exportedGlyphs[augment]).map(augment => <li>
@@ -125,9 +125,9 @@ const img = (size: number, glyph: ExportedGlyph) => {
                 </ul>
             </Fragment>}
 
-            <h3 id={`${slug}-details`}>
+            <h3 id={`${slug}/details`}>
                 Details
-                <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-details permalink`} href={`#${slug}-details`}>#</a>
+                <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}/details permalink`} href={`#${slug}/details`}>#</a>
             </h3>
 
             <p style="margin-bottom: 0rem;"><b>Type</b>: {lang[glyph.typeName.translate]}</p>
