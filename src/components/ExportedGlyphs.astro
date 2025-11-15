@@ -1,21 +1,21 @@
 ---
-import { slug } from "github-slugger";
+import {slug} from "github-slugger";
 
 type ExportedGlyph = {
-  typeName: Component
-  typeIndex: number
-  classes: string[]
-  spellSchools: SpellSchool[]
-  defaults: Defaults
-  name: string
-  texture: string
-  animated: boolean
-  registryName: string
-  localizationKey: string
+    typeName: Component
+    typeIndex: number
+    classes: string[]
+    spellSchools: SpellSchool[]
+    defaults: Defaults
+    name: string
+    texture: string
+    animated: boolean
+    registryName: string
+    localizationKey: string
 }
 
 type Component = {
-  translate: string
+    translate: string
 }
 
 type SpellSchool = {
@@ -24,23 +24,32 @@ type SpellSchool = {
 }
 
 type Defaults = {
-  starter: boolean
-  perSpellLimit: number
-  augments: Augments
-  invalidCombinations: string[]
-  tier: number
-  cost: number
-  enabled: boolean
+    starter: boolean
+    perSpellLimit: number
+    augments: Augments
+    invalidCombinations: string[]
+    defaultConfig: Configs
+    tier: number
+    cost: number
+    enabled: boolean
 }
 
 type Augments = {
-  compatible: string[]
-  descriptions: {[id: string]: Component}
-  costs: {[id: string]: number}
-  limits: {[id: string]: number}
+    compatible: string[]
+    descriptions: { [id: string]: Component }
+    costs: { [id: string]: number }
+    limits: { [id: string]: number }
 }
 
-const exportedGlyphs: {[id: string]: ExportedGlyph} = await fetch(
+type Configs = {
+    baseDamage?: number;
+    ampDamage?: number;
+    baseDuration?: number;
+    ampDuration?: number;
+}
+
+
+const exportedGlyphs: { [id: string]: ExportedGlyph } = await fetch(
     "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/glyphs.json",
     {
         headers: {
@@ -49,7 +58,7 @@ const exportedGlyphs: {[id: string]: ExportedGlyph} = await fetch(
     }
 ).then(r => r.json());
 
-const lang: {[key: string]: string} = await fetch(
+const lang: { [key: string]: string } = await fetch(
     "https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@refs/heads/1.21/output/lang/en_us.json",
     {
         headers: {
@@ -66,13 +75,12 @@ const path = (location: string) => location.replace(/^.*:/, "")
 const img = (size: number, glyph: ExportedGlyph) => {
     return `<img style="margin-right:0.75rem;width:${size}rem;height:${size}rem;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;" src="https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@1.21/output/resources/${namespace(glyph.registryName).replace("^(not_enough_glyphs|toomanyglyphs|arsomega|ars_scalaes)$", "notenoughglyphs")}/assets/${namespace(glyph.texture)}/textures/${path(glyph.texture)}.${glyph.animated ? "gif" : "png"}?raw=true"} />`
 }
-
 ---
 <Fragment>
     {Object.values(exportedGlyphs).toSorted((a, b) => lang[a.localizationKey].localeCompare(lang[b.localizationKey])).map(glyph =>
         <Fragment>
             <h2 id={glyph.registryName}>
-                <Fragment set:html={img(1.75, glyph)} />
+                <Fragment set:html={img(1.75, glyph)}/>
                 {lang[glyph.localizationKey]}
             </h2>
 
@@ -88,9 +96,9 @@ const img = (size: number, glyph: ExportedGlyph) => {
                         <span style="font-size: 1.33rem;">
                             {lang[combo.localizationKey]}
                         </span>
-                    </li>)}
-                </ul>
-            </Fragment>}
+                            </li>)}
+                    </ul>
+                </Fragment>}
 
             {glyph.defaults.augments.compatible.length > 0 && <Fragment>
                 <h3 id={slug(`${glyph.registryName}_augments`)}>Augments</h3>
@@ -117,6 +125,22 @@ const img = (size: number, glyph: ExportedGlyph) => {
             {glyph.defaults.perSpellLimit != 2147483647 && <p style="margin-bottom: 0rem;"><b>Limit Per Spell</b>: {glyph.defaults.perSpellLimit}</p>}
             <p style="margin-bottom: 0rem;"><b>Schools</b>: {glyph.spellSchools.length > 0 ? <ol>{glyph.spellSchools.map(s => <li>{lang[`ars_nouveau.school.${s.id}`]}</li>)}</ol> : "None"}</p>
             <p style="margin-bottom: 0rem;"><b>Enabled</b>: {glyph.defaults.enabled}</p>
+            {(() => {
+                const cfg = glyph.defaults.defaultConfig;
+                if (!cfg) return null;
+                const items: any[] = [];
+                if (cfg.baseDamage != null) items.push(<li>Base Damage: {cfg.baseDamage}</li>);
+                if (cfg.ampDamage != null) items.push(<li>Boost for each Amp: {cfg.ampDamage}</li>);
+                if (cfg.baseDuration != null) items.push(<li>Base Effect Duration: {cfg.baseDuration}s</li>);
+                if (cfg.ampDuration != null) items.push(<li>Extend Time Duration Increase: {cfg.ampDuration}s</li>);
+                if (!items.length) return null;
+                return (
+                    <Fragment>
+                        <p style="margin-bottom: 0rem;"><b>Default Config</b>:</p>
+                        <ul style="margin-top:0;margin-bottom:0;padding-left:1.25rem;">{items}</ul>
+                    </Fragment>
+                );
+            })()}
             <p style="margin-bottom: 0rem;"><b>ID</b>: {glyph.registryName}</p>
             <p style="margin-bottom: 0rem;"><b>Classes</b>: <ol>{glyph.classes.map(c => <li>{c}</li>)}</ol></p>
         </Fragment>
