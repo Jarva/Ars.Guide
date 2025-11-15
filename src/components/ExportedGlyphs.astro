@@ -75,13 +75,15 @@ const path = (location: string) => location.replace(/^.*:/, "")
 const img = (size: number, glyph: ExportedGlyph) => {
     return `<img style="margin-right:0.75rem;width:${size}rem;height:${size}rem;image-rendering:pixelated;image-rendering:-moz-crisp-edges;image-rendering:crisp-edges;" src="https://cdn.jsdelivr.net/gh/Jarva/ArsAddonBuilder@1.21/output/${glyph.animated ? 'animated_textures' : 'resources'}/${namespace(glyph.registryName).replace(/^(toomanyglyphs|arsomega|ars_scalaes|ars_trinkets)$/, "not_enough_glyphs")}/${glyph.animated ? '' : `assets/${namespace(glyph.texture)}/textures`}/${path(glyph.texture)}.${glyph.animated ? "gif" : "png"}?raw=true"} />`
 }
+
 ---
 <Fragment>
-    {Object.values(exportedGlyphs).toSorted((a, b) => lang[a.localizationKey].localeCompare(lang[b.localizationKey])).map(glyph =>
+{Object.values(exportedGlyphs).toSorted((a, b) => lang[a.localizationKey].localeCompare(lang[b.localizationKey])).map(glyph => { return { 'glyph': glyph, 'slug': slug(lang[glyph.localizationKey]) } }).map(({ glyph, slug }) =>
         <Fragment>
-            <h2 id={glyph.registryName}>
+            <h2 id={slug}>
                 <Fragment set:html={img(1.75, glyph)}/>
                 {lang[glyph.localizationKey]}
+                <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug} permalink`} href={`#${slug}`}>#</a>
             </h2>
 
             <p>
@@ -89,7 +91,10 @@ const img = (size: number, glyph: ExportedGlyph) => {
             </p>
 
             {glyph.defaults.invalidCombinations.length > 0 && <Fragment>
-                <h3 id={slug(`${glyph.registryName}_invalid`)}>Invalid Combinations</h3>
+                <h3 id={(`${slug}-invalid`)}>
+                    Invalid Combinations
+                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-invalid permalink`} href={`#${slug}-invalid`}>#</a>
+                </h3>
                 <ul>
                     {glyph.defaults.invalidCombinations.map(combo => exportedGlyphs[combo]).map(combo => <li>
                         <Fragment set:html={img(1.33, combo)} />
@@ -101,7 +106,10 @@ const img = (size: number, glyph: ExportedGlyph) => {
                 </Fragment>}
 
             {glyph.defaults.augments.compatible.length > 0 && <Fragment>
-                <h3 id={slug(`${glyph.registryName}_augments`)}>Augments</h3>
+                <h3 id={`${slug}-augments`}>
+                    Augments
+                    <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-augments permalink`} href={`#${slug}-augments`}>#</a>
+                </h3>
                 <ul>
                     {glyph.defaults.augments.compatible.map(augment => exportedGlyphs[augment]).map(augment => <li>
                         <Fragment set:html={img(1.33, augment)} />
@@ -117,7 +125,10 @@ const img = (size: number, glyph: ExportedGlyph) => {
                 </ul>
             </Fragment>}
 
-            <h3 id={slug(`${glyph.registryName}_augments`)}>Details</h3>
+            <h3 id={`${slug}-details`}>
+                Details
+                <a class="anchor" aria-hidden="true" data-pagefind-ignore="all" aria-label={`${slug}-details permalink`} href={`#${slug}-details`}>#</a>
+            </h3>
 
             <p style="margin-bottom: 0rem;"><b>Type</b>: {lang[glyph.typeName.translate]}</p>
             <p style="margin-bottom: 0rem;"><b>Tier</b>: {glyph.defaults.tier}</p>
