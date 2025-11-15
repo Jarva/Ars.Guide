@@ -131,7 +131,7 @@ const img = (size: number, glyph: ExportedGlyph) => {
                 const items: any[] = [];
                 if (cfg.baseDamage != null) items.push(<li>Base Damage: {cfg.baseDamage}</li>);
                 if (cfg.ampDamage != null) items.push(<li>Boost for each Amp: {cfg.ampDamage}</li>);
-                if (cfg.baseDuration != null) items.push(<li>Base Effect Duration: {cfg.baseDuration} s.</li>);
+                if (cfg.baseDuration != null) items.push(<li>Base Effect Duration: {cfg.baseDuration}s</li>);
                 if (cfg.ampDuration != null) items.push(<li>Extend Time Duration Increase: {cfg.ampDuration} s.</li>);
                 if (!items.length) return null;
                 return (
