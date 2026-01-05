@@ -1,33 +1,25 @@
-import {z} from "zod";
-import {zfd} from "zod-form-data";
-import {type Version, versionMap} from "./spell-compendium/data/versions.ts";
-import {type Addon, addonMap} from "./spell-compendium/data/addons.ts";
-import {type Category, categoryMap} from "./spell-compendium/data/categories.ts";
-import {type Glyph, glyphMap} from "./spell-compendium/data/glyphs.ts";
+import { z } from "zod";
+import { zfd } from "zod-form-data";
+import {
+    valueMapToArray,
+    getMapText as createGetMapText,
+    transformMultiSelect as createTransformMultiSelect,
+    splitToArray,
+} from "../lib/utils/value-map";
+import { type Version, versionMap } from "../lib/types/version";
+import { type Addon, addonMap } from "../lib/types/addon";
+import { type Category, categoryMap } from "../lib/types/category";
+import { type Glyph, glyphMap } from "../lib/data/glyphs";
 
-type ValueObject = {
-    text: string;
-}
-
-type ValueMap<T = ValueObject> = {
-    [k: string]: T
-};
-
-const valueMapToArray = <T = ValueObject>(map: ValueMap<T>) =>
-    Object.entries(map).map(([value, obj]) => ({ value, ...obj }));
-
+// Export arrays for TomSelect options
 export const categories = valueMapToArray(categoryMap);
 export const addons = valueMapToArray(addonMap);
 export const versions = valueMapToArray<object>(versionMap);
 export const glyphs = valueMapToArray(glyphMap);
 
-export const getMapText = (map: ValueMap) => (val: string) =>
-    val in map ? map[val].text : val;
-
-export const transformMultiSelect = (map: ValueMap) => (val: string): string[] =>
-    val.split(",").map(getMapText(map));
-
-const typeMultiSelect = <T>() => (val: string): T[] => val.split(",") as T[];
+// Re-export utilities for backward compatibility
+export const getMapText = createGetMapText;
+export const transformMultiSelect = createTransformMultiSelect;
 
 export const spellFormSchema = zfd.formData({
     author: zfd.text(
@@ -43,15 +35,15 @@ export const spellFormSchema = zfd.formData({
         z.string().min(1)
     )
     .transform(text => text.toLowerCase().replace(" ", "_"))
-    .transform(typeMultiSelect<Glyph>()),
+    .transform(splitToArray<Glyph>),
     category: zfd.text(
         z.custom<Category>(val => val in categoryMap)
     ),
     addons: zfd.text(
         z.string()
-    ).transform(typeMultiSelect<Addon>()).optional(),
+    ).transform(splitToArray<Addon>).optional(),
     versions: zfd.text(
         z.string().min(1)
-    ).transform(typeMultiSelect<Version>()),
+    ).transform(splitToArray<Version>),
     style: z.string().optional()
 });

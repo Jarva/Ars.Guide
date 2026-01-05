@@ -1,4 +1,4 @@
-import type { Category } from "./data/categories"
+import type { Category } from "../../lib/types/category"
 import { submissions } from "./spells"
 
 export const getSubmissionsFromCategory = (category: Category) => {

@@ -1,0 +1,43 @@
+/**
+ * Glyph component styles.
+ * Replaces inline styles from ExportedGlyphs.astro.
+ */
+
+.glyph-img {
+    margin-right: 0.75rem;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+
+    &--lg {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    &--md {
+        width: 1.33rem;
+        height: 1.33rem;
+    }
+
+    &--sm {
+        width: 1rem;
+        height: 1rem;
+    }
+}
+
+.glyph-name {
+    font-size: 1.33rem;
+}
+
+.glyph-name--bold {
+    font-size: 1.33rem;
+    font-weight: bold;
+}
+
+.glyph-detail {
+    margin-bottom: 0;
+}
+
+.glyph-augment-info {
+    margin-left: 0.5rem;
+}

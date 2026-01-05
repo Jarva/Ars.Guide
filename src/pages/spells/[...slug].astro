@@ -1,13 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
 import DocsLayout from "../../layouts/DocsLayout.astro";
-import { categoryMap, type Category } from "../../utils/spell-compendium/data/categories";
+import { categoryMap, type Category } from "../../lib/types/category";
 import { getSubmissionsFromCategory } from "../../utils/spell-compendium/category";
-import { getSidebar } from "../../utils/sidebar";
+import { getSidebar } from "../../lib/sidebar";
 import type { Submission as TSubmission } from "../../utils/spell-compendium/spells";
-import Submission from "../../components/Submission.astro";
+import Submission from "../../components/spell/Submission.astro";
 import { slug as slugify } from 'github-slugger'
-import { toTitleCase } from "../../utils/text";
+import { toTitleCase } from "../../lib/utils/text";
 
 interface Props {
     submission: TSubmission;

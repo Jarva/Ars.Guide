@@ -1,7 +1,7 @@
-import type {Category} from "./data/categories.ts";
-import type {Addon} from "./data/addons.ts";
-import type {Glyph} from "./data/glyphs.ts";
-import type {Version} from "./data/versions.ts";
+import type { Category } from "../../lib/types/category";
+import type { Addon } from "../../lib/types/addon";
+import type { Glyph } from "../../lib/data/glyphs";
+import type { Version } from "../../lib/types/version";
 
 export interface Spell {
     glyphs: Glyph[];

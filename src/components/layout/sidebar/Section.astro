@@ -1,0 +1,22 @@
+---
+import Entry from "./Entry.astro";
+import type { ParentSection } from "../../../lib/sidebar";
+
+interface Props {
+    parent: ParentSection
+}
+
+const { parent } = Astro.props;
+const { title } = parent.entry.data;
+---
+
+<li class="mb-1">
+    <button class=`btn btn-toggle align-items-center rounded ${!parent.active ? ' collapsed' : ''}` data-bs-toggle="collapse" data-bs-target={`#${parent.entry.slug}`} aria-expanded={parent.active}>
+        {title}
+    </button>
+    <div id={parent.entry.slug} class=`collapse${parent.active ? ' show' : ''}`>
+        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            {parent.children.map(ent => <Entry entry={ent.entry} active={ent.active} />)}
+        </ul>
+    </div>
+</li>

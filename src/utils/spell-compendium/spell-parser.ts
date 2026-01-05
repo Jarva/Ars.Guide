@@ -1,4 +1,4 @@
-import {getRegistryKeyFromInternal} from "./data/glyphs.ts";
+import { getRegistryKeyFromInternal } from "../../lib/data/glyphs";
 import type {SpellColor, SpellSound} from "./spells.ts";
 import pako from "pako";
 

@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import { collections } from '../../content/config';
 import { getPath } from '../../utils/path';
 import DocsLayout from '../../layouts/DocsLayout.astro';
-import { getSidebar, type GenericCollectionEntry, getHeadings } from '../../utils/sidebar';
+import { getSidebar, type GenericCollectionEntry, getHeadings } from '../../lib/sidebar';
 import type { CollectionKey } from 'astro:content';
 
 interface Props {

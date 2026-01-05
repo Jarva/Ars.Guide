@@ -1,7 +1,7 @@
 import { getCollection } from 'astro:content';
 import { OGImageRoute } from 'astro-og-canvas';
 import CanvasKitInit from 'canvaskit-wasm/full';
-import type { GenericCollectionEntry } from '../../utils/sidebar';
+import type { GenericCollectionEntry } from '../../lib/sidebar';
 import type { APIRoute } from 'astro';
 import { createRequire } from 'node:module';
 const { resolve } = createRequire(import.meta.url);

@@ -2,11 +2,11 @@
 import { IconPencil, IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import BaseLayout from "./BaseLayout.astro"
 import { editLink } from "../utils/constants"
-import Sidebar from "../components/Sidebar.astro";
-import { getSidebar, getHeadings, type GenericCollectionEntry, getPreviousEntry, getNextEntry, type Sidebar as TSidebar, type ParentHeading } from "../utils/sidebar";
+import Sidebar from "../components/layout/Sidebar.astro";
+import { getSidebar, getHeadings, type GenericCollectionEntry, getPreviousEntry, getNextEntry, type Sidebar as TSidebar, type ParentHeading } from "../lib/sidebar";
 import type { MarkdownHeading } from "astro";
-import Heading from "../components/Heading.astro";
-import Seo from "../components/Seo.astro";
+import Heading from "../components/content/Heading.astro";
+import Seo from "../components/content/Seo.astro";
 
 interface Props {
   sidebar: TSidebar;

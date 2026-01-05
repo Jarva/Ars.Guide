@@ -1,0 +1,14 @@
+---
+import type { ExportedGlyph } from "../../lib/types/exported-glyph";
+import { getGlyphTextureUrl } from "../../lib/services/glyph-export-service";
+
+interface Props {
+    glyph: ExportedGlyph;
+    size?: "sm" | "md" | "lg";
+}
+
+const { glyph, size = "md" } = Astro.props;
+const url = getGlyphTextureUrl(glyph);
+---
+
+<img class={`glyph-img glyph-img--${size}`} src={url} alt={glyph.name} />
