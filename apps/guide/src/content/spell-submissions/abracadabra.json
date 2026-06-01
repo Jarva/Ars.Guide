@@ -1,0 +1,24 @@
+{
+  "name": "Abracadabra",
+  "category": "utility",
+  "author": "Jarva",
+  "userId": "202407548916203520",
+  "versions": [
+    "1.21.1"
+  ],
+  "addons": [
+    "ars_nouveau"
+  ],
+  "spells": [
+    {
+      "glyphs": [
+        "ars_nouveau:pantomime",
+        "ars_nouveau:sensitive",
+        "ars_nouveau:break",
+        "ars_nouveau:aoe",
+        "ars_nouveau:aoe"
+      ],
+      "description": "Breaks blocks in the air."
+    }
+  ]
+}
